@@ -36,6 +36,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .cursor.big{width:14px;height:14px}
 .cursor-ring.big{width:52px;height:52px;border-color:rgba(201,169,110,.15)}
 
+/* HAMBURGER & MOBILE MENU */
+.hamburger{display:none;font-size:28px;color:var(--gold);background:transparent;border:none;padding:8px;cursor:none}
+.mobile-nav{position:fixed;inset:0;background:var(--dark-2);z-index:600;display:none;flex-direction:column;padding:120px 40px 60px;align-items:center;overflow-y:auto}
+.mobile-nav.show{display:flex}
+.mobile-nav .nav-links{display:flex;flex-direction:column;gap:48px;text-align:center;list-style:none}
+.mobile-nav .nav-links a{font-size:1.15rem;color:var(--text);letter-spacing:.12em;text-transform:uppercase}
+.mobile-nav .nav-btn{width:85%;margin-top:60px}
+.close-menu{position:absolute;top:40px;right:40px;background:none;border:none;font-size:2.2rem;color:var(--gold);cursor:none}
+
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:24px 64px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,backdrop-filter .4s}
 nav.scrolled{background:rgba(10,10,10,.96);backdrop-filter:blur(16px)}
@@ -65,8 +74,6 @@ nav.scrolled{background:rgba(10,10,10,.96);backdrop-filter:blur(16px)}
 .btn-text:hover{color:var(--gold)}
 .btn-text span{transition:transform .3s}
 .btn-text:hover span{transform:translateX(5px)}
-
-/* HERO SCROLL */
 .scroll-cue{position:absolute;bottom:48px;left:64px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeIn .8s ease 1.2s forwards}
 .scroll-cue-bar{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s ease infinite}
 .scroll-cue span{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dimmer);writing-mode:vertical-rl}
@@ -88,7 +95,7 @@ nav.scrolled{background:rgba(10,10,10,.96);backdrop-filter:blur(16px)}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:8px}
 .stat-l{font-size:.75rem;color:var(--text-dim);line-height:1.6}
 
-/* STORY SECTION — THE REAL PITCH */
+/* STORY */
 .story{background:var(--dark-2)}
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;margin-top:80px}
 .story-blocks{display:flex;flex-direction:column;gap:0}
@@ -99,7 +106,6 @@ nav.scrolled{background:rgba(10,10,10,.96);backdrop-filter:blur(16px)}
 .story-block-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:var(--text);margin-bottom:12px;line-height:1.25}
 .story-block-body{font-size:.875rem;color:var(--text-dim);line-height:1.85}
 .story-block-tag{display:inline-block;margin-top:14px;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:4px 12px;border-radius:20px}
-
 .story-right{position:sticky;top:120px}
 .story-visual{background:var(--dark-3);border:1px solid var(--border);padding:40px;opacity:0;transform:translateX(24px);transition:all .65s ease .2s}
 .story-visual.on{opacity:1;transform:translateX(0)}
@@ -172,17 +178,10 @@ nav.scrolled{background:rgba(10,10,10,.96);backdrop-filter:blur(16px)}
 .step-p{font-size:.82rem;color:var(--text-dim);line-height:1.8}
 .step-tag{display:inline-block;margin-top:18px;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:4px 12px;border-radius:20px}
 
-/* SOCIAL PROOF */
-.proof-sec{background:var(--dark)}
-.proof-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:64px}
-.proof-card{background:var(--dark-2);border:1px solid var(--border);padding:36px;opacity:0;transform:translateY(20px);transition:all .6s ease}
-.proof-card.on{opacity:1;transform:translateY(0)}
-.proof-stars{color:var(--gold);font-size:.75rem;letter-spacing:.1em;margin-bottom:16px}
-.proof-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:300;color:var(--text);line-height:1.5;margin-bottom:20px;font-style:italic}
-.proof-author{font-size:.7rem;color:var(--text-dimmer);letter-spacing:.08em}
-.proof-author strong{color:var(--text-dim);display:block;margin-bottom:2px}
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:80px}
 
-/* CTA SECTION */
+/* CTA */
 .cta-sec{background:var(--dark-2);text-align:center;padding:140px 64px}
 .cta-sec .sec-tag{justify-content:center}
 .cta-sec .sec-h{text-align:center}
@@ -204,6 +203,11 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
 .footer-links a:hover{color:var(--gold)}
 .footer-copy{font-size:.7rem;color:var(--text-dimmer)}
 
+/* BACK TO TOP */
+.back-to-top{position:fixed;bottom:30px;right:30px;width:52px;height:52px;background:var(--dark-3);border:1px solid var(--border-gold);color:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:1.4rem;z-index:700;transition:all .3s;cursor:none}
+.back-to-top.show{display:flex}
+.back-to-top:hover{background:var(--gold);color:var(--dark);transform:scale(1.1)}
+
 /* ANIMATIONS */
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -214,34 +218,36 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
   .story-grid{grid-template-columns:1fr;gap:60px}
   .story-right{position:static}
   .hiw-steps{grid-template-columns:1fr 1fr}
-  .proof-grid{grid-template-columns:1fr}
 }
 @media(max-width:768px){
   nav{padding:20px 28px}
-  .nav-links{display:none}
-  .hero,.sec{padding:100px 28px 80px}
+  .hamburger{display:block}
+  .nav-r{display:none}
+  .hero,.sec{padding:120px 28px 80px}
   .stats{grid-template-columns:1fr 1fr}
   .stat{padding:36px 28px}
   .calc-inputs{grid-template-columns:1fr}
   .results-grid{grid-template-columns:1fr}
   .projection-grid{grid-template-columns:1fr 1fr}
   .hiw-steps{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr !important}
   .cta-options{flex-direction:column;align-items:center}
   footer{flex-direction:column;gap:28px;text-align:center}
   .footer-links{flex-wrap:wrap;justify-content:center}
   body{cursor:auto}
   .cursor,.cursor-ring{display:none}
+  .back-to-top{bottom:20px;right:20px;width:48px;height:48px}
 }
 </style>
 </head>
 <body>
-
 <div class="cursor" id="c"></div>
 <div class="cursor-ring" id="cr"></div>
 
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="logo">Arriv<i>é</i></a>
+  <button class="hamburger" id="hamburger">☰</button>
   <div class="nav-r">
     <ul class="nav-links">
       <li><a href="#story">How It Works</a></li>
@@ -252,6 +258,18 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
     <a href="#demo" class="nav-btn">Book a Demo</a>
   </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="close-menu" id="closeMenu">✕</button>
+  <ul class="nav-links">
+    <li><a href="#story">How It Works</a></li>
+    <li><a href="#calculator">Calculator</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#demo">Demo</a></li>
+  </ul>
+  <a href="#demo" class="nav-btn">Book a Demo</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -297,54 +315,45 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
 <section class="sec story" id="story">
   <div class="sec-tag"><div class="sec-tag-line"></div><span>The Full Picture</span></div>
   <h2 class="sec-h">It starts with<br><em>a booking.</em><br>It becomes a business.</h2>
-
   <div class="story-grid">
     <div class="story-blocks">
-
       <div class="story-block">
         <div class="story-block-n">01 — 2am, no staff needed</div>
         <div class="story-block-title">A guest DMs at midnight asking about availability</div>
         <div class="story-block-body">They get an instant response. Availability check, unit selection, M-Pesa deposit prompt — all within one Instagram DM thread. They're confirmed and asleep before you even see the notification. The booking is in your sheet by morning.</div>
         <span class="story-block-tag">Instant. Automatic. Always on.</span>
       </div>
-
       <div class="story-block">
         <div class="story-block-n">02 — the moment they pay</div>
         <div class="story-block-title">A premium confirmation email lands in their inbox</div>
         <div class="story-block-body">Not a plain text receipt. A beautifully designed HTML email — booking reference, unit details, check-in instructions, your brand. This is what separates a legitimate direct booking from the Instagram scams they've heard about. They know they're dealing with a real business.</div>
         <span class="story-block-tag">Trust built in seconds.</span>
       </div>
-
       <div class="story-block">
         <div class="story-block-n">03 — their name is yours now</div>
         <div class="story-block-title">Your guest database grows automatically</div>
         <div class="story-block-body">Name, email, phone, which unit, how many nights, how much they paid. Every booking writes to your Google Sheet automatically. Airbnb hosts this same data and never shares it. You own it. Every guest who books direct is yours — permanently.</div>
         <span class="story-block-tag">Your guest list. Not Airbnb's.</span>
       </div>
-
       <div class="story-block">
         <div class="story-block-n">04 — hours after checkout</div>
         <div class="story-block-title">The follow-up email arrives at exactly the right moment</div>
         <div class="story-block-body">While they're still feeling the warmth of a good stay. Not a form. Not a generic survey. A personal, elegant email asking how their experience was — with a gentle nudge toward your Google review page if they loved it. Bad experiences go to a private feedback channel, not Google.</div>
         <span class="story-block-tag">Reviews when they matter most.</span>
       </div>
-
       <div class="story-block">
         <div class="story-block-n">05 — two months later</div>
         <div class="story-block-title">A promo email lands with a 10% return offer just for them</div>
         <div class="story-block-body">They stayed. They loved it. They've been meaning to come back. Then an email arrives with their name on it and an exclusive discount. They click. They book. That rebooking cost you nothing — no new marketing, no commission, just a well-timed email to someone who already trusts you.</div>
         <span class="story-block-tag">Retention on autopilot.</span>
       </div>
-
       <div class="story-block">
         <div class="story-block-n">06 — december arrives</div>
         <div class="story-block-title">Your list gets a holiday campaign. Your calendar fills.</div>
         <div class="story-block-body">Christmas Eve. Long weekend. Valentine's. You send one email to everyone who's ever stayed. A beautifully designed offer, your best units, a limited availability message. People who forgot you existed remember. People who were already thinking about it finally book. This is what owning your customer base feels like.</div>
         <span class="story-block-tag">Marketing that compounds.</span>
       </div>
-
     </div>
-
     <div class="story-right">
       <div class="story-visual" id="storyVisual">
         <div class="visual-label">Live preview — what your guest sees</div>
@@ -365,13 +374,11 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
             </div>
           </div>
         </div>
-
         <div class="visual-label" style="margin-top:28px">Your Google Sheet — updates automatically</div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Kerry Kiptoo</div><div class="sheet-unit">The Loft · 3 nights</div><div class="sheet-status">confirmed</div></div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Lyne Dana</div><div class="sheet-unit">Garden Studio · 2 nights</div><div class="sheet-status">confirmed</div></div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Swalleh Rashid</div><div class="sheet-unit">The Loft · 4 nights</div><div class="sheet-status">completed</div></div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Rebecca Atuti</div><div class="sheet-unit">Family Suite · 3 nights</div><div class="sheet-status">confirmed</div></div>
-
+        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Kerry Wanjiku</div><div class="sheet-unit">The Loft · 3 nights</div><div class="sheet-status">confirmed</div></div>
+        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Brian Otieno</div><div class="sheet-unit">Garden Studio · 2 nights</div><div class="sheet-status">confirmed</div></div>
+        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Amina Hassan</div><div class="sheet-unit">The Loft · 4 nights</div><div class="sheet-status">completed</div></div>
+        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">James Kamau</div><div class="sheet-unit">Family Suite · 3 nights</div><div class="sheet-status">confirmed</div></div>
         <div class="visual-caption">Every booking writes here automatically. Name, email, phone, unit, nights, amount — yours forever. Airbnb keeps this from you. Arrivé gives it to you.</div>
       </div>
     </div>
@@ -383,11 +390,9 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
   <div class="sec-tag"><div class="sec-tag-line"></div><span>Your Numbers</span></div>
   <h2 class="sec-h">See exactly what<br><em>you're leaving behind.</em></h2>
   <p class="sec-p">Plug in your property details. We'll show you what Airbnb is costing you every month — and what Arrivé could build for you over the next year.</p>
-
   <div class="calc-wrap">
     <div class="calc-box" id="calcBox">
       <p class="calc-intro">This uses real Nairobi market data — 46% average occupancy, 15% platform commission, 2.5 night average stay. Adjust the numbers to match your property exactly.</p>
-
       <div class="calc-inputs">
         <div class="calc-field">
           <label>Number of Units</label>
@@ -410,9 +415,6 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
           <div class="hint">Nairobi average is 2.5 nights</div>
         </div>
       </div>
-
-      <button class="calc-btn" onclick="calculate()">Calculate My Return</button>
-
       <div class="calc-results" id="results">
         <div class="results-title">Here's your picture, <em>honestly</em></div>
         <div class="results-grid">
@@ -432,9 +434,7 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
             <div class="result-sub">Based on your number of units</div>
           </div>
         </div>
-
         <div class="results-narrative" id="r-narrative"></div>
-
         <div class="results-title" style="margin-top:40px;font-size:1.2rem">12-month projection — <em>what gets built</em></div>
         <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:24px;line-height:1.7">Assumes 40% of new bookings convert to direct in month 1, growing as your Instagram following grows. Review rate at 35% of happy guests. Promo rebooking rate at 25%.</p>
         <div class="projection-grid" id="r-projection"></div>
@@ -492,8 +492,7 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
   <div class="sec-tag"><div class="sec-tag-line"></div><span>Pricing</span></div>
   <h2 class="sec-h">Simple pricing.<br><em>Obvious returns.</em></h2>
   <p class="sec-p">Every tier pays for itself within the first direct booking. One booking diverted from Airbnb typically covers months of Arrivé.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:80px">
+  <div class="pricing-grid">
     <div style="background:var(--dark-2);padding:52px 40px;display:flex;flex-direction:column">
       <div style="font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:16px">Starter</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:6px"><sup style="font-size:1rem;color:var(--text-dim)">KES </sup>5,500</div>
@@ -509,7 +508,6 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
       </ul>
       <a href="#demo" style="display:block;text-align:center;padding:14px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--text-dimmer);color:var(--text-dim);transition:all .3s;cursor:none" class="plan-btn">Get Started</a>
     </div>
-
     <div style="background:linear-gradient(160deg,rgba(201,169,110,.08),var(--dark-2));padding:52px 40px;display:flex;flex-direction:column;border-top:2px solid var(--gold);position:relative">
       <div style="position:absolute;top:-2px;right:32px;background:var(--gold);color:var(--dark);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:4px 12px;font-weight:500">Most Popular</div>
       <div style="font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Growth</div>
@@ -526,7 +524,6 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
       </ul>
       <a href="#demo" style="display:block;text-align:center;padding:14px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;background:var(--gold);color:var(--dark);transition:all .3s;cursor:none" class="plan-btn">Get Started</a>
     </div>
-
     <div style="background:var(--dark-2);padding:52px 40px;display:flex;flex-direction:column">
       <div style="font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:16px">Pro</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:6px"><sup style="font-size:1rem;color:var(--text-dim)">KES </sup>16,000</div>
@@ -584,24 +581,32 @@ footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify
   <div class="footer-copy">© 2025 Arrivé · Nairobi, Kenya</div>
 </footer>
 
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop">↑</button>
+
 <script>
 // CURSOR
 const cur = document.getElementById('c');
 const ring = document.getElementById('cr');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-});
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
 (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.cta-option,.plan-btn,.demo-option').forEach(el=>{
+document.querySelectorAll('a,button,.cta-option,.plan-btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big')});
 });
 
 // NAV SCROLL
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+
+// MOBILE MENU
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const closeMenu = document.getElementById('closeMenu');
+hamburger.addEventListener('click',()=>mobileNav.classList.add('show'));
+closeMenu.addEventListener('click',()=>mobileNav.classList.remove('show'));
+document.querySelectorAll('#mobileNav a').forEach(link=>{
+  link.addEventListener('click',()=>mobileNav.classList.remove('show'));
 });
 
 // INTERSECTION OBSERVER
@@ -612,7 +617,7 @@ const obs = new IntersectionObserver(entries=>{
     }
   });
 },{threshold:.12});
-document.querySelectorAll('.stat,.story-block,.story-visual,.calc-box,.hiw-step,.proof-card,.result-card').forEach((el,i)=>{
+document.querySelectorAll('.stat,.story-block,.story-visual,.calc-box,.hiw-step,.result-card').forEach((el,i)=>{
   el.dataset.delay = (i%4)*80;
   obs.observe(el);
 });
@@ -625,25 +630,19 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
-// CALCULATOR
+// CALCULATOR - LIVE + INITIAL LOAD
 function fmt(n){return'KES '+Math.round(n).toLocaleString('en-KE')}
-
 function calculate(){
   const units = parseFloat(document.getElementById('units').value)||3;
   const rate = parseFloat(document.getElementById('rate').value)||7000;
   const bookings = parseFloat(document.getElementById('bookings').value)||6;
   const nights = parseFloat(document.getElementById('nights').value)||2.5;
-
   const bookingVal = rate * nights;
   const monthlyBookings = bookings * units;
   const revenue = bookingVal * monthlyBookings;
   const commission = revenue * 0.15;
-
-  let fee = 5500;
-  let tierName = 'Starter';
-  if(units > 7){fee=16000;tierName='Pro'}
-  else if(units > 3){fee=9500;tierName='Growth'}
-
+  let fee = 5500; let tierName = 'Starter';
+  if(units > 7){fee=16000;tierName='Pro'}else if(units > 3){fee=9500;tierName='Growth'}
   const netSaving = commission - fee;
   const roi = (commission/fee).toFixed(1);
 
@@ -664,12 +663,10 @@ function calculate(){
     <p>Combined monthly value: <strong>${fmt(totalMonthlyValue)}</strong>. Against a fee of ${fmt(fee)}.</p>
   `;
 
-  // 12 MONTH PROJECTION
   const months = ['Month 1','Month 3','Month 6','Month 12'];
   const conversionRates = [0.3, 0.45, 0.6, 0.75];
   const projGrid = document.getElementById('r-projection');
   projGrid.innerHTML = '';
-
   months.forEach((m,i)=>{
     const conv = conversionRates[i];
     const directB = Math.round(monthlyBookings * conv);
@@ -678,7 +675,6 @@ function calculate(){
     const totalReviews = Math.round(reviewsPerMonth * [1,3,6,12][i]);
     const guestBase = Math.round(directB * [1,3,6,12][i] * 0.8);
     const commSaved = Math.round(totalDirectRevenue * 0.15 * [1,3,6,12][i]);
-
     projGrid.innerHTML += `
       <div class="proj-card">
         <div class="proj-month">${m}</div>
@@ -696,8 +692,16 @@ function calculate(){
   const results = document.getElementById('results');
   results.style.display = 'block';
   requestAnimationFrame(()=>results.classList.add('show'));
-  results.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+
+// Live update + show on load
+document.querySelectorAll('#units,#rate,#bookings,#nights').forEach(inp=>{inp.addEventListener('input',calculate);});
+setTimeout(calculate, 800);
+
+// BACK TO TOP
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{backToTop.classList.toggle('show', window.scrollY > 800);});
+backToTop.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
 </script>
 </body>
 </html>
