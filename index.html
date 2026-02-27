@@ -3,705 +3,695 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arrivé — Your Guests Book While You Sleep</title>
+<title>Arrivé — Your Guests Book. You Keep Everything.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold: #C9A96E;
-  --gold-light: #E8D5B0;
-  --gold-dim: #8B6F3E;
-  --gold-glow: rgba(201,169,110,0.12);
-  --dark: #0A0A0A;
-  --dark-2: #111111;
-  --dark-3: #181818;
-  --dark-4: #222222;
-  --dark-5: #2A2A2A;
-  --text: #EDE8E0;
-  --text-dim: #7A756E;
-  --text-dimmer: #3D3A36;
-  --border: rgba(255,255,255,0.06);
-  --border-gold: rgba(201,169,110,0.2);
+:root{
+  --gold:#C4A35A;--gold-soft:#E8D5A0;--gold-dim:rgba(196,163,90,.13);
+  --gold-line:rgba(196,163,90,.22);--ink:#0C0C0C;--ink-2:#131313;
+  --ink-3:#1A1A1A;--ink-4:#212121;--ink-5:#282828;
+  --text:#E8E2D9;--text-2:#918A81;--text-3:#484340;
+  --border:rgba(255,255,255,.055);--border-g:rgba(196,163,90,.18);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none}
-
-/* GRAIN */
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+body{background:var(--ink);color:var(--text);font-family:'Epilogue',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;mix-blend-mode:overlay}
 
 /* CURSOR */
-.cursor{position:fixed;width:7px;height:7px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s}
-.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(201,169,110,.35);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-.cursor.big{width:14px;height:14px}
-.cursor-ring.big{width:52px;height:52px;border-color:rgba(201,169,110,.15)}
-
-/* HAMBURGER & MOBILE MENU */
-.hamburger{display:none;font-size:28px;color:var(--gold);background:transparent;border:none;padding:8px;cursor:none}
-.mobile-nav{position:fixed;inset:0;background:var(--dark-2);z-index:600;display:none;flex-direction:column;padding:120px 40px 60px;align-items:center;overflow-y:auto}
-.mobile-nav.show{display:flex}
-.mobile-nav .nav-links{display:flex;flex-direction:column;gap:48px;text-align:center;list-style:none}
-.mobile-nav .nav-links a{font-size:1.15rem;color:var(--text);letter-spacing:.12em;text-transform:uppercase}
-.mobile-nav .nav-btn{width:85%;margin-top:60px}
-.close-menu{position:absolute;top:40px;right:40px;background:none;border:none;font-size:2.2rem;color:var(--gold);cursor:none}
+#cur{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:8999;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+#cur-r{position:fixed;width:28px;height:28px;border:1px solid rgba(196,163,90,.28);border-radius:50%;pointer-events:none;z-index:8998;transform:translate(-50%,-50%)}
+#cur.xl{width:12px;height:12px}
+#cur-r.xl{width:46px;height:46px}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:24px 64px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,backdrop-filter .4s}
-nav.scrolled{background:rgba(10,10,10,.96);backdrop-filter:blur(16px)}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:300;letter-spacing:.12em;color:var(--gold);text-decoration:none}
-.logo i{font-style:italic}
-.nav-r{display:flex;align-items:center;gap:40px}
-.nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{color:var(--text-dim);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;transition:color .3s}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 60px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,border-color .4s}
+nav.stuck{background:rgba(12,12,12,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);text-decoration:none;letter-spacing:.06em}
+.logo em{font-style:italic}
+.nav-r{display:flex;align-items:center;gap:36px}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--gold)}
-.nav-btn{background:transparent;border:1px solid var(--gold-dim);color:var(--gold);padding:10px 26px;font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;cursor:none;transition:all .3s;text-decoration:none}
-.nav-btn:hover{background:var(--gold);color:var(--dark)}
+.nav-cta{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:9px 24px;border:1px solid var(--border-g);color:var(--gold);text-decoration:none;transition:all .3s;cursor:none}
+.nav-cta:hover{background:var(--gold);color:var(--ink)}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 64px 100px;position:relative;overflow:hidden}
-.hero-glow{position:absolute;right:-10%;top:10%;width:700px;height:700px;background:radial-gradient(circle,rgba(201,169,110,.055) 0%,transparent 65%);pointer-events:none}
-.hero-glow2{position:absolute;left:-5%;bottom:0;width:500px;height:500px;background:radial-gradient(circle,rgba(201,169,110,.03) 0%,transparent 65%);pointer-events:none}
-.hero-tag{display:inline-flex;align-items:center;gap:12px;margin-bottom:36px;opacity:0;animation:up .7s ease .1s forwards}
-.hero-tag-line{width:36px;height:1px;background:var(--gold)}
-.hero-tag span{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.4rem,6.5vw,6rem);font-weight:300;line-height:1.02;letter-spacing:-.02em;margin-bottom:28px;opacity:0;animation:up .7s ease .25s forwards}
-.hero-h1 em{font-style:italic;color:var(--gold)}
-.hero-sub{font-size:1.05rem;color:var(--text-dim);line-height:1.85;max-width:520px;margin-bottom:52px;opacity:0;animation:up .7s ease .4s forwards}
-.hero-actions{display:flex;gap:20px;align-items:center;opacity:0;animation:up .7s ease .55s forwards}
-.btn-gold{background:var(--gold);color:var(--dark);padding:16px 42px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:none;transition:all .3s;text-decoration:none;display:inline-block}
-.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
-.btn-text{color:var(--text-dim);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .3s;cursor:none}
-.btn-text:hover{color:var(--gold)}
-.btn-text span{transition:transform .3s}
-.btn-text:hover span{transform:translateX(5px)}
-.scroll-cue{position:absolute;bottom:48px;left:64px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeIn .8s ease 1.2s forwards}
-.scroll-cue-bar{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s ease infinite}
-.scroll-cue span{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dimmer);writing-mode:vertical-rl}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:110px 60px 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;right:0;top:10%;width:60vw;height:60vw;max-width:680px;max-height:680px;background:radial-gradient(ellipse,rgba(196,163,90,.065) 0%,transparent 65%);pointer-events:none}
+.hero-glow2{position:absolute;left:-8%;bottom:-5%;width:40vw;height:40vw;background:radial-gradient(ellipse,rgba(196,163,90,.035) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:36px;opacity:0;animation:rise .6s ease .1s forwards}
+.eyebrow-rule{width:28px;height:1px;background:var(--gold)}
+.eyebrow span{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.hero-h{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.8vw,5.4rem);font-weight:400;line-height:1.04;letter-spacing:-.015em;margin-bottom:28px;opacity:0;animation:rise .7s ease .22s forwards;max-width:760px}
+.hero-h em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:.98rem;color:var(--text-2);line-height:1.88;max-width:460px;margin-bottom:48px;opacity:0;animation:rise .7s ease .38s forwards}
+.hero-btns{display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;animation:rise .7s ease .52s forwards}
+.btn-g{background:var(--gold);color:var(--ink);padding:14px 38px;font-family:'Epilogue',sans-serif;font-size:.76rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:none;display:inline-block}
+.btn-g:hover{background:var(--gold-soft);transform:translateY(-2px)}
+.btn-o{border:1px solid var(--text-3);color:var(--text-2);padding:14px 30px;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:none;display:inline-block}
+.btn-o:hover{border-color:var(--border-g);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:40px;left:60px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadein .8s ease 1.2s forwards}
+.scroll-bar{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:breathe 2s ease infinite}
+.hero-scroll span{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);writing-mode:vertical-rl}
 
-/* SECTION COMMONS */
-.sec{padding:120px 64px}
-.sec-tag{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.sec-tag-line{width:28px;height:1px;background:var(--gold)}
-.sec-tag span{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-.sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:300;line-height:1.08;letter-spacing:-.01em;margin-bottom:20px}
-.sec-h em{font-style:italic;color:var(--gold)}
-.sec-p{font-size:.95rem;color:var(--text-dim);line-height:1.9;max-width:540px}
+/* TWO NUMBERS */
+.two-nums{border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr}
+.num-block{padding:80px 60px;position:relative;overflow:hidden}
+.num-block:first-child{border-right:1px solid var(--border)}
+.num-block-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(196,163,90,.045),transparent 70%);pointer-events:none}
+.nb-pre{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+.nb-n{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,6.5vw,5.8rem);font-weight:400;color:var(--gold);line-height:1;margin-bottom:14px}
+.nb-title{font-size:.98rem;color:var(--text);line-height:1.5;margin-bottom:10px;max-width:360px}
+.nb-body{font-size:.8rem;color:var(--text-2);line-height:1.8;max-width:380px}
 
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stat{padding:52px 64px;border-right:1px solid var(--border);opacity:0;transform:translateY(16px);transition:all .6s ease}
-.stat:last-child{border-right:none}
-.stat.on{opacity:1;transform:translateY(0)}
-.stat-n{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:8px}
-.stat-l{font-size:.75rem;color:var(--text-dim);line-height:1.6}
-
-/* STORY */
-.story{background:var(--dark-2)}
-.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;margin-top:80px}
-.story-blocks{display:flex;flex-direction:column;gap:0}
-.story-block{padding:40px 0;border-bottom:1px solid var(--border);opacity:0;transform:translateX(-24px);transition:all .65s ease}
-.story-block.on{opacity:1;transform:translateX(0)}
-.story-block:last-child{border-bottom:none}
-.story-block-n{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--text-dimmer);letter-spacing:.1em;margin-bottom:12px}
-.story-block-title{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:var(--text);margin-bottom:12px;line-height:1.25}
-.story-block-body{font-size:.875rem;color:var(--text-dim);line-height:1.85}
-.story-block-tag{display:inline-block;margin-top:14px;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:4px 12px;border-radius:20px}
-.story-right{position:sticky;top:120px}
-.story-visual{background:var(--dark-3);border:1px solid var(--border);padding:40px;opacity:0;transform:translateX(24px);transition:all .65s ease .2s}
-.story-visual.on{opacity:1;transform:translateX(0)}
-.visual-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:24px}
-.email-preview{background:var(--dark-4);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:20px}
-.email-header{background:var(--dark-5);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.email-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.6}
-.email-from{font-size:.68rem;color:var(--text-dim)}
-.email-from strong{color:var(--text);font-weight:400}
-.email-body{padding:20px}
-.email-greeting{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold);margin-bottom:10px}
-.email-text{font-size:.72rem;color:var(--text-dim);line-height:1.7;margin-bottom:14px}
-.email-ref{background:var(--dark-3);border:1px solid var(--border-gold);padding:12px 16px;border-radius:2px}
-.email-ref-row{display:flex;justify-content:space-between;margin-bottom:4px}
-.email-ref-row:last-child{margin-bottom:0}
-.email-ref-label{font-size:.62rem;color:var(--text-dimmer);letter-spacing:.08em;text-transform:uppercase}
-.email-ref-val{font-size:.68rem;color:var(--gold)}
-.sheet-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.7rem}
-.sheet-row:last-child{border-bottom:none}
-.sheet-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
-.sheet-name{color:var(--text);flex:1}
-.sheet-unit{color:var(--text-dimmer);font-size:.62rem}
-.sheet-status{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:2px 8px;border-radius:10px}
-.visual-caption{font-size:.72rem;color:var(--text-dimmer);margin-top:16px;line-height:1.6;font-style:italic}
+/* PROOF VISUAL */
+.proof{padding:120px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--ink-2)}
+.proof-kicker{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.proof-kicker-rule{width:22px;height:1px;background:var(--gold)}
+.proof-kicker span{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.proof-h{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:400;line-height:1.1;margin-bottom:18px}
+.proof-h em{font-style:italic;color:var(--gold)}
+.proof-body{font-size:.88rem;color:var(--text-2);line-height:1.9;margin-bottom:24px;max-width:420px}
+.proof-cap{font-size:.78rem;color:var(--text-3);font-style:italic;line-height:1.75;padding-left:14px;border-left:1px solid var(--border-g);max-width:380px}
+.proof-right{display:flex;flex-direction:column;gap:18px}
+.email-card,.sheet-card{opacity:0;transform:translateY(18px);transition:all .7s ease}
+.email-card.on,.sheet-card.on{opacity:1;transform:translateY(0)}
+.sheet-card{transition-delay:.14s}
+.email-card{background:var(--ink-3);border:1px solid var(--border);border-radius:3px;overflow:hidden}
+.email-chrome{background:var(--ink-4);padding:11px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.cd{width:7px;height:7px;border-radius:50%}
+.cd1{background:#FF5F57}.cd2{background:#FEBC2E}.cd3{background:#28C840}
+.efrom{font-size:.62rem;color:var(--text-2);margin-left:6px}
+.efrom strong{color:var(--text);font-weight:400}
+.ebody{padding:20px}
+.egreet{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);margin-bottom:8px}
+.eline{font-size:.7rem;color:var(--text-2);line-height:1.6;margin-bottom:12px}
+.edetails{background:var(--ink-4);border:1px solid var(--border);padding:12px 14px;border-radius:2px}
+.erow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border)}
+.erow:last-child{border-bottom:none;padding-bottom:0}
+.ekey{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.eval{font-size:.66rem;color:var(--gold)}
+.sheet-card{background:var(--ink-3);border:1px solid var(--border);overflow:hidden}
+.sheet-head{background:var(--ink-4);padding:9px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.sh-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.7}
+.sheet-head span{font-size:.6rem;color:var(--text-2);letter-spacing:.06em}
+.srow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.66rem}
+.srow:last-of-type{border-bottom:none}
+.sr-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;opacity:.7}
+.sr-name{color:var(--text);flex:1;font-size:.68rem}
+.sr-unit{color:var(--text-3);font-size:.6rem}
+.sr-badge{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-g);padding:2px 7px;border-radius:10px;white-space:nowrap}
+.sheet-cap{font-size:.68rem;color:var(--text-3);padding:10px 14px;font-style:italic;border-top:1px solid var(--border)}
 
 /* CALCULATOR */
-.calc-sec{background:var(--dark)}
-.calc-wrap{max-width:900px;margin:80px auto 0}
-.calc-box{background:var(--dark-2);border:1px solid var(--border-gold);padding:64px;opacity:0;transform:translateY(24px);transition:all .6s ease}
-.calc-box.on{opacity:1;transform:translateY(0)}
-.calc-intro{font-size:.85rem;color:var(--text-dim);line-height:1.8;margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--border)}
-.calc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px}
-.calc-field label{display:block;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:10px}
-.calc-field input{width:100%;background:var(--dark-3);border:1px solid var(--border);border-top-color:transparent;border-left-color:transparent;border-right-color:transparent;border-bottom:1px solid var(--text-dimmer);color:var(--text);font-family:'DM Sans',sans-serif;font-size:1.1rem;padding:12px 4px;outline:none;transition:border-color .3s;cursor:none}
-.calc-field input:focus{border-bottom-color:var(--gold)}
-.calc-field .hint{font-size:.65rem;color:var(--text-dimmer);margin-top:6px}
-.calc-btn{background:var(--gold);color:var(--dark);border:none;padding:16px 48px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:none;transition:all .3s;margin-bottom:48px;display:block}
-.calc-btn:hover{background:var(--gold-light)}
-.calc-results{display:none;opacity:0;transition:opacity .5s ease}
-.calc-results.show{display:block;opacity:1}
-.results-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);margin-bottom:32px}
-.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:32px}
-.result-card{background:var(--dark-2);padding:28px 24px}
-.result-card.highlight{background:linear-gradient(135deg,rgba(201,169,110,.1),var(--dark-2))}
-.result-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:8px}
-.result-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--text);line-height:1}
-.result-card.highlight .result-val{color:var(--gold)}
-.result-sub{font-size:.68rem;color:var(--text-dimmer);margin-top:6px;line-height:1.5}
-.results-narrative{background:var(--dark-3);border-left:2px solid var(--gold);padding:24px 28px;margin-bottom:24px}
-.results-narrative p{font-size:.85rem;color:var(--text-dim);line-height:1.85}
-.results-narrative p+p{margin-top:12px}
-.results-narrative strong{color:var(--text);font-weight:400}
-.projection-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
-.proj-card{background:var(--dark-2);padding:20px}
-.proj-month{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:6px}
-.proj-bookings{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold);line-height:1;margin-bottom:4px}
-.proj-label{font-size:.62rem;color:var(--text-dimmer)}
-.proj-reviews{font-size:.72rem;color:var(--text-dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.calc{padding:120px 60px;background:var(--ink)}
+.calc-inner{max-width:840px;margin:0 auto}
+.calc-q{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,2.8vw,2.5rem);font-weight:400;line-height:1.15;margin-bottom:12px}
+.calc-q em{font-style:italic;color:var(--gold)}
+.calc-hint{font-size:.82rem;color:var(--text-2);line-height:1.75;margin-bottom:48px}
+.calc-fields{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:32px}
+.cf label{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
+.cf input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--text-3);color:var(--text);font-family:'Epilogue',sans-serif;font-size:1.15rem;font-weight:300;padding:8px 0;outline:none;transition:border-color .3s;cursor:none}
+.cf input:focus{border-bottom-color:var(--gold)}
+.cf .sub{font-size:.6rem;color:var(--text-3);margin-top:6px}
+.calc-go{background:var(--gold);color:var(--ink);border:none;padding:13px 42px;font-family:'Epilogue',sans-serif;font-size:.76rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:none;transition:all .3s;margin-bottom:52px;display:block}
+.calc-go:hover{background:var(--gold-soft)}
 
-/* HOW IT WORKS */
-.hiw{background:var(--dark-2)}
-.hiw-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:80px;border:1px solid var(--border)}
-.hiw-step{background:var(--dark-2);padding:52px 40px;position:relative;overflow:hidden;opacity:0;transform:translateY(20px);transition:all .6s ease}
-.hiw-step.on{opacity:1;transform:translateY(0)}
-.hiw-step::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
-.hiw-step:hover::after{transform:scaleX(1)}
-.step-n{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--text-dimmer);line-height:1;margin-bottom:20px;transition:color .3s}
-.hiw-step:hover .step-n{color:var(--gold-dim)}
-.step-h{font-family:'Cormorant Garamond',serif;font-size:1.35rem;margin-bottom:12px;color:var(--text)}
-.step-p{font-size:.82rem;color:var(--text-dim);line-height:1.8}
-.step-tag{display:inline-block;margin-top:18px;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border-gold);padding:4px 12px;border-radius:20px}
+/* RESULTS */
+.calc-results{display:none;opacity:0;transition:opacity .5s}
+.calc-results.show{display:block;opacity:1}
+.res-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:24px}
+.rc{background:var(--ink);padding:26px 22px}
+.rc.hl{background:linear-gradient(135deg,rgba(196,163,90,.09),var(--ink))}
+.rc-lbl{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.rc-val{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:400;color:var(--text);line-height:1}
+.rc.hl .rc-val{color:var(--gold)}
+.rc-note{font-size:.62rem;color:var(--text-3);margin-top:5px;line-height:1.5}
+.res-nar{border-left:2px solid var(--gold);padding:18px 22px;margin-bottom:32px;background:rgba(196,163,90,.04)}
+.res-nar p{font-size:.82rem;color:var(--text-2);line-height:1.88}
+.res-nar p+p{margin-top:10px}
+.res-nar strong{color:var(--text);font-weight:400}
+
+/* PROJECTION GRID */
+.proj-intro{margin-bottom:20px}
+.proj-intro-h{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--text);margin-bottom:6px}
+.proj-intro-h em{font-style:italic;color:var(--gold)}
+.proj-intro-sub{font-size:.78rem;color:var(--text-2);line-height:1.7;margin-bottom:20px}
+.proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:28px}
+.pgc{background:var(--ink);padding:22px 18px}
+.pgc-month{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.pgc-n{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--gold);line-height:1;margin-bottom:3px}
+.pgc-sub{font-size:.58rem;color:var(--text-3);margin-bottom:10px}
+.pgc-details{font-size:.62rem;color:var(--text-2);line-height:1.75;padding-top:10px;border-top:1px solid var(--border)}
+.pgc-details span{color:var(--gold)}
+.proj-bridge{font-size:.84rem;color:var(--text-2);line-height:1.75;padding:18px 22px;background:rgba(196,163,90,.05);border-left:2px solid var(--border-g);margin-bottom:0}
+.proj-bridge strong{color:var(--gold);font-weight:400}
+
+/* DEMO */
+.demo{padding:120px 60px;text-align:center;position:relative;overflow:hidden}
+.demo-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:580px;height:580px;background:radial-gradient(circle,rgba(196,163,90,.055),transparent 65%);pointer-events:none}
+.demo-kicker{justify-content:center;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.demo-kicker-rule{width:22px;height:1px;background:var(--gold)}
+.demo-kicker span{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.demo-h{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.8vw,3.2rem);font-weight:400;line-height:1.1;margin-bottom:14px}
+.demo-h em{font-style:italic;color:var(--gold)}
+.demo-sub{font-size:.92rem;color:var(--text-2);line-height:1.85;max-width:440px;margin:0 auto 52px}
+.demo-cards{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.dc{background:var(--ink-3);border:1px solid var(--border);padding:32px 28px;text-align:left;text-decoration:none;transition:all .32s;cursor:none;width:268px}
+.dc:hover{border-color:var(--border-g);background:rgba(196,163,90,.04);transform:translateY(-5px)}
+.dc-icon{font-size:1.2rem;margin-bottom:14px}
+.dc-title{font-size:.88rem;font-weight:500;color:var(--text);margin-bottom:7px}
+.dc-body{font-size:.76rem;color:var(--text-2);line-height:1.65;margin-bottom:16px}
+.dc-link{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:6px}
+.dc-arr{transition:transform .3s}
+.dc:hover .dc-arr{transform:translateX(4px)}
+
+/* 14-DAY TRIAL */
+.trial{padding:0 60px 120px;background:var(--ink)}
+.trial-inner{max-width:860px;margin:0 auto;border:1px solid var(--border-g);position:relative;overflow:hidden}
+.trial-glow{position:absolute;top:-40%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(196,163,90,.08),transparent 65%);pointer-events:none}
+.trial-badge{position:absolute;top:0;right:0;background:var(--gold);color:var(--ink);font-size:.58rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:6px 16px}
+.trial-content{padding:64px}
+.trial-kicker{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.trial-kicker-rule{width:22px;height:1px;background:var(--gold)}
+.trial-kicker span{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.trial-h{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:400;line-height:1.08;margin-bottom:18px}
+.trial-h em{font-style:italic;color:var(--gold)}
+.trial-h strong{font-style:normal;font-weight:400;color:var(--gold)}
+.trial-body{font-size:.88rem;color:var(--text-2);line-height:1.9;margin-bottom:28px;max-width:580px}
+.trial-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px}
+.trial-list li{font-size:.8rem;color:var(--text-2);padding-left:18px;position:relative;line-height:1.5}
+.trial-list li::before{content:'✦';position:absolute;left:0;font-size:.48rem;color:var(--gold);top:5px}
+.trial-api{font-size:.72rem;color:var(--text-3);margin-bottom:36px;display:flex;align-items:center;gap:8px}
+.trial-api::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.7}
+.trial-note{font-size:.74rem;color:var(--text-3);margin-top:16px;font-style:italic;line-height:1.65;max-width:520px}
+
+/* PILOT */
+.pilot{padding:0 60px 120px;background:var(--ink-2)}
+.pilot-inner{max-width:760px;margin:0 auto;background:linear-gradient(135deg,rgba(196,163,90,.07),rgba(196,163,90,.02));border:1px solid var(--border-g);padding:64px}
+.pilot-kicker{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.pilot-kicker-rule{width:22px;height:1px;background:var(--gold)}
+.pilot-kicker span{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.pilot-h{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:400;line-height:1.1;margin-bottom:16px}
+.pilot-h em{font-style:italic;color:var(--gold)}
+.pilot-body{font-size:.88rem;color:var(--text-2);line-height:1.9;margin-bottom:28px;max-width:560px}
+.pilot-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+.pilot-list li{font-size:.82rem;color:var(--text-2);padding-left:18px;position:relative;line-height:1.5}
+.pilot-list li::before{content:'✦';position:absolute;left:0;font-size:.48rem;color:var(--gold);top:5px}
+.pilot-note{font-size:.72rem;color:var(--text-3);margin-top:16px;font-style:italic;line-height:1.65}
 
 /* PRICING */
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:80px}
-
-/* CTA */
-.cta-sec{background:var(--dark-2);text-align:center;padding:140px 64px}
-.cta-sec .sec-tag{justify-content:center}
-.cta-sec .sec-h{text-align:center}
-.cta-sec .sec-p{margin:0 auto 52px;text-align:center}
-.cta-options{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
-.cta-option{background:var(--dark-3);border:1px solid var(--border);padding:32px 40px;text-decoration:none;text-align:left;transition:all .3s;cursor:none;min-width:280px}
-.cta-option:hover{border-color:var(--border-gold);background:rgba(201,169,110,.04);transform:translateY(-4px)}
-.cta-option-icon{font-size:1.4rem;margin-bottom:14px}
-.cta-option-title{font-size:.9rem;font-weight:500;color:var(--text);margin-bottom:6px}
-.cta-option-body{font-size:.78rem;color:var(--text-dim);line-height:1.6}
-.cta-arrow{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.pricing{padding:80px 60px 120px;background:var(--ink-2)}
+.pricing-inner{max-width:900px;margin:0 auto}
+.pricing-label{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px}
+.pricing-h{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.2vw,2rem);font-weight:400;color:var(--text-2);line-height:1.2;margin-bottom:48px}
+.pricing-h em{font-style:italic;color:var(--gold)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.pc{background:var(--ink-2);padding:40px 30px;display:flex;flex-direction:column}
+.pc.featured{background:linear-gradient(160deg,rgba(196,163,90,.07),var(--ink-2));border-top:2px solid var(--gold)}
+.pc-tier{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px}
+.pc.featured .pc-tier{color:var(--gold)}
+.pc-price{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:400;color:var(--text);line-height:1;margin-bottom:4px}
+.pc-price sup{font-size:.85rem;color:var(--text-2)}
+.pc-mo{font-size:.7rem;color:var(--text-3);margin-bottom:18px}
+.pc-units{font-size:.76rem;color:var(--gold);margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.pc-features{list-style:none;flex:1;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.pc-features li{font-size:.76rem;color:var(--text-2);padding-left:13px;position:relative;line-height:1.5}
+.pc-features li::before{content:'—';position:absolute;left:0;color:var(--border-g)}
+.pc-btn{display:block;text-align:center;padding:11px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:none;border:1px solid var(--text-3);color:var(--text-2)}
+.pc-btn:hover{border-color:var(--border-g);color:var(--gold)}
+.pc.featured .pc-btn{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.pc.featured .pc-btn:hover{background:var(--gold-soft)}
 
 /* FOOTER */
-footer{border-top:1px solid var(--border);padding:52px 64px;display:flex;justify-content:space-between;align-items:center}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);letter-spacing:.1em}
-.footer-logo i{font-style:italic}
-.footer-links{display:flex;gap:36px;list-style:none}
-.footer-links a{font-size:.7rem;color:var(--text-dimmer);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s}
+footer{border-top:1px solid var(--border);padding:44px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);letter-spacing:.06em}
+.footer-logo em{font-style:italic}
+.footer-links{display:flex;gap:24px;list-style:none;flex-wrap:wrap}
+.footer-links a{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);text-decoration:none;transition:color .3s}
 .footer-links a:hover{color:var(--gold)}
-.footer-copy{font-size:.7rem;color:var(--text-dimmer)}
+.footer-copy{font-size:.66rem;color:var(--text-3)}
 
-/* BACK TO TOP */
-.back-to-top{position:fixed;bottom:30px;right:30px;width:52px;height:52px;background:var(--dark-3);border:1px solid var(--border-gold);color:var(--gold);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:1.4rem;z-index:700;transition:all .3s;cursor:none}
-.back-to-top.show{display:flex}
-.back-to-top:hover{background:var(--gold);color:var(--dark);transform:scale(1.1)}
+/* PRIVACY PAGE */
+.priv{display:none;min-height:100vh;padding:120px 60px 80px;max-width:760px;margin:0 auto}
+.priv.on{display:block}
+.main.off{display:none}
+.pp-back{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);text-decoration:none;margin-bottom:44px;cursor:none;transition:color .3s}
+.pp-back:hover{color:var(--gold)}
+.pp-h{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:400;margin-bottom:6px}
+.pp-date{font-size:.7rem;color:var(--text-3);margin-bottom:44px;letter-spacing:.06em}
+.pp-sec{margin-bottom:36px}
+.pp-sec-h{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.pp-sec p{font-size:.86rem;color:var(--text-2);line-height:1.9;margin-bottom:10px}
+.pp-sec p:last-child{margin-bottom:0}
+.pp-sec ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.pp-sec ul li{font-size:.83rem;color:var(--text-2);line-height:1.7;padding-left:16px;position:relative}
+.pp-sec ul li::before{content:'—';position:absolute;left:0;color:var(--border-g)}
 
-/* ANIMATIONS */
-@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+/* REVEAL */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.rv-l{opacity:0;transform:translateX(-22px);transition:opacity .65s ease,transform .65s ease}
+.rv-r{opacity:0;transform:translateX(22px);transition:opacity .65s ease,transform .65s ease}
+.rv.on,.rv-l.on,.rv-r.on{opacity:1;transform:translate(0)}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes breathe{0%,100%{opacity:.35}50%{opacity:1}}
 
 /* RESPONSIVE */
-@media(max-width:1100px){
-  .story-grid{grid-template-columns:1fr;gap:60px}
-  .story-right{position:static}
-  .hiw-steps{grid-template-columns:1fr 1fr}
+@media(max-width:1024px){
+  .two-nums{grid-template-columns:1fr}
+  .num-block:first-child{border-right:none;border-bottom:1px solid var(--border)}
+  .proof{grid-template-columns:1fr;gap:48px}
+  .trial-list{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
 }
 @media(max-width:768px){
-  nav{padding:20px 28px}
-  .hamburger{display:block}
-  .nav-r{display:none}
-  .hero,.sec{padding:120px 28px 80px}
-  .stats{grid-template-columns:1fr 1fr}
-  .stat{padding:36px 28px}
-  .calc-inputs{grid-template-columns:1fr}
-  .results-grid{grid-template-columns:1fr}
-  .projection-grid{grid-template-columns:1fr 1fr}
-  .hiw-steps{grid-template-columns:1fr}
-  .pricing-grid{grid-template-columns:1fr !important}
-  .cta-options{flex-direction:column;align-items:center}
-  footer{flex-direction:column;gap:28px;text-align:center}
-  .footer-links{flex-wrap:wrap;justify-content:center}
+  nav{padding:0 24px}
+  .nav-links{display:none}
+  .hero,.proof,.calc,.demo,.trial,.pilot,.pricing{padding-left:24px;padding-right:24px}
+  .num-block{padding:52px 24px}
+  .calc-fields{grid-template-columns:1fr}
+  .res-row{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr 1fr}
+  .trial-content{padding:36px 24px}
+  .pilot-inner{padding:36px 24px}
+  footer{padding:36px 24px;flex-direction:column;align-items:flex-start}
+  .priv{padding:100px 24px 60px}
   body{cursor:auto}
-  .cursor,.cursor-ring{display:none}
-  .back-to-top{bottom:20px;right:20px;width:48px;height:48px}
+  #cur,#cur-r{display:none}
 }
 </style>
 </head>
 <body>
-<div class="cursor" id="c"></div>
-<div class="cursor-ring" id="cr"></div>
 
-<!-- NAV -->
+<div id="cur"></div>
+<div id="cur-r"></div>
+
 <nav id="nav">
-  <a href="#" class="logo">Arriv<i>é</i></a>
-  <button class="hamburger" id="hamburger">☰</button>
+  <a href="#" class="logo" onclick="showMain(event)">Arriv<em>é</em></a>
   <div class="nav-r">
     <ul class="nav-links">
-      <li><a href="#story">How It Works</a></li>
+      <li><a href="#numbers">The Numbers</a></li>
       <li><a href="#calculator">Calculator</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#demo">Demo</a></li>
+      <li><a href="#trial">Free Trial</a></li>
+      <li><a href="#pilot">90-Day Pilot</a></li>
     </ul>
-    <a href="#demo" class="nav-btn">Book a Demo</a>
+    <a href="https://ig.me/m/YOUR_DEMO_HANDLE" target="_blank" class="nav-cta">Try the Demo</a>
   </div>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="close-menu" id="closeMenu">✕</button>
-  <ul class="nav-links">
-    <li><a href="#story">How It Works</a></li>
-    <li><a href="#calculator">Calculator</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#demo">Demo</a></li>
-  </ul>
-  <a href="#demo" class="nav-btn">Book a Demo</a>
-</div>
+<!-- MAIN -->
+<div class="main" id="main">
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
-  <div class="hero-tag">
-    <div class="hero-tag-line"></div>
-    <span>Direct Booking Infrastructure · Nairobi</span>
+  <div class="hero-glow"></div><div class="hero-glow2"></div>
+  <div class="eyebrow"><div class="eyebrow-rule"></div><span>Direct Booking · Nairobi, Kenya</span></div>
+  <h1 class="hero-h">You fill the units.<br><em>Airbnb keeps the business.</em></h1>
+  <p class="hero-sub">Arrivé gives it back. Guests book directly from your Instagram DM — M-Pesa deposit paid, confirmation sent, their details in your database. No commission. No middleman.</p>
+  <div class="hero-btns">
+    <a href="https://ig.me/m/YOUR_DEMO_HANDLE" target="_blank" class="btn-g">Try the Demo</a>
+    <a href="#trial" class="btn-o">Try It Free — 14 Days</a>
   </div>
-  <h1 class="hero-h1">Your guests book.<br><em>While you sleep.</em></h1>
-  <p class="hero-sub">Arrivé connects to your Instagram DM. Guests check availability, select a unit, pay M-Pesa deposit, and receive a confirmation — without you lifting a finger. No platform commission. No missed inquiries. No manual follow-up.</p>
-  <div class="hero-actions">
-    <a href="#calculator" class="btn-gold">Calculate Your Return</a>
-    <a href="#story" class="btn-text">See how it works <span>→</span></a>
-  </div>
-  <div class="scroll-cue">
-    <div class="scroll-cue-bar"></div>
-    <span>Scroll</span>
-  </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div><span>Scroll</span></div>
 </section>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat">
-    <div class="stat-n">15%</div>
-    <div class="stat-l">Commission lost to Airbnb<br>on every single booking</div>
+<!-- TWO NUMBERS -->
+<div class="two-nums" id="numbers">
+  <div class="num-block rv-l">
+    <div class="num-block-glow"></div>
+    <div class="nb-pre">What leaves your account every month</div>
+    <div class="nb-n">KES 38K</div>
+    <div class="nb-title">The average 3-unit property in Nairobi pays this to Airbnb. Every single month.</div>
+    <div class="nb-body">At 15% commission, 46% average occupancy, KES 7,000 nightly rate. That is KES 456,000 a year. Not a platform fee — a salary you pay a company that owns none of your property.</div>
   </div>
-  <div class="stat">
-    <div class="stat-n">5 min</div>
-    <div class="stat-l">From first DM to<br>confirmed booking</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">0</div>
-    <div class="stat-l">Staff required for<br>the transaction</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">100%</div>
-    <div class="stat-l">Guest data yours —<br>not the platform's</div>
+  <div class="num-block rv-r">
+    <div class="num-block-glow"></div>
+    <div class="nb-pre">Guest contacts Airbnb gives you after a booking</div>
+    <div class="nb-n">Zero.</div>
+    <div class="nb-title">Their name, email, and phone stay with the platform. Not with you.</div>
+    <div class="nb-body">You hosted them. You made the experience. Then they leave and you cannot reach them again — no return offer, no review ask, no way to fill a quiet week. Airbnb has your customer. You have a payout.</div>
   </div>
 </div>
 
-<!-- STORY SECTION -->
-<section class="sec story" id="story">
-  <div class="sec-tag"><div class="sec-tag-line"></div><span>The Full Picture</span></div>
-  <h2 class="sec-h">It starts with<br><em>a booking.</em><br>It becomes a business.</h2>
-  <div class="story-grid">
-    <div class="story-blocks">
-      <div class="story-block">
-        <div class="story-block-n">01 — 2am, no staff needed</div>
-        <div class="story-block-title">A guest DMs at midnight asking about availability</div>
-        <div class="story-block-body">They get an instant response. Availability check, unit selection, M-Pesa deposit prompt — all within one Instagram DM thread. They're confirmed and asleep before you even see the notification. The booking is in your sheet by morning.</div>
-        <span class="story-block-tag">Instant. Automatic. Always on.</span>
-      </div>
-      <div class="story-block">
-        <div class="story-block-n">02 — the moment they pay</div>
-        <div class="story-block-title">A premium confirmation email lands in their inbox</div>
-        <div class="story-block-body">Not a plain text receipt. A beautifully designed HTML email — booking reference, unit details, check-in instructions, your brand. This is what separates a legitimate direct booking from the Instagram scams they've heard about. They know they're dealing with a real business.</div>
-        <span class="story-block-tag">Trust built in seconds.</span>
-      </div>
-      <div class="story-block">
-        <div class="story-block-n">03 — their name is yours now</div>
-        <div class="story-block-title">Your guest database grows automatically</div>
-        <div class="story-block-body">Name, email, phone, which unit, how many nights, how much they paid. Every booking writes to your Google Sheet automatically. Airbnb hosts this same data and never shares it. You own it. Every guest who books direct is yours — permanently.</div>
-        <span class="story-block-tag">Your guest list. Not Airbnb's.</span>
-      </div>
-      <div class="story-block">
-        <div class="story-block-n">04 — hours after checkout</div>
-        <div class="story-block-title">The follow-up email arrives at exactly the right moment</div>
-        <div class="story-block-body">While they're still feeling the warmth of a good stay. Not a form. Not a generic survey. A personal, elegant email asking how their experience was — with a gentle nudge toward your Google review page if they loved it. Bad experiences go to a private feedback channel, not Google.</div>
-        <span class="story-block-tag">Reviews when they matter most.</span>
-      </div>
-      <div class="story-block">
-        <div class="story-block-n">05 — two months later</div>
-        <div class="story-block-title">A promo email lands with a 10% return offer just for them</div>
-        <div class="story-block-body">They stayed. They loved it. They've been meaning to come back. Then an email arrives with their name on it and an exclusive discount. They click. They book. That rebooking cost you nothing — no new marketing, no commission, just a well-timed email to someone who already trusts you.</div>
-        <span class="story-block-tag">Retention on autopilot.</span>
-      </div>
-      <div class="story-block">
-        <div class="story-block-n">06 — december arrives</div>
-        <div class="story-block-title">Your list gets a holiday campaign. Your calendar fills.</div>
-        <div class="story-block-body">Christmas Eve. Long weekend. Valentine's. You send one email to everyone who's ever stayed. A beautifully designed offer, your best units, a limited availability message. People who forgot you existed remember. People who were already thinking about it finally book. This is what owning your customer base feels like.</div>
-        <span class="story-block-tag">Marketing that compounds.</span>
+<!-- PROOF VISUAL -->
+<section class="proof" id="proof">
+  <div class="rv-l">
+    <div class="proof-kicker"><div class="proof-kicker-rule"></div><span>What changes</span></div>
+    <h2 class="proof-h">Every booking builds<br><em>something that is yours.</em></h2>
+    <p class="proof-body">When a guest books through Arrivé, two things happen — they receive a premium confirmation email that makes the business feel real and trustworthy, and their details write to your database automatically. Name, email, phone, unit, dates, amount paid.</p>
+    <p class="proof-cap">These guests belong to your business. You decide how long you keep that relationship, how often you reach out, and when you invite them back. That is a business. What you have now is a listing.</p>
+  </div>
+  <div class="proof-right">
+    <div class="email-card">
+      <div class="email-chrome"><div class="cd cd1"></div><div class="cd cd2"></div><div class="cd cd3"></div><div class="efrom" style="margin-left:6px">From: <strong>Jirani BnB</strong> · bookings@jiranibnb.com</div></div>
+      <div class="ebody">
+        <div class="egreet">Your booking is confirmed ✦</div>
+        <div class="eline">Everything is set, Kerry. We are looking forward to hosting you at The Loft.</div>
+        <div class="edetails">
+          <div class="erow"><span class="ekey">Unit</span><span class="eval">The Loft, Kilimani</span></div>
+          <div class="erow"><span class="ekey">Check-in</span><span class="eval">Mar 10, 2026</span></div>
+          <div class="erow"><span class="ekey">Check-out</span><span class="eval">Mar 13, 2026</span></div>
+          <div class="erow"><span class="ekey">Deposit paid</span><span class="eval">KES 12,750 via M-Pesa</span></div>
+          <div class="erow"><span class="ekey">Reference</span><span class="eval">BK-1741892-4821</span></div>
+        </div>
       </div>
     </div>
-    <div class="story-right">
-      <div class="story-visual" id="storyVisual">
-        <div class="visual-label">Live preview — what your guest sees</div>
-        <div class="email-preview">
-          <div class="email-header">
-            <div class="email-dot"></div>
-            <div class="email-from">From: <strong>Jirani BnB</strong> · bookings@jiranibnb.com</div>
-          </div>
-          <div class="email-body">
-            <div class="email-greeting">Your booking is confirmed ✦</div>
-            <div class="email-text">Everything is set, Kerry. We're looking forward to hosting you. Here are your details:</div>
-            <div class="email-ref">
-              <div class="email-ref-row"><span class="email-ref-label">Unit</span><span class="email-ref-val">The Loft, Kilimani</span></div>
-              <div class="email-ref-row"><span class="email-ref-label">Check-in</span><span class="email-ref-val">Mar 10, 2025</span></div>
-              <div class="email-ref-row"><span class="email-ref-label">Check-out</span><span class="email-ref-val">Mar 13, 2025</span></div>
-              <div class="email-ref-row"><span class="email-ref-label">Deposit paid</span><span class="email-ref-val">KES 12,750</span></div>
-              <div class="email-ref-row"><span class="email-ref-label">Reference</span><span class="email-ref-val">BK-1741892-4821</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="visual-label" style="margin-top:28px">Your Google Sheet — updates automatically</div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Kerry Wanjiku</div><div class="sheet-unit">The Loft · 3 nights</div><div class="sheet-status">confirmed</div></div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Brian Otieno</div><div class="sheet-unit">Garden Studio · 2 nights</div><div class="sheet-status">confirmed</div></div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">Amina Hassan</div><div class="sheet-unit">The Loft · 4 nights</div><div class="sheet-status">completed</div></div>
-        <div class="sheet-row"><div class="sheet-dot"></div><div class="sheet-name">James Kamau</div><div class="sheet-unit">Family Suite · 3 nights</div><div class="sheet-status">confirmed</div></div>
-        <div class="visual-caption">Every booking writes here automatically. Name, email, phone, unit, nights, amount — yours forever. Airbnb keeps this from you. Arrivé gives it to you.</div>
-      </div>
+    <div class="sheet-card">
+      <div class="sheet-head"><div class="sh-dot"></div><span>Bookings — writes automatically on every booking</span></div>
+      <div class="srow"><div class="sr-dot"></div><div class="sr-name">Kerry Wanjiku</div><div class="sr-unit">The Loft · 3 nights</div><div class="sr-badge">confirmed</div></div>
+      <div class="srow"><div class="sr-dot"></div><div class="sr-name">Brian Otieno</div><div class="sr-unit">Studio · 2 nights</div><div class="sr-badge">confirmed</div></div>
+      <div class="srow"><div class="sr-dot"></div><div class="sr-name">Amina Hassan</div><div class="sr-unit">2BR Suite · 4 nights</div><div class="sr-badge">completed</div></div>
+      <div class="sheet-cap">Name · Email · Phone · Unit · Nights · Amount. Yours to keep, to contact, to grow with.</div>
     </div>
   </div>
 </section>
 
 <!-- CALCULATOR -->
-<section class="sec calc-sec" id="calculator">
-  <div class="sec-tag"><div class="sec-tag-line"></div><span>Your Numbers</span></div>
-  <h2 class="sec-h">See exactly what<br><em>you're leaving behind.</em></h2>
-  <p class="sec-p">Plug in your property details. We'll show you what Airbnb is costing you every month — and what Arrivé could build for you over the next year.</p>
-  <div class="calc-wrap">
-    <div class="calc-box" id="calcBox">
-      <p class="calc-intro">This uses real Nairobi market data — 46% average occupancy, 15% platform commission, 2.5 night average stay. Adjust the numbers to match your property exactly.</p>
-      <div class="calc-inputs">
-        <div class="calc-field">
-          <label>Number of Units</label>
-          <input type="number" id="units" value="3" min="1" max="50">
-          <div class="hint">Studios, 1BR, 2BR — total bookable spaces</div>
-        </div>
-        <div class="calc-field">
-          <label>Average Nightly Rate (KES)</label>
-          <input type="number" id="rate" value="7000" min="1000">
-          <div class="hint">Your average across all units</div>
-        </div>
-        <div class="calc-field">
-          <label>Bookings per Unit per Month</label>
-          <input type="number" id="bookings" value="6" min="1" max="30">
-          <div class="hint">Nairobi average is 5–7 at 46% occupancy</div>
-        </div>
-        <div class="calc-field">
-          <label>Average Stay Length (nights)</label>
-          <input type="number" id="nights" value="2.5" min="1" step="0.5">
-          <div class="hint">Nairobi average is 2.5 nights</div>
-        </div>
+<section class="calc" id="calculator">
+  <div class="calc-inner">
+    <div class="rv">
+      <div class="proof-kicker" style="margin-bottom:16px"><div class="proof-kicker-rule"></div><span>Your Numbers</span></div>
+      <h2 class="calc-q">What does Airbnb actually cost<br><em>your property every month?</em></h2>
+      <p class="calc-hint">Plug in your numbers below. Real Nairobi market data is used as the baseline — adjust to match your property exactly.</p>
+    </div>
+    <div class="calc-fields rv">
+      <div class="cf"><label>Number of Units</label><input type="number" id="units" value="3" min="1"><div class="sub">Studios, 1BR, 2BR — total bookable spaces</div></div>
+      <div class="cf"><label>Average Nightly Rate (KES)</label><input type="number" id="rate" value="7000" min="500"><div class="sub">Your average across all unit types</div></div>
+      <div class="cf"><label>Bookings per Unit per Month</label><input type="number" id="bpm" value="6" min="1"><div class="sub">Nairobi average is 5–7 at 46% occupancy</div></div>
+      <div class="cf"><label>Average Stay Length (nights)</label><input type="number" id="nts" value="2.5" min="1" step="0.5"><div class="sub">Nairobi average is 2.5 nights</div></div>
+    </div>
+    <button class="calc-go rv" onclick="calc()">Calculate My Numbers</button>
+
+    <div class="calc-results" id="cr">
+      <div class="res-row">
+        <div class="rc"><div class="rc-lbl">Monthly Revenue</div><div class="rc-val" id="rv1">—</div><div class="rc-note">All units at current occupancy</div></div>
+        <div class="rc hl"><div class="rc-lbl">Lost to Commission</div><div class="rc-val" id="rv2">—</div><div class="rc-note">At 15% per booking, every month</div></div>
+        <div class="rc"><div class="rc-lbl">Arrivé Monthly Fee</div><div class="rc-val" id="rv3">—</div><div class="rc-note" id="rv3n">Based on your units</div></div>
       </div>
-      <div class="calc-results" id="results">
-        <div class="results-title">Here's your picture, <em>honestly</em></div>
-        <div class="results-grid">
-          <div class="result-card">
-            <div class="result-label">Monthly Revenue</div>
-            <div class="result-val" id="r-revenue">—</div>
-            <div class="result-sub">From all units at current occupancy</div>
-          </div>
-          <div class="result-card highlight">
-            <div class="result-label">Lost to Commission</div>
-            <div class="result-val" id="r-commission">—</div>
-            <div class="result-sub">At 15% per booking, every month</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">Arrivé Monthly Fee</div>
-            <div class="result-val" id="r-fee">—</div>
-            <div class="result-sub">Based on your number of units</div>
-          </div>
-        </div>
-        <div class="results-narrative" id="r-narrative"></div>
-        <div class="results-title" style="margin-top:40px;font-size:1.2rem">12-month projection — <em>what gets built</em></div>
-        <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:24px;line-height:1.7">Assumes 40% of new bookings convert to direct in month 1, growing as your Instagram following grows. Review rate at 35% of happy guests. Promo rebooking rate at 25%.</p>
-        <div class="projection-grid" id="r-projection"></div>
+      <div class="res-nar" id="rnar"></div>
+
+      <!-- PROJECTION -->
+      <div class="proj-intro">
+        <h3 class="proj-intro-h">If you start this month —<br><em>here is what your property looks like by December.</em></h3>
+        <p class="proj-intro-sub">Assumes 30% of new bookings convert to direct in month 1, growing as your Instagram following builds. Review rate at 35% of satisfied guests. These are conservative estimates — real results from active properties will differ.</p>
       </div>
+      <div class="proj-grid" id="pg"></div>
+      <div class="proj-bridge" id="pb"></div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="sec hiw" id="hiw">
-  <div class="sec-tag"><div class="sec-tag-line"></div><span>The Flow</span></div>
-  <h2 class="sec-h">Six steps.<br><em>All automatic.</em></h2>
-  <div class="hiw-steps">
-    <div class="hiw-step">
-      <div class="step-n">01</div>
-      <div class="step-h">Guest DMs Your Instagram</div>
-      <div class="step-p">They ask about availability at any hour. Arrivé responds instantly — no staff, no waiting, no missed inquiry ever again.</div>
-      <span class="step-tag">Always on</span>
+<!-- DEMO -->
+<section class="demo" id="demo">
+  <div class="demo-orb"></div>
+  <div class="demo-kicker rv"><div class="demo-kicker-rule"></div><span>See It Working</span></div>
+  <h2 class="demo-h rv">Experience it yourself.<br><em>Right now.</em></h2>
+  <p class="demo-sub rv">The moment the confirmation email lands in your inbox — that is when it clicks. Try the live demo or see it on your own property.</p>
+  <div class="demo-cards">
+    <a href="https://ig.me/m/YOUR_DEMO_HANDLE" target="_blank" class="dc rv">
+      <div class="dc-icon">📱</div>
+      <div class="dc-title">Live Demo</div>
+      <div class="dc-body">DM our Instagram and go through a real booking — availability, unit selection, M-Pesa payment, confirmation email. Under 5 minutes.</div>
+      <div class="dc-link">Open Instagram <span class="dc-arr">→</span></div>
+    </a>
+    <a href="YOUR_CALENDLY_LINK" target="_blank" class="dc rv">
+      <div class="dc-icon">🏠</div>
+      <div class="dc-title">See It On Your Property</div>
+      <div class="dc-body">Book a 30-minute call. We will walk through the system using your actual Instagram — your units, your prices, your guests. Properties that go through this call can qualify for a free 14-day trial.</div>
+      <div class="dc-link">Book 30 minutes <span class="dc-arr">→</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- 14-DAY TRIAL -->
+<section class="trial" id="trial">
+  <div class="trial-inner rv">
+    <div class="trial-glow"></div>
+    <div class="trial-badge">Zero Risk</div>
+    <div class="trial-content">
+      <div class="trial-kicker"><div class="trial-kicker-rule"></div><span>14-Day Free Trial</span></div>
+      <h2 class="trial-h">Your Instagram.<br>Your units. Your bookings.<br><strong>Free for 14 days.</strong></h2>
+      <p class="trial-body">Not a demo on our account. Not a slideshow. Your actual Instagram — your property names, your unit photos, your pricing — running a full automated booking system for 14 days at no cost. Real guests, real M-Pesa payments, real confirmation emails going out under your brand.</p>
+      <ul class="trial-list">
+        <li>Full booking flow on your Instagram DM</li>
+        <li>M-Pesa deposit collection via Paystack</li>
+        <li>Professional confirmation emails — your brand</li>
+        <li>Guest database writing automatically</li>
+        <li>Post-stay follow-up email sequence</li>
+        <li>Everything set up and ready within 48 hours</li>
+      </ul>
+      <div class="trial-api">Built on Meta's official Instagram API — the same infrastructure Instagram uses for business messaging.</div>
+      <a href="YOUR_CALENDLY_LINK" target="_blank" class="btn-g">Book the Walkthrough to Get Started</a>
+      <p class="trial-note">The trial starts with a 30-minute call where we walk through the system on your property. We set it up within 48 hours of that call. At the end of 14 days — if you want to continue, we discuss pricing. If not, no pressure and no obligation.</p>
     </div>
-    <div class="hiw-step">
-      <div class="step-n">02</div>
-      <div class="step-h">Dates & Availability</div>
-      <div class="step-p">An interactive date picker. Arrivé checks live availability across all your units in real time and shows only what's open.</div>
-      <span class="step-tag">Live inventory</span>
-    </div>
-    <div class="hiw-step">
-      <div class="step-n">03</div>
-      <div class="step-h">Visual Unit Selection</div>
-      <div class="step-p">Available units appear as a beautiful Instagram carousel — photos, pricing, descriptions. Guest browses and selects.</div>
-      <span class="step-tag">Instagram carousel</span>
-    </div>
-    <div class="hiw-step">
-      <div class="step-n">04</div>
-      <div class="step-h">M-Pesa Deposit</div>
-      <div class="step-p">An M-Pesa STK push goes directly to their phone. They enter their PIN. Deposit confirmed. No card required.</div>
-      <span class="step-tag">M-Pesa · Paystack</span>
-    </div>
-    <div class="hiw-step">
-      <div class="step-n">05</div>
-      <div class="step-h">Confirmation Email</div>
-      <div class="step-p">A professional HTML email lands instantly — booking reference, unit details, check-in info. This is what makes it feel real.</div>
-      <span class="step-tag">Automated email</span>
-    </div>
-    <div class="hiw-step">
-      <div class="step-n">06</div>
-      <div class="step-h">Follow-Up Sequence</div>
-      <div class="step-p">Post-stay email, review nudge, return promo, holiday campaign — all timed and automated. The relationship continues.</div>
-      <span class="step-tag">Retention system</span>
-    </div>
+  </div>
+</section>
+
+<!-- PILOT -->
+<section class="pilot" id="pilot">
+  <div class="pilot-inner rv">
+    <div class="pilot-kicker"><div class="pilot-kicker-rule"></div><span>90-Day Pilot</span></div>
+    <h2 class="pilot-h">Three properties.<br><em>No fee. Real results.</em></h2>
+    <p class="pilot-body">We are selecting three Nairobi properties for a free 90-day pilot. Full system, real bookings, every feature — completely free. In return, we document the results with your permission. Bookings generated, commission saved, reviews collected, database built. That data becomes the proof that drives everything forward. You get three months of the full system. We get the case study.</p>
+    <ul class="pilot-list">
+      <li>Complete Instagram booking and payment system</li>
+      <li>Full email sequence — confirmation, follow-up, review nudge</li>
+      <li>Google Sheets guest database</li>
+      <li>Promo and holiday campaign emails</li>
+      <li>Monthly reporting on bookings and results</li>
+      <li>Full setup and ongoing support included</li>
+    </ul>
+    <a href="YOUR_TALLY_LINK" target="_blank" class="btn-g">Apply for the Pilot</a>
+    <p class="pilot-note">We review every application personally and respond within 24 hours. We are selective — three properties, real results, meaningful data. If you already completed a 14-day trial, mention it in your application.</p>
   </div>
 </section>
 
 <!-- PRICING -->
-<section class="sec" id="pricing" style="background:var(--dark-2)">
-  <div class="sec-tag"><div class="sec-tag-line"></div><span>Pricing</span></div>
-  <h2 class="sec-h">Simple pricing.<br><em>Obvious returns.</em></h2>
-  <p class="sec-p">Every tier pays for itself within the first direct booking. One booking diverted from Airbnb typically covers months of Arrivé.</p>
-  <div class="pricing-grid">
-    <div style="background:var(--dark-2);padding:52px 40px;display:flex;flex-direction:column">
-      <div style="font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:16px">Starter</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:6px"><sup style="font-size:1rem;color:var(--text-dim)">KES </sup>5,500</div>
-      <div style="font-size:.75rem;color:var(--text-dimmer);margin-bottom:28px">per month</div>
-      <div style="font-size:.8rem;color:var(--gold);margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)">1–3 units · Single property</div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:40px;flex:1">
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Instagram booking flow</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>M-Pesa deposit via Paystack</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Guest database — Google Sheets</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Confirmation email</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Post-stay follow-up email</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Review nudge system</li>
-      </ul>
-      <a href="#demo" style="display:block;text-align:center;padding:14px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--text-dimmer);color:var(--text-dim);transition:all .3s;cursor:none" class="plan-btn">Get Started</a>
-    </div>
-    <div style="background:linear-gradient(160deg,rgba(201,169,110,.08),var(--dark-2));padding:52px 40px;display:flex;flex-direction:column;border-top:2px solid var(--gold);position:relative">
-      <div style="position:absolute;top:-2px;right:32px;background:var(--gold);color:var(--dark);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:4px 12px;font-weight:500">Most Popular</div>
-      <div style="font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Growth</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:6px"><sup style="font-size:1rem;color:var(--text-dim)">KES </sup>9,500</div>
-      <div style="font-size:.75rem;color:var(--text-dimmer);margin-bottom:28px">per month</div>
-      <div style="font-size:.8rem;color:var(--gold);margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid rgba(201,169,110,.15)">4–7 units · Up to 2 properties</div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:40px;flex:1">
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Everything in Starter</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Seasonal promo campaigns</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Holiday offer emails</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Monthly booking report</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Returning guest recognition</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Priority support</li>
-      </ul>
-      <a href="#demo" style="display:block;text-align:center;padding:14px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;background:var(--gold);color:var(--dark);transition:all .3s;cursor:none" class="plan-btn">Get Started</a>
-    </div>
-    <div style="background:var(--dark-2);padding:52px 40px;display:flex;flex-direction:column">
-      <div style="font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:16px">Pro</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:6px"><sup style="font-size:1rem;color:var(--text-dim)">KES </sup>16,000</div>
-      <div style="font-size:.75rem;color:var(--text-dimmer);margin-bottom:28px">per month</div>
-      <div style="font-size:.8rem;color:var(--gold);margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)">8–15 units · Multiple properties</div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:40px;flex:1">
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Everything in Growth</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Custom conversation copy</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Multi-property management</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Quarterly strategy review</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Campaign design</li>
-        <li style="font-size:.82rem;color:var(--text-dim);padding-left:16px;position:relative"><span style="position:absolute;left:0;color:var(--gold);font-size:.5rem;top:5px">✦</span>Dedicated support line</li>
-      </ul>
-      <a href="#demo" style="display:block;text-align:center;padding:14px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--text-dimmer);color:var(--text-dim);transition:all .3s;cursor:none" class="plan-btn">Get Started</a>
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-label rv">After the pilot</div>
+    <h2 class="pricing-h rv">Straightforward monthly pricing.<br><em>One diverted booking typically covers it.</em></h2>
+    <div class="pricing-grid">
+      <div class="pc rv">
+        <div class="pc-tier">Starter</div>
+        <div class="pc-price"><sup>KES </sup>5,500</div>
+        <div class="pc-mo">per month</div>
+        <div class="pc-units">1–3 units · Single property</div>
+        <ul class="pc-features">
+          <li>Instagram booking flow</li><li>M-Pesa deposit via Paystack</li>
+          <li>Guest database — Google Sheets</li><li>Confirmation email</li>
+          <li>Post-stay follow-up</li><li>Review nudge system</li>
+        </ul>
+        <a href="YOUR_TALLY_LINK" class="pc-btn">Get Started</a>
+      </div>
+      <div class="pc featured rv">
+        <div class="pc-tier">Growth</div>
+        <div class="pc-price"><sup>KES </sup>9,500</div>
+        <div class="pc-mo">per month</div>
+        <div class="pc-units">4–7 units · Up to 2 properties</div>
+        <ul class="pc-features">
+          <li>Everything in Starter</li><li>Seasonal promo campaigns</li>
+          <li>Holiday offer emails</li><li>Monthly booking report</li>
+          <li>Returning guest recognition</li><li>Priority support</li>
+        </ul>
+        <a href="YOUR_TALLY_LINK" class="pc-btn">Get Started</a>
+      </div>
+      <div class="pc rv">
+        <div class="pc-tier">Pro</div>
+        <div class="pc-price"><sup>KES </sup>16,000</div>
+        <div class="pc-mo">per month</div>
+        <div class="pc-units">8–15 units · Multiple properties</div>
+        <ul class="pc-features">
+          <li>Everything in Growth</li><li>Custom conversation copy</li>
+          <li>Multi-property management</li><li>Quarterly strategy review</li>
+          <li>Campaign design</li><li>Dedicated support</li>
+        </ul>
+        <a href="YOUR_TALLY_LINK" class="pc-btn">Get Started</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- DEMO / CTA -->
-<section class="sec cta-sec" id="demo">
-  <div class="sec-tag"><div class="sec-tag-line"></div><span>Experience It</span></div>
-  <h2 class="sec-h">See it working.<br><em>Right now.</em></h2>
-  <p class="sec-p">The best way to understand Arrivé is to go through it as a guest. DM our Instagram and experience the full booking flow — availability, unit selection, payment — exactly as your guests would.</p>
-  <div class="cta-options">
-    <a href="https://ig.me/m/Arrive.bookings" target="_blank" class="cta-option">
-      <div class="cta-option-icon">📱</div>
-      <div class="cta-option-title">Try the Live Demo</div>
-      <div class="cta-option-body">DM our Instagram account and go through a real booking in under 5 minutes. See exactly what your guests experience.</div>
-      <div class="cta-arrow">Open Instagram <span>→</span></div>
-    </a>
-    <a href="https://calendly.com/kerrykip2020/arrive-demo-see-it-on-your-property" class="cta-option">
-      <div class="cta-option-icon">📅</div>
-      <div class="cta-option-title">Book a Walkthrough</div>
-      <div class="cta-option-body">We'll walk you through the system on your property's actual Instagram — your units, your pricing, your guests.</div>
-      <div class="cta-arrow">Get in touch <span>→</span></div>
-    </a>
-    <a href="https://tally.so/r/Gxreop" class="cta-option">
-      <div class="cta-option-icon">🤍</div>
-      <div class="cta-option-title">Apply for a Free Pilot</div>
-      <div class="cta-option-body">We're accepting 3 properties for a free 90-day pilot. Full system, no fee, real bookings. Limited availability.</div>
-      <div class="cta-arrow">Apply now <span>→</span></div>
-    </a>
-  </div>
-</section>
+</div><!-- end main -->
 
-<!-- FOOTER -->
+<!-- PRIVACY PAGE -->
+<div class="priv" id="priv">
+  <a href="#" class="pp-back" onclick="showMain(event)">← Back to Arrivé</a>
+  <h1 class="pp-h">Privacy Policy</h1>
+  <div class="pp-date">Effective January 2026 · Nairobi, Kenya</div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Who We Are</div>
+    <p>Arrivé provides direct booking infrastructure for short stay properties in Kenya. When you interact with our system — through Instagram DM or a property using our platform — some of your personal information is processed. This policy explains what we collect, why, and your rights.</p>
+    <p>Arrivé operates as a data processor. The property you are booking with is the data controller. They are responsible for decisions about how your data is used. We process it on their behalf under their instruction.</p>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">What We Collect</div>
+    <ul>
+      <li>Full name — provided during booking</li>
+      <li>Email address — for confirmation and follow-up communications</li>
+      <li>Phone number — for booking records and M-Pesa payment</li>
+      <li>Booking details — unit selected, check-in and check-out dates, amount paid</li>
+      <li>Payment reference — generated by Paystack for verification</li>
+    </ul>
+    <p>We do not collect payment card details. All payments are processed directly by Paystack.</p>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Why We Collect It</div>
+    <ul>
+      <li>To process and confirm your booking</li>
+      <li>To verify M-Pesa payment and prevent double bookings</li>
+      <li>To send your booking confirmation and check-in details</li>
+      <li>To send a post-stay follow-up on behalf of the property</li>
+      <li>Where you have given informed consent — to send occasional offers from the property</li>
+    </ul>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Marketing Communications and Consent</div>
+    <p>Booking confirmations, check-in details, and post-stay follow-ups are operational communications sent as part of the service. These do not require separate consent.</p>
+    <p>Promotional emails — seasonal offers, holiday discounts, return guest incentives — are sent only where you have been clearly informed during the booking process and given the opportunity to decline. This is disclosed before payment is made, not bundled with operational terms.</p>
+    <p>You can withdraw consent for promotional communications at any time by clicking the unsubscribe link in any email or replying STOP. Withdrawing from promotions does not affect operational booking communications.</p>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Who We Share Your Data With</div>
+    <ul>
+      <li>The property you are booking — they receive your name, email, phone, and booking details as the data controller</li>
+      <li>Paystack — for payment processing only</li>
+      <li>SendGrid (Twilio) — for email delivery only</li>
+      <li>Google — booking records are stored in Google Sheets</li>
+    </ul>
+    <p>We do not sell your data. We do not share it with any party beyond those listed above.</p>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Data Retention</div>
+    <p>Booking records are retained for a period necessary to support the property's operational and legal requirements — typically up to 2 years from your stay date, after which records are reviewed for deletion unless a legitimate reason to retain them exists.</p>
+    <p>You may request deletion of your data at any time. We will action this within 30 days unless retention is required by law.</p>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Your Rights — Kenya Data Protection Act 2019</div>
+    <ul>
+      <li>The right to access personal data we hold about you</li>
+      <li>The right to correct inaccurate data</li>
+      <li>The right to request deletion of your data</li>
+      <li>The right to withdraw consent for marketing at any time</li>
+      <li>The right to lodge a complaint with the Office of the Data Protection Commissioner at odpc.go.ke</li>
+    </ul>
+    <p>To exercise any of these rights contact us at the email below. We respond within 30 days.</p>
+  </div>
+  <div class="pp-sec">
+    <div class="pp-sec-h">Contact</div>
+    <p>Arrivé · Nairobi, Kenya<br>
+    Email: <a href="mailto:hello@arrive.co.ke" style="color:var(--gold);text-decoration:none">hello@arrive.co.ke</a></p>
+    <p style="margin-top:14px;font-size:.76rem;color:var(--text-3)">Last updated January 2026. Material changes will be reflected on this page.</p>
+  </div>
+</div>
+
 <footer>
-  <div class="footer-logo">Arriv<i>é</i></div>
+  <div class="footer-logo">Arriv<em>é</em></div>
   <ul class="footer-links">
-    <li><a href="#story">How It Works</a></li>
+    <li><a href="#numbers">Numbers</a></li>
     <li><a href="#calculator">Calculator</a></li>
+    <li><a href="#trial">Free Trial</a></li>
+    <li><a href="#pilot">Pilot</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#" onclick="showPrivacy(event)">Privacy Policy</a></li>
     <li><a href="mailto:hello@arrive.co.ke">Contact</a></li>
   </ul>
-  <div class="footer-copy">© 2025 Arrivé · Nairobi, Kenya</div>
+  <div class="footer-copy">© 2026 Arrivé · Nairobi, Kenya</div>
 </footer>
-
-<!-- BACK TO TOP -->
-<button class="back-to-top" id="backToTop">↑</button>
 
 <script>
 // CURSOR
-const cur = document.getElementById('c');
-const ring = document.getElementById('cr');
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
 (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.cta-option,.plan-btn').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big')});
-  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big')});
+document.querySelectorAll('a,button,.dc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('xl');ring.classList.add('xl')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('xl');ring.classList.remove('xl')});
 });
 
-// NAV SCROLL
-window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',scrollY>50));
 
-// MOBILE MENU
-const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobileNav');
-const closeMenu = document.getElementById('closeMenu');
-hamburger.addEventListener('click',()=>mobileNav.classList.add('show'));
-closeMenu.addEventListener('click',()=>mobileNav.classList.remove('show'));
-document.querySelectorAll('#mobileNav a').forEach(link=>{
-  link.addEventListener('click',()=>mobileNav.classList.remove('show'));
-});
-
-// INTERSECTION OBSERVER
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{
-    if(e.isIntersecting){
-      setTimeout(()=>e.target.classList.add('on'),e.target.dataset.delay||0);
-    }
-  });
-},{threshold:.12});
-document.querySelectorAll('.stat,.story-block,.story-visual,.calc-box,.hiw-step,.result-card').forEach((el,i)=>{
-  el.dataset.delay = (i%4)*80;
-  obs.observe(el);
-});
-
-// SMOOTH NAV
+// SMOOTH SCROLL
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
+    const id=a.getAttribute('href');
+    if(!id||id.length<2)return;
+    const t=document.querySelector(id);
     if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}
   });
 });
 
-// CALCULATOR - LIVE + INITIAL LOAD
+// REVEAL
+const obs=new IntersectionObserver(es=>{
+  es.forEach((e,i)=>{
+    if(e.isIntersecting)setTimeout(()=>e.target.classList.add('on'),(parseInt(e.target.dataset.d)||0));
+  });
+},{threshold:.1});
+document.querySelectorAll('.rv,.rv-l,.rv-r,.email-card,.sheet-card').forEach((el,i)=>{
+  el.dataset.d=i%4*90;obs.observe(el);
+});
+
+// PRIVACY TOGGLE
+function showPrivacy(e){if(e)e.preventDefault();document.getElementById('main').classList.add('off');document.getElementById('priv').classList.add('on');window.scrollTo(0,0)}
+function showMain(e){if(e)e.preventDefault();document.getElementById('priv').classList.remove('on');document.getElementById('main').classList.remove('off');window.scrollTo(0,0)}
+
+// CALCULATOR
 function fmt(n){return'KES '+Math.round(n).toLocaleString('en-KE')}
-function calculate(){
-  const units = parseFloat(document.getElementById('units').value)||3;
-  const rate = parseFloat(document.getElementById('rate').value)||7000;
-  const bookings = parseFloat(document.getElementById('bookings').value)||6;
-  const nights = parseFloat(document.getElementById('nights').value)||2.5;
-  const bookingVal = rate * nights;
-  const monthlyBookings = bookings * units;
-  const revenue = bookingVal * monthlyBookings;
-  const commission = revenue * 0.15;
-  let fee = 5500; let tierName = 'Starter';
-  if(units > 7){fee=16000;tierName='Pro'}else if(units > 3){fee=9500;tierName='Growth'}
-  const netSaving = commission - fee;
-  const roi = (commission/fee).toFixed(1);
-
-  document.getElementById('r-revenue').textContent = fmt(revenue);
-  document.getElementById('r-commission').textContent = fmt(commission);
-  document.getElementById('r-fee').textContent = fmt(fee)+' ('+tierName+')';
-
-  const narrative = document.getElementById('r-narrative');
-  const directBookings = Math.round(monthlyBookings * 0.4);
-  const localBookings = Math.round(units * 1.5);
-  const localRevenue = localBookings * bookingVal;
-  const totalMonthlyValue = netSaving + localRevenue;
-
-  narrative.innerHTML = `
-    <p>At your numbers, Airbnb takes <strong>${fmt(commission)}</strong> from you every month. That's <strong>${fmt(commission*12)}</strong> per year — gone before it reaches you.</p>
-    <p>With Arrivé at <strong>${fmt(fee)}/month</strong>, you keep <strong>${fmt(netSaving)}</strong> of that commission each month just from diverted bookings. That's a <strong>${roi}x return</strong> on what you pay.</p>
-    <p>Then there's the local Kenyan market — guests who never use Airbnb. Conservatively <strong>${localBookings} additional bookings per month</strong> from Instagram reach alone, adding roughly <strong>${fmt(localRevenue)}</strong> in revenue that didn't exist before.</p>
-    <p>Combined monthly value: <strong>${fmt(totalMonthlyValue)}</strong>. Against a fee of ${fmt(fee)}.</p>
+function calc(){
+  const u=parseFloat(document.getElementById('units').value)||3;
+  const r=parseFloat(document.getElementById('rate').value)||7000;
+  const b=parseFloat(document.getElementById('bpm').value)||6;
+  const n=parseFloat(document.getElementById('nts').value)||2.5;
+  const bv=r*n, mb=b*u, rev=bv*mb, com=rev*.15;
+  let fee=5500,tier='Starter';
+  if(u>7){fee=16000;tier='Pro'}else if(u>3){fee=9500;tier='Growth'}
+  const sav=com-fee,roi=(com/fee).toFixed(1);
+  const localB=Math.round(u*1.8),localR=localB*bv;
+  document.getElementById('rv1').textContent=fmt(rev);
+  document.getElementById('rv2').textContent=fmt(com);
+  document.getElementById('rv3').textContent=fmt(fee);
+  document.getElementById('rv3n').textContent=tier+' tier';
+  document.getElementById('rnar').innerHTML=`
+    <p>Airbnb takes <strong>${fmt(com)}</strong> from you every month. That is <strong>${fmt(com*12)}</strong> this year.</p>
+    <p>At <strong>${fmt(fee)}/month</strong> on the ${tier} tier, Arrivé costs ${roi}x less than what you are currently giving away. That is <strong>${fmt(sav)}</strong> back in your account every month just from bookings that would have come through anyway — plus the local Kenyan market.</p>
+    <p>Local guests — Kenyans who do not use Airbnb — add conservatively <strong>${localB} additional bookings per month</strong> at your rate. That is <strong>${fmt(localR)}</strong> in revenue that did not exist before. And every single guest is in your database.</p>
   `;
 
-  const months = ['Month 1','Month 3','Month 6','Month 12'];
-  const conversionRates = [0.3, 0.45, 0.6, 0.75];
-  const projGrid = document.getElementById('r-projection');
-  projGrid.innerHTML = '';
-  months.forEach((m,i)=>{
-    const conv = conversionRates[i];
-    const directB = Math.round(monthlyBookings * conv);
-    const totalDirectRevenue = directB * bookingVal;
-    const reviewsPerMonth = Math.round(directB * 0.35);
-    const totalReviews = Math.round(reviewsPerMonth * [1,3,6,12][i]);
-    const guestBase = Math.round(directB * [1,3,6,12][i] * 0.8);
-    const commSaved = Math.round(totalDirectRevenue * 0.15 * [1,3,6,12][i]);
-    projGrid.innerHTML += `
-      <div class="proj-card">
-        <div class="proj-month">${m}</div>
-        <div class="proj-bookings">${directB}</div>
-        <div class="proj-label">direct bookings/mo</div>
-        <div class="proj-reviews">
-          <div style="margin-bottom:4px"><span style="color:var(--gold)">${totalReviews}</span> Google reviews</div>
-          <div style="margin-bottom:4px"><span style="color:var(--gold)">${guestBase}</span> guests in your database</div>
-          <div><span style="color:var(--gold)">${fmt(commSaved)}</span> saved in commission</div>
-        </div>
+  // PROJECTIONS
+  const data=[{l:'Month 1',r:.3,s:1},{l:'Month 3',r:.45,s:3},{l:'Month 6',r:.6,s:6},{l:'Month 12',r:.75,s:12}];
+  document.getElementById('pg').innerHTML=data.map(d=>{
+    const db=Math.round(mb*d.r);
+    const reviews=Math.round(db*.35*d.s);
+    const guests=Math.round(db*d.s*.85);
+    const saved=Math.round(db*bv*.15*d.s);
+    return`<div class="pgc">
+      <div class="pgc-month">${d.l}</div>
+      <div class="pgc-n">${db}</div>
+      <div class="pgc-sub">direct bookings / month</div>
+      <div class="pgc-details">
+        <div><span>${reviews}</span> Google reviews</div>
+        <div><span>${guests}</span> guests in your database</div>
+        <div><span>${fmt(saved)}</span> saved in commission</div>
       </div>
-    `;
-  });
+    </div>`;
+  }).join('');
 
-  const results = document.getElementById('results');
-  results.style.display = 'block';
-  requestAnimationFrame(()=>results.classList.add('show'));
+  // BRIDGE TO PILOT
+  const m3=Math.round(mb*.45*3*.85);
+  const m3rev=Math.round(mb*.45*3);
+  document.getElementById('pb').innerHTML=`By month three you could have <strong>${m3} real guests</strong> in your database — people you can email, invite back, and market to. That is three months of building a business that is actually yours. The 90-day pilot gives you exactly this, for free.`;
+
+  const el=document.getElementById('cr');
+  el.style.display='block';
+  setTimeout(()=>el.classList.add('show'),50);
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-
-// Live update + show on load
-document.querySelectorAll('#units,#rate,#bookings,#nights').forEach(inp=>{inp.addEventListener('input',calculate);});
-setTimeout(calculate, 800);
-
-// BACK TO TOP
-const backToTop = document.getElementById('backToTop');
-window.addEventListener('scroll',()=>{backToTop.classList.toggle('show', window.scrollY > 800);});
-backToTop.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
 </script>
 </body>
 </html>
