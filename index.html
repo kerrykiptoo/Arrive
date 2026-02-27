@@ -283,6 +283,160 @@ footer{border-top:1px solid var(--border);padding:44px 60px;display:flex;justify
   body{cursor:auto}
   #cur,#cur-r{display:none}
 }
+/* ─── OVERFLOW AND MOBILE FIX ─── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+* {
+  max-width: 100%;
+}
+
+/* NAV mobile */
+@media(max-width: 768px) {
+  nav {
+    padding: 0 20px;
+    height: 60px;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-demo {
+    font-size: .65rem;
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+}
+
+/* HERO mobile */
+@media(max-width: 768px) {
+  .hero {
+    padding: 88px 20px 60px;
+  }
+  
+  .hero-h .line2 {
+    padding-left: 0;
+  }
+  
+  .hero-btns {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .hero-scroll {
+    left: 20px;
+  }
+}
+
+/* TWO NUMBERS mobile */
+@media(max-width: 768px) {
+  .two-numbers {
+    grid-template-columns: 1fr;
+  }
+  
+  .number-block {
+    padding: 48px 20px;
+  }
+  
+  .number-block:first-child {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* PROOF mobile */
+@media(max-width: 768px) {
+  .proof {
+    grid-template-columns: 1fr;
+    padding: 80px 20px;
+    gap: 40px;
+  }
+}
+
+/* CALC mobile */
+@media(max-width: 768px) {
+  .calc {
+    padding: 80px 20px;
+  }
+  
+  .calc-fields {
+    grid-template-columns: 1fr;
+  }
+  
+  .results-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .proj-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* DEMO mobile */
+@media(max-width: 768px) {
+  .demo {
+    padding: 80px 20px;
+  }
+  
+  .demo-cards {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .demo-card {
+    width: 100%;
+  }
+}
+
+/* PILOT and PRICING mobile */
+@media(max-width: 768px) {
+  .pilot {
+    padding: 0 20px 80px;
+  }
+  
+  .pilot-inner {
+    padding: 36px 24px;
+  }
+  
+  .pricing {
+    padding: 0 20px 80px;
+  }
+  
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FOOTER mobile */
+@media(max-width: 768px) {
+  footer {
+    padding: 36px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .footer-links {
+    gap: 16px;
+  }
+}
+
+/* PRIVACY PAGE mobile */
+@media(max-width: 768px) {
+  .privacy-page {
+    padding: 88px 20px 60px;
+  }
+}
 </style>
 </head>
 <body>
