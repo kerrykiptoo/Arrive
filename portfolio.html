@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrive — Host Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<style>
+  :root {
+    --accent: #E67E22;
+    --accent-dim: rgba(230,126,34,0.12);
+    --accent-border: rgba(230,126,34,0.30);
+    --radius: 14px;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --trans: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0F0C0A;
+    --bg2: #1C1714;
+    --surface: #1C1714;
+    --surface2: #2A221E;
+    --border: rgba(230,126,34,0.15);
+    --border2: rgba(230,126,34,0.25);
+    --text: #FDF4E3;
+    --text2: #C9B79A;
+    --text3: #8B7355;
+  }
+
+  [data-theme="light"] {
+    --bg: #FFF8F0;
+    --bg2: #FEF7E9;
+    --surface: #FFFFFF;
+    --surface2: #FEF7E9;
+    --border: rgba(230,126,34,0.12);
+    --border2: rgba(230,126,34,0.20);
+    --text: #2C241A;
+    --text2: #6B5A48;
+    --text3: #B59A78;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.6;
+    min-height:100vh;
+    transition:background var(--trans),color var(--trans);
+  }
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    height:70px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 48px;
+    border-bottom:1px solid var(--border);
+    background:rgba(15,12,10,0.92);
+    backdrop-filter:blur(24px);
+    transition:background var(--trans),border-color var(--trans);
+  }
+  [data-theme="light"] nav{background:rgba(255,248,240,0.92);}
+  .nav-logo{
+    font-family:var(--font-body);
+    font-size:14px;font-weight:600;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--text);
+    text-decoration:none;
+  }
+  .nav-logo .e-accent{color:var(--accent);}
+  .theme-toggle{
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--border2);
+    background:var(--surface2);
+    color:var(--text2);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .2s;
+  }
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* HERO SECTION */
+  .host-hero{
+    padding:100px 48px 40px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+  }
+  .host-avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:var(--accent-dim);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    font-weight:600;
+    color:var(--accent);
+    margin:0 auto 16px;
+  }
+  .host-name{
+    font-family:var(--font-display);
+    font-size:32px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .host-badge{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    margin:16px 0;
+    font-size:13px;
+    color:var(--text2);
+  }
+  .host-badge span{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .host-bio{
+    max-width:600px;
+    margin:0 auto;
+    color:var(--text2);
+    font-size:14px;
+  }
+
+  /* DATE FILTER BAR */
+  .date-filter{
+    max-width:1200px;
+    margin:32px auto 0;
+    padding:0 48px;
+  }
+  .date-card{
+    background:var(--surface);
+    border:1px solid var(--border2);
+    border-radius:60px;
+    padding:8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .date-input-group{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 20px;
+    background:var(--surface2);
+    border-radius:60px;
+    cursor:pointer;
+  }
+  .date-input-group span:first-child{
+    font-size:14px;
+    color:var(--text3);
+  }
+  .date-input-group span:last-child{
+    font-weight:500;
+    color:var(--text);
+  }
+  .guest-selector{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 20px;
+    background:var(--surface2);
+    border-radius:60px;
+  }
+  .guest-selector select{
+    background:transparent;
+    border:none;
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:14px;
+    outline:none;
+  }
+  .apply-btn{
+    background:var(--accent);
+    color:var(--bg);
+    border:none;
+    border-radius:60px;
+    padding:12px 28px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.2s;
+  }
+  .apply-btn:hover{
+    transform:translateY(-2px);
+    opacity:0.9;
+  }
+  .clear-link{
+    color:var(--text3);
+    font-size:12px;
+    text-decoration:none;
+    padding:0 16px;
+  }
+
+  /* UNITS GRID */
+  .units-section{
+    max-width:1200px;
+    margin:0 auto;
+    padding:48px;
+  }
+  .units-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .units-count{
+    font-size:13px;
+    color:var(--text3);
+  }
+  .filters-row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .filter-chip{
+    padding:6px 14px;
+    border:1px solid var(--border2);
+    border-radius:100px;
+    font-size:12px;
+    background:transparent;
+    color:var(--text2);
+    cursor:pointer;
+    transition:all 0.2s;
+  }
+  .filter-chip.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--bg);
+  }
+  .units-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:24px;
+  }
+  .unit-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:all 0.2s;
+    text-decoration:none;
+    color:inherit;
+    display:block;
+  }
+  .unit-card:hover{
+    transform:translateY(-4px);
+    border-color:var(--accent-border);
+  }
+  .unit-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    background:var(--surface2);
+  }
+  .unit-info{
+    padding:20px;
+  }
+  .unit-title{
+    font-family:var(--font-display);
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .unit-location{
+    font-size:12px;
+    color:var(--text2);
+    margin-bottom:8px;
+  }
+  .unit-price{
+    font-size:18px;
+    font-weight:600;
+    color:var(--accent);
+    margin:12px 0;
+  }
+  .unit-price span{
+    font-size:12px;
+    font-weight:400;
+    color:var(--text2);
+  }
+  .unit-amenities{
+    display:flex;
+    gap:12px;
+    font-size:11px;
+    color:var(--text3);
+    margin-bottom:12px;
+  }
+  .availability-badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:100px;
+    font-size:11px;
+    font-weight:500;
+  }
+  .available{
+    background:rgba(26,191,160,0.15);
+    color:#1ABFA0;
+  }
+  .unavailable{
+    background:rgba(230,126,34,0.15);
+    color:var(--accent);
+  }
+  .loading-grid{
+    text-align:center;
+    padding:60px;
+    color:var(--text3);
+  }
+  .empty-state{
+    text-align:center;
+    padding:60px;
+    color:var(--text3);
+    grid-column:1/-1;
+  }
+
+  @media(max-width:700px){
+    nav{padding:0 24px;}
+    .host-hero{padding:100px 24px 32px;}
+    .date-filter{padding:0 24px;}
+    .units-section{padding:32px 24px;}
+    .date-card{flex-direction:column;border-radius:24px;padding:16px;}
+    .date-input-group{width:100%;}
+    .guest-selector{width:100%;justify-content:space-between;}
+    .apply-btn{width:100%;}
+    .clear-link{width:100%;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">ARR<span class="e-accent">I</span>VE</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
+</nav>
+
+<!-- Host Info Section -->
+<div class="host-hero" id="hostHero">
+  <div class="host-avatar" id="hostAvatar">G</div>
+  <h1 class="host-name" id="hostName">Grace Muthoni</h1>
+  <div class="host-badge" id="hostBadge">
+    <span>⭐ 4.9</span>
+    <span>✓ 98% response rate</span>
+    <span>🏠 4 listings</span>
+  </div>
+  <div class="host-bio" id="hostBio">
+    Passionate about hospitality. I've been hosting for 3 years and love welcoming guests to beautiful spaces around Limuru and Nairobi.
+  </div>
+</div>
+
+<!-- Date Filter Bar -->
+<div class="date-filter">
+  <div class="date-card">
+    <div class="date-input-group" id="checkInGroup">
+      <span>📅 Check-in</span>
+      <span id="checkInDisplay">Select date</span>
+    </div>
+    <div class="date-input-group" id="checkOutGroup">
+      <span>📅 Check-out</span>
+      <span id="checkOutDisplay">Select date</span>
+    </div>
+    <div class="guest-selector">
+      <span>👥 Guests</span>
+      <select id="guestSelect">
+        <option value="1">1 guest</option>
+        <option value="2" selected>2 guests</option>
+        <option value="3">3 guests</option>
+        <option value="4">4 guests</option>
+        <option value="5">5 guests</option>
+        <option value="6">6+ guests</option>
+      </select>
+    </div>
+    <button class="apply-btn" id="applyDatesBtn">Show available units →</button>
+    <a href="#" class="clear-link" id="clearDatesBtn">Clear dates</a>
+  </div>
+</div>
+
+<!-- Units Section -->
+<div class="units-section">
+  <div class="units-header">
+    <div class="units-count" id="unitsCount">Loading units...</div>
+    <div class="filters-row" id="filtersRow">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="entire">Entire home</button>
+      <button class="filter-chip" data-filter="private">Private room</button>
+      <button class="filter-chip" data-filter="shared">Shared room</button>
+    </div>
+  </div>
+  <div class="units-grid" id="unitsGrid">
+    <div class="loading-grid">Loading units...</div>
+  </div>
+</div>
+
+<script>
+  // Mock units data - would come from API
+  const hostData = {
+    id: "host_grace",
+    name: "Grace Muthoni",
+    avatar: "G",
+    rating: 4.9,
+    response_rate: 98,
+    bio: "Passionate about hospitality. I've been hosting for 3 years and love welcoming guests to beautiful spaces around Limuru and Nairobi."
+  };
+
+  let units = [
+    {
+      id: "unit_001",
+      title: "Cozy Cottage in Limuru",
+      location: "Limuru, Kiambu County",
+      type: "entire",
+      price_per_night: 3500,
+      max_guests: 4,
+      image: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg",
+      amenities: ["WiFi", "Kitchen", "Garden"],
+      booked_dates: ["2024-06-10", "2024-06-11", "2024-06-12", "2024-06-25", "2024-06-26"]
+    },
+    {
+      id: "unit_002",
+      title: "Modern Apartment in Kilimani",
+      location: "Kilimani, Nairobi",
+      type: "entire",
+      price_per_night: 4500,
+      max_guests: 3,
+      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg",
+      amenities: ["WiFi", "Pool", "Gym", "Workspace"],
+      booked_dates: ["2024-06-15", "2024-06-16", "2024-06-17", "2024-07-01", "2024-07-02"]
+    },
+    {
+      id: "unit_003",
+      title: "Private Room with Garden View",
+      location: "Karen, Nairobi",
+      type: "private",
+      price_per_night: 2500,
+      max_guests: 2,
+      image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
+      amenities: ["WiFi", "Garden", "Breakfast"],
+      booked_dates: ["2024-06-20", "2024-06-21", "2024-07-05", "2024-07-06"]
+    },
+    {
+      id: "unit_004",
+      title: "Shared Artist Studio",
+      location: "Ngara, Nairobi",
+      type: "shared",
+      price_per_night: 1200,
+      max_guests: 1,
+      image: "https://images.pexels.com/photos/7031404/pexels-photo-7031404.jpeg",
+      amenities: ["WiFi", "Creative space", "Kitchen"],
+      booked_dates: ["2024-06-18", "2024-06-19", "2024-06-20"]
+    }
+  ];
+
+  // State
+  let selectedCheckIn = null;
+  let selectedCheckOut = null;
+  let selectedGuests = 2;
+  let activeFilter = "all";
+
+  // DOM Elements
+  const hostAvatar = document.getElementById('hostAvatar');
+  const hostName = document.getElementById('hostName');
+  const hostBadge = document.getElementById('hostBadge');
+  const hostBio = document.getElementById('hostBio');
+  const checkInDisplay = document.getElementById('checkInDisplay');
+  const checkOutDisplay = document.getElementById('checkOutDisplay');
+  const guestSelect = document.getElementById('guestSelect');
+  const applyDatesBtn = document.getElementById('applyDatesBtn');
+  const clearDatesBtn = document.getElementById('clearDatesBtn');
+  const unitsCount = document.getElementById('unitsCount');
+  const unitsGrid = document.getElementById('unitsGrid');
+  const filtersRow = document.getElementById('filtersRow');
+
+  // Load host data
+  function loadHostData() {
+    hostAvatar.textContent = hostData.avatar;
+    hostName.textContent = hostData.name;
+    hostBio.textContent = hostData.bio;
+    hostBadge.innerHTML = `
+      <span>⭐ ${hostData.rating}</span>
+      <span>✓ ${hostData.response_rate}% response rate</span>
+      <span>🏠 ${units.length} listings</span>
+    `;
+  }
+
+  // Check if unit is available for selected dates
+  function isUnitAvailable(unit, checkIn, checkOut) {
+    if (!checkIn || !checkOut) return true;
+    
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const bookedDates = unit.booked_dates || [];
+    
+    let currentDate = new Date(checkInDate);
+    while (currentDate < checkOutDate) {
+      const dateStr = currentDate.toISOString().split('T')[0];
+      if (bookedDates.includes(dateStr)) {
+        return false;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return true;
+  }
+
+  // Filter units based on dates, guests, and type filter
+  function getFilteredUnits() {
+    let filtered = units.filter(unit => {
+      // Guest capacity filter
+      if (selectedGuests > unit.max_guests) return false;
+      
+      // Date availability filter (if dates are selected)
+      if (selectedCheckIn && selectedCheckOut) {
+        if (!isUnitAvailable(unit, selectedCheckIn, selectedCheckOut)) return false;
+      }
+      
+      // Type filter
+      if (activeFilter !== "all" && unit.type !== activeFilter) return false;
+      
+      return true;
+    });
+    
+    return filtered;
+  }
+
+  // Render units grid
+  function renderUnits() {
+    const filtered = getFilteredUnits();
+    
+    unitsCount.textContent = `${filtered.length} unit${filtered.length !== 1 ? 's' : ''} available`;
+    
+    if (filtered.length === 0) {
+      unitsGrid.innerHTML = `<div class="empty-state">✨ No units available for your selected dates. Try different dates or adjust filters.</div>`;
+      return;
+    }
+    
+    unitsGrid.innerHTML = filtered.map(unit => {
+      const isAvailable = !selectedCheckIn || !selectedCheckOut || isUnitAvailable(unit, selectedCheckIn, selectedCheckOut);
+      const unitUrl = `unit.html?host=${hostData.id}&unit=${unit.id}${selectedCheckIn ? `&check_in=${selectedCheckIn}` : ''}${selectedCheckOut ? `&check_out=${selectedCheckOut}` : ''}&guests=${selectedGuests}`;
+      
+      return `
+        <a href="${unitUrl}" class="unit-card">
+          <img class="unit-image" src="${unit.image}" alt="${unit.title}">
+          <div class="unit-info">
+            <div class="unit-title">${unit.title}</div>
+            <div class="unit-location">📍 ${unit.location}</div>
+            <div class="unit-amenities">
+              ${unit.amenities.slice(0,3).map(a => `✓ ${a}`).join(' · ')}
+            </div>
+            <div class="unit-price">
+              KES ${unit.price_per_night.toLocaleString()} <span>/ night</span>
+            </div>
+            <div class="availability-badge ${isAvailable ? 'available' : 'unavailable'}">
+              ${isAvailable ? '✓ Available for selected dates' : '✗ Booked for selected dates'}
+            </div>
+          </div>
+        </a>
+      `;
+    }).join('');
+  }
+
+  // Flatpickr for date selection
+  let checkInPicker, checkOutPicker;
+  
+  function setupDatePickers() {
+    checkInPicker = flatpickr("#checkInGroup", {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      onChange: function(selectedDates, dateStr) {
+        if (selectedDates[0]) {
+          selectedCheckIn = dateStr;
+          checkInDisplay.textContent = dateStr;
+          
+          if (checkOutPicker) {
+            checkOutPicker.set('minDate', selectedDates[0]);
+          }
+        }
+      }
+    });
+    
+    checkOutPicker = flatpickr("#checkOutGroup", {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      onChange: function(selectedDates, dateStr) {
+        if (selectedDates[0]) {
+          selectedCheckOut = dateStr;
+          checkOutDisplay.textContent = dateStr;
+        }
+      }
+    });
+    
+    // Make the groups clickable to open calendar
+    document.getElementById('checkInGroup').addEventListener('click', () => checkInPicker.open());
+    document.getElementById('checkOutGroup').addEventListener('click', () => checkOutPicker.open());
+  }
+
+  // Apply date filter
+  function applyDates() {
+    renderUnits();
+  }
+  
+  // Clear all filters
+  function clearFilters() {
+    selectedCheckIn = null;
+    selectedCheckOut = null;
+    selectedGuests = 2;
+    guestSelect.value = "2";
+    checkInDisplay.textContent = "Select date";
+    checkOutDisplay.textContent = "Select date";
+    activeFilter = "all";
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.classList.remove('active');
+      if (chip.dataset.filter === 'all') chip.classList.add('active');
+    });
+    renderUnits();
+  }
+
+  // Filter chips
+  function setupFilters() {
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeFilter = chip.dataset.filter;
+        renderUnits();
+      });
+    });
+  }
+
+  // Theme toggle
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  let theme = localStorage.getItem('arrive-theme') || 'dark';
+  function setTheme(t) {
+    html.dataset.theme = t;
+    themeToggle.textContent = t === 'dark' ? '☀' : '☾';
+    localStorage.setItem('arrive-theme', t);
+  }
+  setTheme(theme);
+  themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
+  // Guest select change
+  guestSelect.addEventListener('change', (e) => {
+    selectedGuests = parseInt(e.target.value);
+    renderUnits();
+  });
+  
+  applyDatesBtn.addEventListener('click', applyDates);
+  clearDatesBtn.addEventListener('click', clearFilters);
+
+  // Initialize
+  loadHostData();
+  setupDatePickers();
+  setupFilters();
+  renderUnits();
+</script>
+</body>
+</html>
