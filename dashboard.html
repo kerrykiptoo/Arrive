@@ -769,8 +769,7 @@
           <div class="unit-name">${esc(u.name)}</div>
           <div class="unit-meta">${esc(u.type||'')} · Up to ${u.max_guests||2} guests</div>
           <div class="unit-price">KES ${fmt(u.price_per_night||0)} <span>/ night</span></div>
-          ${u.amenities&&u.amenities.length ? `<div class="unit-amenities">${u.amenities.slice(0,3).map(a=>`<span class="amenity-tag">${esc(a)}</span>`).join('')}</div>` : ''}
-        </div>
+          ${(() => { const am = Array.isArray(u.amenities) ? u.amenities : typeof u.amenities === 'string' ? u.amenities.split(',').map(a=>a.trim()).filter(Boolean) : []; return am.length ? `<div class="unit-amenities">${am.slice(0,3).map(a=>`<span class="amenity-tag">${esc(a)}</span>`).join('')}</div>` : ''; })()}        </div>
         <div class="unit-card-actions">
           <button class="btn btn-ghost btn-sm" style="flex:1" onclick="editUnit('${u.unit_id}')">Edit</button>
           <button class="btn btn-sm" style="background:var(--error-light);color:var(--error);border:1px solid #F0CCCC;flex:1" onclick="deleteUnit('${u.unit_id}')">Remove</button>
