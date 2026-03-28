@@ -1,504 +1,1458 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arrive — Host Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arrivé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --accent: #C9A96E;
-    --accent-dim: rgba(201,169,110,0.12);
-    --accent-border: rgba(201,169,110,0.30);
-    --radius: 14px;
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'DM Sans', sans-serif;
-    --trans: 0.3s cubic-bezier(0.4,0,0.2,1);
+    --bg:           #F9F7F4;
+    --bg-card:      #FFFFFF;
+    --accent:       #C17A5A;
+    --accent-dark:  #A5613F;
+    --accent-light: #F5EDE7;
+    --success:      #5C8A6C;
+    --error:        #C15A5A;
+    --text:         #1A1410;
+    --text-mid:     #5A4A3A;
+    --text-soft:    #9A8A7A;
+    --border:       #E8E0D8;
+    --shadow:       0 2px 20px rgba(60,30,10,0.08);
+    --shadow-lg:    0 8px 40px rgba(60,30,10,0.14);
+    --radius:       14px;
+    --radius-sm:    8px;
   }
 
-  [data-theme="dark"] {
-    --bg: #0A0818;
-    --bg2: #0F0D1F;
-    --surface: #0F0D1F;
-    --surface2: #151229;
-    --border: rgba(201,169,110,0.15);
-    --border2: rgba(201,169,110,0.25);
-    --text: #FDF4E3;
-    --text2: #B8A87C;
-    --text3: #6A5A3A;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  [data-theme="light"] {
-    --bg: #FEF9E8;
-    --bg2: #FDF5E0;
-    --surface: #FFFFFF;
-    --surface2: #FEF9E8;
-    --border: rgba(201,169,110,0.20);
-    --border2: rgba(201,169,110,0.35);
-    --text: #1A1625;
-    --text2: #5E4B2C;
-    --text3: #B59A78;
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 32px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(249,247,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 520px;
+    margin-top: 64px;
+    overflow: hidden;
+  }
+  .hero-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-img-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #C17A5A22 0%, #A5613F44 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(26,20,16,0.18) 0%, rgba(26,20,16,0.62) 100%);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 48px 48px 52px;
+  }
+  .hero-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.82);
+    max-width: 560px;
+    line-height: 1.65;
+    font-weight: 300;
   }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--font-body);
-    font-weight:300;
-    line-height:1.6;
-    min-height:100vh;
-    transition:background var(--trans),color var(--trans);
+  /* ── GLOBAL DATE FILTER ── */
+  .date-filter-wrap {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    position: sticky; top: 64px; z-index: 90;
+    box-shadow: 0 2px 12px rgba(60,30,10,0.06);
+  }
+  .date-filter {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 0;
+    flex-wrap: wrap;
+  }
+  .date-filter-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+  .date-filter input[type="date"] {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .date-filter input[type="date"]:focus { border-color: var(--accent); }
+  .date-filter-sep { color: var(--text-soft); font-size: 0.85rem; }
+  .date-filter-nights {
+    margin-left: 4px;
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-weight: 500;
+    background: var(--accent-light);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+  .btn-check-all {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 9px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-check-all:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 52px 32px 120px;
+  }
+  .section-header {
+    margin-bottom: 36px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    font-weight: 300;
   }
 
-  nav{
-    position:fixed;top:0;left:0;right:0;z-index:200;
-    height:70px;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 48px;
-    border-bottom:1px solid var(--border);
-    background:rgba(10,8,24,0.92);
-    backdrop-filter:blur(24px);
-    transition:background var(--trans),border-color var(--trans);
-  }
-  [data-theme="light"] nav{background:rgba(254,249,232,0.92);}
-  .nav-logo{
-    font-family:var(--font-body);
-    font-size:14px;font-weight:600;
-    letter-spacing:0.2em;
-    text-transform:uppercase;
-    color:var(--text);
-    text-decoration:none;
-  }
-  .nav-logo .e-accent{color:var(--accent);}
-  .theme-toggle{
-    width:36px;height:36px;border-radius:50%;
-    border:1px solid var(--border2);
-    background:var(--surface2);
-    color:var(--text2);
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all .2s;
-  }
-  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
-
-  .host-hero{
-    padding:100px 48px 40px;
-    text-align:center;
-    border-bottom:1px solid var(--border);
-  }
-  .host-avatar{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:var(--accent-dim);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:32px;
-    font-weight:600;
-    color:var(--accent);
-    margin:0 auto 16px;
-  }
-  .host-name{
-    font-family:var(--font-display);
-    font-size:32px;
-    font-weight:600;
-    margin-bottom:8px;
-  }
-  .host-badge{
-    display:flex;
-    justify-content:center;
-    gap:24px;
-    margin:16px 0;
-    font-size:13px;
-    color:var(--text2);
-  }
-  .host-bio{
-    max-width:600px;
-    margin:0 auto;
-    color:var(--text2);
-    font-size:14px;
+  /* ── UNITS GRID ── */
+  .units-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    gap: 28px;
   }
 
-  .date-filter{
-    max-width:1200px;
-    margin:32px auto 0;
-    padding:0 48px;
+  /* ── UNIT CARD ── */
+  .unit-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.25s, transform 0.25s, opacity 0.3s;
   }
-  .date-card{
-    background:var(--surface);
-    border:1px solid var(--border2);
-    border-radius:60px;
-    padding:8px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:12px;
-  }
-  .date-input-group{
-    flex:1;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 20px;
-    background:var(--surface2);
-    border-radius:60px;
-    cursor:pointer;
-  }
-  .date-input-group span:first-child{font-size:14px;color:var(--text3);}
-  .date-input-group span:last-child{font-weight:500;color:var(--text);}
-  .guest-selector{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 20px;
-    background:var(--surface2);
-    border-radius:60px;
-  }
-  .guest-selector select{
-    background:transparent;
-    border:none;
-    color:var(--text);
-    font-family:var(--font-body);
-    font-size:14px;
-    outline:none;
-  }
-  .apply-btn{
-    background:var(--accent);
-    color:var(--bg);
-    border:none;
-    border-radius:60px;
-    padding:12px 28px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.2s;
-  }
-  .apply-btn:hover{transform:translateY(-2px);opacity:0.9;}
-  .clear-link{color:var(--text3);font-size:12px;text-decoration:none;padding:0 16px;}
+  .unit-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .unit-card.unavailable { opacity: 0.5; pointer-events: none; }
+  .unit-card.dimmed { opacity: 0.65; }
 
-  .units-section{
-    max-width:1200px;
-    margin:0 auto;
-    padding:48px;
+  /* gallery */
+  .gallery {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--accent-light);
   }
-  .units-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-    gap:12px;
+  .gallery-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.35s;
   }
-  .units-count{font-size:13px;color:var(--text3);}
-  .units-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-    gap:24px;
+  .gallery-img.active { opacity: 1; }
+  .gallery-dots {
+    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 5px; z-index: 2;
   }
-  .unit-card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    overflow:hidden;
-    transition:all 0.2s;
-    text-decoration:none;
-    color:inherit;
-    display:block;
+  .gallery-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer; transition: background 0.2s, transform 0.2s;
   }
-  .unit-card:hover{transform:translateY(-4px);border-color:var(--accent-border);}
-  .unit-image{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    background:var(--surface2);
+  .gallery-dot.active { background: #fff; transform: scale(1.3); }
+  .gallery-count {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
   }
-  .unit-info{padding:20px;}
-  .unit-title{
-    font-family:var(--font-display);
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:6px;
-  }
-  .unit-location{font-size:12px;color:var(--text2);margin-bottom:8px;}
-  .unit-price{
-    font-size:18px;
-    font-weight:600;
-    color:var(--accent);
-    margin:12px 0;
-  }
-  .unit-price span{font-size:12px;font-weight:400;color:var(--text2);}
-  .unit-amenities{
-    display:flex;
-    gap:12px;
-    font-size:11px;
-    color:var(--text3);
-    margin-bottom:12px;
-  }
-  .loading, .empty-state{
-    text-align:center;
-    padding:60px;
-    color:var(--text3);
+  .gallery-tap-hint {
+    position: absolute; bottom: 10px; right: 12px;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.05em;
   }
 
-  @media(max-width:700px){
-    nav{padding:0 24px;}
-    .host-hero{padding:100px 24px 32px;}
-    .date-filter{padding:0 24px;}
-    .units-section{padding:32px 24px;}
-    .date-card{flex-direction:column;border-radius:24px;padding:16px;}
-    .date-input-group{width:100%;}
-    .guest-selector{width:100%;justify-content:space-between;}
-    .apply-btn{width:100%;}
-    .clear-link{width:100%;text-align:center;}
+  /* card body */
+  .card-body { padding: 22px 24px; }
+
+  .card-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 12px;
+    margin-bottom: 8px;
+  }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.22rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.25;
+  }
+  .card-type {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .card-desc {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* amenities */
+  .amenities {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 16px;
+  }
+  .amenity {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 0.76rem;
+    color: var(--text-mid);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 400;
+  }
+
+  /* price row */
+  .card-meta {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .card-price span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    font-weight: 300;
+  }
+  .card-guests {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-left: auto;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  /* card dates */
+  .card-dates {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .card-dates input[type="date"] {
+    flex: 1; min-width: 130px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .card-dates input[type="date"]:focus { border-color: var(--accent); }
+  .dates-sep { color: var(--text-soft); font-size: 0.8rem; }
+
+  /* availability badge */
+  .avail-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    transition: all 0.2s;
+  }
+  .avail-badge.idle { background: var(--bg); color: var(--text-soft); border: 1px solid var(--border); }
+  .avail-badge.checking { background: #FFF8E7; color: #B8860B; border: 1px solid #F0D88A; }
+  .avail-badge.available { background: #EBF5EF; color: var(--success); border: 1px solid #B8D9C4; }
+  .avail-badge.unavailable-badge { background: #FAEAEA; color: var(--error); border: 1px solid #E8B4B4; }
+  .avail-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: currentColor; flex-shrink: 0;
+  }
+  .avail-nights {
+    margin-left: 4px; font-weight: 400;
+    color: var(--text-soft); font-size: 0.75rem;
+  }
+
+  /* CTAs */
+  .card-ctas {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .btn {
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    padding: 11px 16px;
+    transition: all 0.2s;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { background: var(--border); color: var(--text-soft); cursor: not-allowed; transform: none; }
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-outline:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-outline:disabled { border-color: var(--border); color: var(--text-soft); cursor: not-allowed; transform: none; }
+
+  /* ── HOW QUICK BOOK WORKS ── */
+  .quickbook-section {
+    margin-top: 72px;
+    padding: 52px 48px;
+    background: var(--text);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .quickbook-section::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(193,122,90,0.12);
+    pointer-events: none;
+  }
+  .qb-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .qb-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .qb-sub {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 40px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .qb-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 28px;
+  }
+  .qb-step { position: relative; }
+  .qb-step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--accent);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .qb-step-title {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .qb-step-desc {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px 32px;
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    border-top: 1px solid var(--border);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  /* ── FLOATING BUTTONS ── */
+  .floating-stack {
+    position: fixed;
+    bottom: 28px; right: 24px;
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 10px;
+    z-index: 80;
+  }
+  .fab-whatsapp {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    text-decoration: none;
+  }
+  .fab-whatsapp:hover { transform: scale(1.08); box-shadow: 0 6px 22px rgba(37,211,102,0.5); }
+  .fab-whatsapp svg { width: 26px; height: 26px; fill: #fff; }
+
+  .fab-quickbook {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 11px 20px 11px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(193,122,90,0.4);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+  .fab-quickbook:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(193,122,90,0.5); background: var(--accent-dark); }
+  .fab-quickbook svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,8,6,0.93);
+    align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-img {
+    max-width: 92vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+  }
+  .lightbox-nav {
+    display: flex; align-items: center; gap: 20px;
+    margin-top: 18px;
+  }
+  .lightbox-btn {
+    background: rgba(255,255,255,0.12);
+    border: none; color: #fff;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-btn:hover { background: rgba(255,255,255,0.22); }
+  .lightbox-counter { color: rgba(255,255,255,0.5); font-size: 0.82rem; }
+  .lightbox-close {
+    position: absolute; top: 20px; right: 22px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.6rem; cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: #fff; }
+
+  /* ── BOOKING MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 150;
+    background: rgba(26,20,16,0.6);
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius);
+    width: 100%; max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    animation: modal-in 0.25s ease;
+  }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-header {
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 500; color: var(--text);
+    margin-bottom: 2px;
+  }
+  .modal-sub { font-size: 0.82rem; color: var(--text-soft); font-weight: 300; }
+  .modal-close {
+    background: none; border: none;
+    font-size: 1.3rem; color: var(--text-soft);
+    cursor: pointer; flex-shrink: 0; line-height: 1;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-summary {
+    background: var(--accent-light);
+    margin: 18px 28px 0;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .modal-summary-item { font-size: 0.8rem; color: var(--text-mid); }
+  .modal-summary-item strong { display: block; font-size: 0.92rem; color: var(--text); font-weight: 500; }
+
+  .modal-body { padding: 20px 28px 28px; }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+  }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 11px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--accent); }
+  .form-input::placeholder { color: var(--text-soft); }
+
+  .modal-total {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .modal-total-label { font-size: 0.82rem; color: var(--text-soft); }
+  .modal-total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--text); font-weight: 500;
+  }
+  .modal-deposit-note {
+    font-size: 0.75rem; color: var(--text-soft);
+    text-align: right; margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .btn-block { width: 100%; padding: 13px; font-size: 0.95rem; }
+
+  .modal-alt {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--text-soft);
+  }
+  .modal-alt button {
+    background: none; border: none;
+    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* loading / error states */
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .page-loading {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 60vh; gap: 16px;
+  }
+  .page-loading-spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  .page-loading p { font-size: 0.88rem; color: var(--text-soft); font-weight: 300; }
+
+  .error-state {
+    text-align: center; padding: 60px 32px;
+  }
+  .error-state h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--text); margin-bottom: 10px;
+  }
+  .error-state p { font-size: 0.9rem; color: var(--text-soft); }
+
+  /* toast */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 300;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--success); }
+  .toast.error { background: var(--error); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    nav { padding: 0 20px; }
+    .hero { height: 420px; }
+    .hero-overlay { padding: 28px 24px 36px; }
+    .date-filter-wrap { padding: 0 20px; }
+    main { padding: 36px 20px 100px; }
+    .units-grid { grid-template-columns: 1fr; }
+    .quickbook-section { padding: 36px 24px; }
+    .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+    .modal-summary { margin-left: 20px; margin-right: 20px; }
+  }
+  @media (max-width: 400px) {
+    .card-ctas { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">ARR<span class="e-accent">I</span>VE</a>
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
+  <a class="nav-logo" href="#">A R R I V<span>É</span></a>
 </nav>
 
-<div class="host-hero" id="hostHero">
-  <div class="host-avatar" id="hostAvatar">?</div>
-  <h1 class="host-name" id="hostName">Loading...</h1>
-  <div class="host-badge" id="hostBadge"></div>
-  <div class="host-bio" id="hostBio"></div>
-</div>
-
-<div class="date-filter">
-  <div class="date-card">
-    <div class="date-input-group" id="checkInGroup">
-      <span>📅 Check-in</span>
-      <span id="checkInDisplay">Select date</span>
-    </div>
-    <div class="date-input-group" id="checkOutGroup">
-      <span>📅 Check-out</span>
-      <span id="checkOutDisplay">Select date</span>
-    </div>
-    <div class="guest-selector">
-      <span>👥 Guests</span>
-      <select id="guestSelect">
-        <option value="1">1 guest</option>
-        <option value="2" selected>2 guests</option>
-        <option value="3">3 guests</option>
-        <option value="4">4 guests</option>
-        <option value="5">5 guests</option>
-        <option value="6">6+ guests</option>
-      </select>
-    </div>
-    <button class="apply-btn" id="applyDatesBtn">Show available units →</button>
-    <a href="#" class="clear-link" id="clearDatesBtn">Clear dates</a>
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-img-placeholder" id="heroImgWrap">
+    <!-- image injected by JS -->
+  </div>
+  <div class="hero-overlay">
+    <div class="hero-label">Hosted by</div>
+    <h1 class="hero-name" id="heroName">Loading…</h1>
+    <p class="hero-desc" id="heroDesc"></p>
   </div>
 </div>
 
-<div class="units-section">
-  <div class="units-header">
-    <div class="units-count" id="unitsCount">Loading units...</div>
-  </div>
-  <div class="units-grid" id="unitsGrid">
-    <div class="loading">Loading units...</div>
+<!-- DATE FILTER -->
+<div class="date-filter-wrap">
+  <div class="date-filter">
+    <span class="date-filter-label">Dates</span>
+    <input type="date" id="globalCheckin" placeholder="Check-in"/>
+    <span class="date-filter-sep">→</span>
+    <input type="date" id="globalCheckout" placeholder="Check-out"/>
+    <span class="date-filter-nights" id="globalNights" style="display:none"></span>
+    <button class="btn-check-all" id="btnCheckAll">Check availability</button>
   </div>
 </div>
+
+<!-- MAIN -->
+<main>
+  <div id="pageContent">
+    <div class="page-loading">
+      <div class="page-loading-spinner"></div>
+      <p>Finding available units…</p>
+    </div>
+  </div>
+
+  <!-- HOW QUICK BOOK WORKS -->
+  <div class="quickbook-section" id="qbSection" style="display:none">
+    <div class="qb-label">How it works</div>
+    <h2 class="qb-title">Book in a conversation</h2>
+    <p class="qb-sub">Quick Book opens a WhatsApp-style chat with full context already loaded — your unit, your dates, your price. No repeating yourself.</p>
+    <div class="qb-steps">
+      <div class="qb-step">
+        <div class="qb-step-num">01</div>
+        <div class="qb-step-title">Pick your unit & dates</div>
+        <div class="qb-step-desc">Choose from the cards above. Your selection carries into the chat automatically.</div>
+      </div>
+      <div class="qb-step">
+        <div class="qb-step-num">02</div>
+        <div class="qb-step-title">Chat confirms the details</div>
+        <div class="qb-step-desc">You see your unit, dates, and price. One tap to say yes — no forms, no account.</div>
+      </div>
+      <div class="qb-step">
+        <div class="qb-step-num">03</div>
+        <div class="qb-step-title">Pay your deposit</div>
+        <div class="qb-step-desc">M-Pesa or card via Paystack. Goes directly to the host. Confirmation sent to your phone.</div>
+      </div>
+      <div class="qb-step">
+        <div class="qb-step-num">04</div>
+        <div class="qb-step-title">You're booked</div>
+        <div class="qb-step-desc">Email confirmation with all your details. The host gets notified instantly.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  Powered by <a href="https://arrive.co.ke">Arrivé</a> &nbsp;·&nbsp; No commission. Direct to host.
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="floating-stack">
+  <a class="fab-whatsapp" id="fabWhatsapp" href="#" target="_blank" title="Message host on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+  <button class="fab-quickbook" id="fabQuickBook">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+    </svg>
+    Quick Book
+  </button>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt=""/>
+  <div class="lightbox-nav">
+    <button class="lightbox-btn" id="lightboxPrev">‹</button>
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+    <button class="lightbox-btn" id="lightboxNext">›</button>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="bookingModal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Book Unit</div>
+        <div class="modal-sub" id="modalSub">Complete your booking</div>
+      </div>
+      <button class="modal-close" id="modalClose">×</button>
+    </div>
+    <div class="modal-summary" id="modalSummary"></div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" id="guestName" type="text" placeholder="Your full name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="guestEmail" type="email" placeholder="you@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone (M-Pesa number)</label>
+        <input class="form-input" id="guestPhone" type="tel" placeholder="254700000000"/>
+      </div>
+
+      <div class="modal-total">
+        <div>
+          <div class="modal-total-label">Deposit to confirm booking</div>
+          <div class="modal-deposit-note">Balance paid on arrival</div>
+        </div>
+        <div class="modal-total-amount" id="modalDeposit">KES —</div>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="btnPay">Pay Deposit via Paystack</button>
+      <div class="modal-alt">
+        Prefer to chat? <button id="btnSwitchToChat">Use Quick Book instead →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
-const API_BASE = 'https://breezy-api-r7jg.onrender.com';
+// ─────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────
+const API = 'https://breezy-api-r7jg.onrender.com';
+// uChat Arrivé widget base URL — replace PLACEHOLDER once known
+const UCHAT_BASE = 'https://www.uchat.com.au/p/web/ARRIVE_WIDGET_ID/full?ref=ARRIVE_FLOW_REF--';
+const DEPOSIT_PERCENT = 0.3; // 30% deposit
 
-// Get hostname from URL
-function getHostId() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('host') || 'arrive_demo';
-}
-
-let hostData = null;
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let clientId = '';
+let hostProfile = {};
 let allUnits = [];
-let selectedCheckIn = null;
-let selectedCheckOut = null;
-let selectedGuests = 2;
+let lightboxImages = [];
+let lightboxIndex = 0;
+let activeBooking = null; // { unit, checkin, checkout, nights, total, deposit }
 
-// Fetch host info from stores list
-async function fetchHostInfo(hostId) {
-  try {
-    const res = await fetch(`${API_BASE}/stores/list`);
-    const data = await res.json();
-    const stores = data.stores || [];
-    const host = stores.find(s => s.client_id === hostId);
-    
-    if (host) {
-      hostData = host;
-      document.getElementById('hostAvatar').textContent = (host.store_name || 'H')[0].toUpperCase();
-      document.getElementById('hostName').textContent = host.store_name || hostId;
-      document.getElementById('hostBio').textContent = host.store_description || 'Welcome to my properties. Find the perfect space for your stay.';
-      document.getElementById('hostBadge').innerHTML = `
-        <span>⭐ ${host.rating || 'New'}</span>
-        <span>✓ ${host.response_rate || '100'}% response rate</span>
-        <span>🏠 ${allUnits.length} listings</span>
-      `;
-    } else {
-      document.getElementById('hostName').textContent = hostId;
-      document.getElementById('hostBio').textContent = 'Welcome to my properties. Find the perfect space for your stay.';
-    }
-  } catch (err) {
-    console.error('Failed to fetch host info:', err);
-    document.getElementById('hostName').textContent = hostId;
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function getClientId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('host') || params.get('client_id') || '';
+}
+
+function cloudinaryUrl(url, w = 800) {
+  if (!url) return '';
+  return url.replace('/upload/', `/upload/w_${w},q_auto,f_auto/`);
+}
+
+function normaliseAmenities(val) {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  try { return JSON.parse(val); } catch(e) { return []; }
+}
+
+function formatKES(n) {
+  return 'KES ' + Number(n).toLocaleString('en-KE');
+}
+
+function nightsBetween(a, b) {
+  if (!a || !b) return 0;
+  const ms = new Date(b) - new Date(a);
+  return ms > 0 ? Math.round(ms / 86400000) : 0;
+}
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function minCheckout(checkin) {
+  if (!checkin) return todayStr();
+  const d = new Date(checkin);
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+function encodePayload(obj) {
+  return btoa(JSON.stringify(obj));
+}
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+
+function amenityIcon(a) {
+  const map = {
+    wifi: '📶', pool: '🏊', parking: '🅿️', kitchen: '🍳', ac: '❄️',
+    gym: '🏋️', tv: '📺', garden: '🌿', balcony: '🏞️', breakfast: '☕',
+    security: '🔒', water: '💧', generator: '⚡', workspace: '💻',
+  };
+  const key = a.toLowerCase().replace(/\s/g,'');
+  for (const [k,v] of Object.entries(map)) {
+    if (key.includes(k)) return v;
+  }
+  return '✓';
+}
+
+// ─────────────────────────────────────────────
+// DATA FETCHING
+// ─────────────────────────────────────────────
+async function fetchProfile() {
+  const res = await fetch(`${API}/stores/profile/${clientId}`);
+  if (!res.ok) throw new Error('Host not found');
+  const data = await res.json();
+  return data.store || data;
+}
+
+async function fetchUnits() {
+  const res = await fetch(`${API}/arrive/units/list?client_id=${clientId}`);
+  if (!res.ok) throw new Error('Could not load units');
+  const data = await res.json();
+  return (data.units || data || []).filter(u => u.active !== false);
+}
+
+async function checkAvailability(unit_id, checkin, checkout) {
+  const res = await fetch(`${API}/arrive/units/availability`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ client_id: clientId, unit_id, checkin_date: checkin, checkout_date: checkout })
+  });
+  const data = await res.json();
+  return data.available === true || data.available === 'true';
+}
+
+// ─────────────────────────────────────────────
+// HERO
+// ─────────────────────────────────────────────
+function renderHero(profile, units) {
+  document.getElementById('heroName').textContent = profile.store_name || profile.name || 'Property';
+  document.getElementById('heroDesc').textContent = profile.store_description || profile.description || '';
+
+  // Set page title
+  document.title = (profile.store_name || 'Property') + ' · Arrivé';
+
+  // Hero image — first image of first unit
+  const wrap = document.getElementById('heroImgWrap');
+  const firstImg = units.length && units[0].images && units[0].images[0];
+  if (firstImg) {
+    wrap.innerHTML = `<img class="hero-img" src="${cloudinaryUrl(firstImg, 1400)}" alt="${profile.store_name || ''}"/>`;
+  }
+
+  // WhatsApp FAB
+  if (profile.whatsapp) {
+    document.getElementById('fabWhatsapp').href = `https://wa.me/${String(profile.whatsapp).replace(/\D/g,'')}`;
   }
 }
 
-// Fetch units for this host
-async function fetchUnits(hostId) {
-  try {
-    const res = await fetch(`${API_BASE}/arrive/units/list?client_id=${hostId}`);
-    const data = await res.json();
-    
-    if (data.success && data.units) {
-      allUnits = data.units.filter(u => u.active !== false);
-      renderUnits();
-      return true;
-    } else {
-      throw new Error(data.error || 'Failed to load units');
-    }
-  } catch (err) {
-    console.error('Failed to fetch units:', err);
-    document.getElementById('unitsGrid').innerHTML = '<div class="empty-state">❌ Could not load units. Please try again later.</div>';
-    return false;
-  }
-}
-
-// Check if unit is available for selected dates
-function isUnitAvailable(unit) {
-  if (!selectedCheckIn || !selectedCheckOut) return true;
-  // For now, we need to check via API. This is a placeholder.
-  // Will be enhanced with actual availability check
-  return true;
-}
-
-// Render units grid
-function renderUnits() {
-  const grid = document.getElementById('unitsGrid');
-  const countSpan = document.getElementById('unitsCount');
-  
-  let filtered = allUnits;
-  
-  // Filter by dates if selected
-  if (selectedCheckIn && selectedCheckOut) {
-    filtered = filtered.filter(u => isUnitAvailable(u));
-  }
-  
-  // Filter by guest capacity
-  filtered = filtered.filter(u => (u.capacity || 4) >= selectedGuests);
-  
-  countSpan.textContent = `${filtered.length} unit${filtered.length !== 1 ? 's' : ''} available`;
-  
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state">✨ No units available for your selected dates. Try different dates or adjust filters.</div>';
+// ─────────────────────────────────────────────
+// UNITS RENDERING
+// ─────────────────────────────────────────────
+function renderUnits(units) {
+  const container = document.getElementById('pageContent');
+  if (!units.length) {
+    container.innerHTML = `<div class="error-state"><h2>No units available</h2><p>Check back soon.</p></div>`;
     return;
   }
-  
-  grid.innerHTML = filtered.map(unit => {
-    const unitId = unit._id || unit.unit_id;
-    const url = `unit.html?host=${getHostId()}&unit=${encodeURIComponent(unitId)}${selectedCheckIn ? `&check_in=${selectedCheckIn}` : ''}${selectedCheckOut ? `&check_out=${selectedCheckOut}` : ''}&guests=${selectedGuests}`;
-    
-    return `
-      <a href="${url}" class="unit-card">
-        <img class="unit-image" src="${unit.image1 || 'https://placehold.co/600x400/151229/C9A96E?text=No+Image'}" alt="${unit.name}">
-        <div class="unit-info">
-          <div class="unit-title">${unit.name || 'Untitled Unit'}</div>
-          <div class="unit-location">📍 ${hostData?.store_name || getHostId()}</div>
-          <div class="unit-amenities">
-            ${unit.amenities ? unit.amenities.split(',').slice(0,3).map(a => `✓ ${a.trim()}`).join(' · ') : '✓ Comfortable stay'}
-          </div>
-          <div class="unit-price">
-            KES ${(unit.price_per_night || 0).toLocaleString()} <span>/ night</span>
-          </div>
-          <div class="unit-amenities">
-            👥 Up to ${unit.capacity || 4} guests
-          </div>
+
+  container.innerHTML = `
+    <div class="section-header">
+      <h2 class="section-title">Available Units</h2>
+      <p class="section-sub">${units.length} unit${units.length !== 1 ? 's' : ''} · Select dates to check availability</p>
+    </div>
+    <div class="units-grid" id="unitsGrid"></div>
+  `;
+
+  const grid = document.getElementById('unitsGrid');
+  units.forEach(unit => {
+    grid.appendChild(buildCard(unit));
+  });
+
+  document.getElementById('qbSection').style.display = 'block';
+}
+
+function buildCard(unit) {
+  const images = Array.isArray(unit.images) ? unit.images.filter(Boolean) : [];
+  const amenities = normaliseAmenities(unit.amenities);
+  const card = document.createElement('div');
+  card.className = 'unit-card';
+  card.dataset.unitId = unit.unit_id || unit._id;
+
+  // gallery HTML
+  let galleryHtml = '';
+  if (images.length) {
+    galleryHtml = images.map((img, i) =>
+      `<img class="gallery-img${i===0?' active':''}" src="${cloudinaryUrl(img, 700)}" data-full="${cloudinaryUrl(img, 1200)}" alt="${unit.name || ''}"/>`
+    ).join('');
+    if (images.length > 1) {
+      galleryHtml += `<div class="gallery-dots">${images.map((_,i)=>`<div class="gallery-dot${i===0?' active':''}" data-idx="${i}"></div>`).join('')}</div>`;
+      galleryHtml += `<div class="gallery-count">${images.length} photos</div>`;
+    }
+    galleryHtml += `<div class="gallery-tap-hint">tap to view</div>`;
+  } else {
+    galleryHtml = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-soft);font-size:0.8rem;">No photos yet</div>`;
+  }
+
+  // amenities
+  const amenHtml = amenities.slice(0, 5).map(a =>
+    `<div class="amenity">${amenityIcon(a)} ${a}</div>`
+  ).join('') + (amenities.length > 5 ? `<div class="amenity">+${amenities.length - 5} more</div>` : '');
+
+  card.innerHTML = `
+    <div class="gallery" data-unit-id="${unit.unit_id || unit._id}">${galleryHtml}</div>
+    <div class="card-body">
+      <div class="card-top">
+        <div class="card-name">${unit.name || 'Unit'}</div>
+        ${unit.type ? `<div class="card-type">${unit.type}</div>` : ''}
+      </div>
+      <p class="card-desc">${unit.description || ''}</p>
+      ${amenHtml ? `<div class="amenities">${amenHtml}</div>` : ''}
+      <div class="card-meta">
+        <div class="card-price">${formatKES(unit.price_per_night)}<span> / night</span></div>
+        <div class="card-guests">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--text-soft)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Up to ${unit.max_guests || '?'}
         </div>
-      </a>
-    `;
-  }).join('');
-}
+      </div>
+      <div class="card-dates">
+        <input type="date" class="checkin-input" value="" min="${todayStr()}" placeholder="Check-in"/>
+        <span class="dates-sep">→</span>
+        <input type="date" class="checkout-input" value="" min="${todayStr()}" placeholder="Check-out"/>
+      </div>
+      <div class="avail-badge idle" data-avail>
+        <div class="avail-dot"></div>
+        <span class="avail-text">Pick dates to check</span>
+      </div>
+      <div class="card-ctas">
+        <button class="btn btn-primary btn-book" disabled>Book Now</button>
+        <button class="btn btn-outline btn-quick" disabled>Quick Book</button>
+      </div>
+    </div>
+  `;
 
-// Date picker setup
-let checkInPicker, checkOutPicker;
+  // ── gallery interactions
+  const gallery = card.querySelector('.gallery');
+  const imgs = card.querySelectorAll('.gallery-img');
+  const dots = card.querySelectorAll('.gallery-dot');
+  let currentImg = 0;
 
-function setupDatePickers() {
-  checkInPicker = flatpickr("#checkInGroup", {
-    dateFormat: "Y-m-d",
-    minDate: "today",
-    onChange: function(selectedDates, dateStr) {
-      if (selectedDates[0]) {
-        selectedCheckIn = dateStr;
-        document.getElementById('checkInDisplay').textContent = dateStr;
-        if (checkOutPicker) checkOutPicker.set('minDate', selectedDates[0]);
-      }
-    }
+  function showImg(idx) {
+    imgs[currentImg].classList.remove('active');
+    dots[currentImg]?.classList.remove('active');
+    currentImg = (idx + imgs.length) % imgs.length;
+    imgs[currentImg].classList.add('active');
+    dots[currentImg]?.classList.add('active');
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', e => { e.stopPropagation(); showImg(+dot.dataset.idx); });
   });
-  
-  checkOutPicker = flatpickr("#checkOutGroup", {
-    dateFormat: "Y-m-d",
-    minDate: "today",
-    onChange: function(selectedDates, dateStr) {
-      if (selectedDates[0]) {
-        selectedCheckOut = dateStr;
-        document.getElementById('checkOutDisplay').textContent = dateStr;
-      }
-    }
+
+  gallery.addEventListener('click', () => {
+    if (!imgs.length) return;
+    const allSrc = Array.from(imgs).map(i => i.dataset.full || i.src);
+    openLightbox(allSrc, currentImg);
   });
-  
-  document.getElementById('checkInGroup').addEventListener('click', () => checkInPicker.open());
-  document.getElementById('checkOutGroup').addEventListener('click', () => checkOutPicker.open());
+
+  // ── date logic
+  const checkinEl = card.querySelector('.checkin-input');
+  const checkoutEl = card.querySelector('.checkout-input');
+  const availBadge = card.querySelector('[data-avail]');
+  const availText = card.querySelector('.avail-text');
+  const btnBook = card.querySelector('.btn-book');
+  const btnQuick = card.querySelector('.btn-quick');
+
+  function syncDatesFromGlobal() {
+    const gi = document.getElementById('globalCheckin').value;
+    const go = document.getElementById('globalCheckout').value;
+    if (gi) checkinEl.value = gi;
+    if (go) checkoutEl.value = go;
+  }
+  syncDatesFromGlobal();
+
+  async function updateAvailability() {
+    const ci = checkinEl.value;
+    const co = checkoutEl.value;
+    const nights = nightsBetween(ci, co);
+
+    btnBook.disabled = true;
+    btnQuick.disabled = true;
+
+    if (!ci || !co || nights <= 0) {
+      availBadge.className = 'avail-badge idle';
+      availText.textContent = 'Pick dates to check';
+      return;
+    }
+
+    availBadge.className = 'avail-badge checking';
+    availText.innerHTML = '<span class="spinner" style="border-color:rgba(184,134,11,0.3);border-top-color:#B8860B;"></span> Checking…';
+
+    try {
+      const available = await checkAvailability(unit.unit_id || unit._id, ci, co);
+      if (available) {
+        const total = unit.price_per_night * nights;
+        availBadge.className = 'avail-badge available';
+        availText.innerHTML = `Available <span class="avail-nights">· ${nights} night${nights!==1?'s':''} · ${formatKES(total)}</span>`;
+        btnBook.disabled = false;
+        btnQuick.disabled = false;
+        card.classList.remove('dimmed', 'unavailable');
+      } else {
+        availBadge.className = 'avail-badge unavailable-badge';
+        availText.textContent = 'Not available on these dates';
+        card.classList.add('dimmed');
+      }
+    } catch(e) {
+      availBadge.className = 'avail-badge idle';
+      availText.textContent = 'Could not check — try again';
+    }
+  }
+
+  checkinEl.addEventListener('change', () => {
+    checkoutEl.min = minCheckout(checkinEl.value);
+    if (checkoutEl.value && checkoutEl.value <= checkinEl.value) checkoutEl.value = '';
+    updateAvailability();
+  });
+  checkoutEl.addEventListener('change', updateAvailability);
+
+  // ── Book Now
+  btnBook.addEventListener('click', () => {
+    const ci = checkinEl.value;
+    const co = checkoutEl.value;
+    const nights = nightsBetween(ci, co);
+    const total = unit.price_per_night * nights;
+    const deposit = Math.round(total * DEPOSIT_PERCENT);
+    openBookingModal({ unit, checkin: ci, checkout: co, nights, total, deposit });
+  });
+
+  // ── Quick Book
+  btnQuick.addEventListener('click', () => {
+    const ci = checkinEl.value;
+    const co = checkoutEl.value;
+    const nights = nightsBetween(ci, co);
+    const total = unit.price_per_night * nights;
+    openQuickBook({ unit, checkin: ci, checkout: co, nights, total });
+  });
+
+  return card;
 }
 
-// Apply date filter
-function applyDates() {
-  renderUnits();
+// ─────────────────────────────────────────────
+// GLOBAL DATE FILTER
+// ─────────────────────────────────────────────
+function initGlobalDateFilter() {
+  const gi = document.getElementById('globalCheckin');
+  const go = document.getElementById('globalCheckout');
+  const nightsEl = document.getElementById('globalNights');
+  const btnAll = document.getElementById('btnCheckAll');
+
+  gi.min = todayStr();
+  go.min = todayStr();
+
+  gi.addEventListener('change', () => {
+    go.min = minCheckout(gi.value);
+    if (go.value && go.value <= gi.value) go.value = '';
+    updateNightsLabel();
+    propagateDatesToCards();
+  });
+  go.addEventListener('change', () => { updateNightsLabel(); propagateDatesToCards(); });
+
+  function updateNightsLabel() {
+    const n = nightsBetween(gi.value, go.value);
+    if (n > 0) {
+      nightsEl.textContent = `${n} night${n!==1?'s':''}`;
+      nightsEl.style.display = '';
+    } else {
+      nightsEl.style.display = 'none';
+    }
+  }
+
+  function propagateDatesToCards() {
+    document.querySelectorAll('.checkin-input').forEach(el => {
+      if (gi.value) el.value = gi.value;
+      el.dispatchEvent(new Event('change'));
+    });
+    document.querySelectorAll('.checkout-input').forEach(el => {
+      if (go.value) { el.value = go.value; el.dispatchEvent(new Event('change')); }
+    });
+  }
+
+  btnAll.addEventListener('click', () => {
+    if (!gi.value || !go.value) { showToast('Please select check-in and check-out dates', 'error'); return; }
+    propagateDatesToCards();
+  });
 }
 
-// Clear all filters
-function clearFilters() {
-  selectedCheckIn = null;
-  selectedCheckOut = null;
-  selectedGuests = 2;
-  document.getElementById('guestSelect').value = "2";
-  document.getElementById('checkInDisplay').textContent = "Select date";
-  document.getElementById('checkOutDisplay').textContent = "Select date";
-  renderUnits();
+// ─────────────────────────────────────────────
+// LIGHTBOX
+// ─────────────────────────────────────────────
+function openLightbox(images, startIdx = 0) {
+  lightboxImages = images;
+  lightboxIndex = startIdx;
+  renderLightboxImg();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-// Theme toggle
-const html = document.documentElement;
-const themeToggle = document.getElementById('themeToggle');
-let theme = localStorage.getItem('arrive-theme') || 'dark';
-function setTheme(t) {
-  html.dataset.theme = t;
-  themeToggle.textContent = t === 'dark' ? '☀' : '☾';
-  localStorage.setItem('arrive-theme', t);
+function renderLightboxImg() {
+  document.getElementById('lightboxImg').src = lightboxImages[lightboxIndex];
+  document.getElementById('lightboxCounter').textContent = `${lightboxIndex + 1} / ${lightboxImages.length}`;
 }
-setTheme(theme);
-themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
-// Initialize
-const hostId = getHostId();
-document.getElementById('guestSelect').addEventListener('change', (e) => {
-  selectedGuests = parseInt(e.target.value);
-  renderUnits();
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) closeLightbox(); });
+document.getElementById('lightboxPrev').addEventListener('click', () => { lightboxIndex = (lightboxIndex - 1 + lightboxImages.length) % lightboxImages.length; renderLightboxImg(); });
+document.getElementById('lightboxNext').addEventListener('click', () => { lightboxIndex = (lightboxIndex + 1) % lightboxImages.length; renderLightboxImg(); });
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─────────────────────────────────────────────
+// BOOKING MODAL
+// ─────────────────────────────────────────────
+function openBookingModal(booking) {
+  activeBooking = booking;
+  const { unit, checkin, checkout, nights, total, deposit } = booking;
+
+  document.getElementById('modalTitle').textContent = unit.name || 'Book Unit';
+  document.getElementById('modalSub').textContent = `${nights} night${nights!==1?'s':''} · ${formatKES(total)} total`;
+
+  document.getElementById('modalSummary').innerHTML = `
+    <div class="modal-summary-item"><strong>${checkin}</strong> Check-in</div>
+    <div class="modal-summary-item"><strong>${checkout}</strong> Check-out</div>
+    <div class="modal-summary-item"><strong>${nights} night${nights!==1?'s':''}</strong> Duration</div>
+    <div class="modal-summary-item"><strong>${formatKES(unit.price_per_night)}</strong>Per night</div>
+  `;
+
+  document.getElementById('modalDeposit').textContent = formatKES(deposit);
+
+  document.getElementById('guestName').value = '';
+  document.getElementById('guestEmail').value = '';
+  document.getElementById('guestPhone').value = '';
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === document.getElementById('modalOverlay')) closeModal(); });
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('btnSwitchToChat').addEventListener('click', () => {
+  closeModal();
+  if (activeBooking) openQuickBook(activeBooking);
 });
-document.getElementById('applyDatesBtn').addEventListener('click', applyDates);
-document.getElementById('clearDatesBtn').addEventListener('click', clearFilters);
 
-setupDatePickers();
-fetchHostInfo(hostId);
-fetchUnits(hostId);
+document.getElementById('btnPay').addEventListener('click', async () => {
+  const name = document.getElementById('guestName').value.trim();
+  const email = document.getElementById('guestEmail').value.trim();
+  const phone = document.getElementById('guestPhone').value.trim();
+
+  if (!name || !email || !phone) { showToast('Please fill in all fields', 'error'); return; }
+  if (!/\S+@\S+\.\S+/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
+
+  const btn = document.getElementById('btnPay');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Processing…';
+
+  try {
+    const { unit, checkin, checkout, nights, total, deposit } = activeBooking;
+    const res = await fetch(`${API}/arrive/payment/init`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: clientId,
+        unit_id: unit.unit_id || unit._id,
+        unit_name: unit.name,
+        checkin_date: checkin,
+        checkout_date: checkout,
+        nights,
+        total_amount: total,
+        deposit_amount: deposit,
+        guest_name: name,
+        guest_email: email,
+        guest_phone: phone,
+      })
+    });
+    const data = await res.json();
+    if (data.authorization_url || data.payment_url) {
+      window.location.href = data.authorization_url || data.payment_url;
+    } else {
+      throw new Error(data.message || 'Payment init failed');
+    }
+  } catch(e) {
+    showToast(e.message || 'Something went wrong', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Pay Deposit via Paystack';
+  }
+});
+
+// ─────────────────────────────────────────────
+// QUICK BOOK (uChat)
+// ─────────────────────────────────────────────
+function openQuickBook({ unit, checkin, checkout, nights, total }) {
+  const payload = encodePayload({
+    client_id: clientId,
+    unit_id: unit.unit_id || unit._id,
+    unit_name: unit.name,
+    checkin_date: checkin,
+    checkout_date: checkout,
+    nights,
+    price_per_night: unit.price_per_night,
+    total_amount: total,
+  });
+  const url = UCHAT_BASE + payload;
+  window.open(url, '_blank');
+}
+
+// FAB Quick Book — browse mode (no unit pre-selected)
+document.getElementById('fabQuickBook').addEventListener('click', () => {
+  const gi = document.getElementById('globalCheckin').value;
+  const go = document.getElementById('globalCheckout').value;
+  const payload = encodePayload({
+    client_id: clientId,
+    checkin_date: gi || '',
+    checkout_date: go || '',
+  });
+  window.open(UCHAT_BASE + payload, '_blank');
+});
+
+// ─────────────────────────────────────────────
+// KEYBOARD
+// ─────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeLightbox(); closeModal(); }
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
+    if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
+  }
+});
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+async function init() {
+  clientId = getClientId();
+
+  if (!clientId) {
+    document.getElementById('pageContent').innerHTML = `
+      <div class="error-state">
+        <h2>No property found</h2>
+        <p>Use a valid property link to view this page.</p>
+      </div>`;
+    return;
+  }
+
+  try {
+    const [profile, units] = await Promise.all([fetchProfile(), fetchUnits()]);
+    hostProfile = profile;
+    allUnits = units;
+
+    renderHero(profile, units);
+    renderUnits(units);
+    initGlobalDateFilter();
+  } catch(e) {
+    document.getElementById('pageContent').innerHTML = `
+      <div class="error-state">
+        <h2>Could not load property</h2>
+        <p>${e.message || 'Please try again later.'}</p>
+      </div>`;
+  }
+}
+
+init();
 </script>
 </body>
 </html>
