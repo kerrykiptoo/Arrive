@@ -307,13 +307,14 @@ let selectedGuests = 2;
 // Fetch unit details
 async function fetchUnit(unitId, hostId) {
   try {
-    const res = await fetch(`${API_BASE}/arrive/unit/${encodeURIComponent(unitId)}?client_id=${hostId}`);
+    const res = await fetch(`${API_BASE}/arrive/units/unit/${encodeURIComponent(unitId)}?client_id=${hostId}`);
     const data = await res.json();
     
     if (data.success && data.unit) {
       unitData = data.unit;
       return true;
     } else {
+      console.error('API error:', data.error);
       throw new Error(data.error || 'Unit not found');
     }
   } catch (err) {
@@ -339,11 +340,12 @@ async function fetchHostInfo(hostId) {
 // Fetch availability (booked dates) for this unit
 async function fetchAvailability(unitId, hostId) {
   try {
-    const res = await fetch(`${API_BASE}/arrive/unit/${encodeURIComponent(unitId)}/availability?client_id=${hostId}`);
+    const res = await fetch(`${API_BASE}/arrive/units/unit/${encodeURIComponent(unitId)}/availability?client_id=${hostId}`);
     const data = await res.json();
     
     if (data.success) {
       bookedDates = data.booked_dates || [];
+      console.log('Booked dates:', bookedDates);
       return true;
     }
     return false;
@@ -542,7 +544,7 @@ function handleBooking() {
   
   const payload = {
     host_id: params.host,
-    unit_id: unitData._id || unitData.unit_id,
+    unit_id: unitData.unit_id,
     unit_name: unitData.name,
     check_in: selectedCheckIn,
     check_out: selectedCheckOut,
@@ -585,6 +587,11 @@ async function init() {
   
   if (!params.unit) {
     document.getElementById('container').innerHTML = '<div class="error-state">❌ No unit specified. Please go back and select a unit.</div>';
+    return;
+  }
+  
+  if (!params.host) {
+    document.getElementById('container').innerHTML = '<div class="error-state">❌ No host specified. Please go back and try again.</div>';
     return;
   }
   
