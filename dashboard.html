@@ -1,820 +1,214 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arrive — Host Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<style>
-  :root {
-    --accent: #E67E22;
-    --accent-dim: rgba(230,126,34,0.12);
-    --accent-border: rgba(230,126,34,0.30);
-    --radius: 14px;
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'DM Sans', sans-serif;
-    --trans: 0.3s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  [data-theme="dark"] {
-    --bg: #0F0C0A;
-    --bg2: #1C1714;
-    --surface: #1C1714;
-    --surface2: #2A221E;
-    --border: rgba(230,126,34,0.15);
-    --border2: rgba(230,126,34,0.25);
-    --text: #FDF4E3;
-    --text2: #C9B79A;
-    --text3: #8B7355;
-  }
-
-  [data-theme="light"] {
-    --bg: #FFF8F0;
-    --bg2: #FEF7E9;
-    --surface: #FFFFFF;
-    --surface2: #FEF7E9;
-    --border: rgba(230,126,34,0.12);
-    --border2: rgba(230,126,34,0.20);
-    --text: #2C241A;
-    --text2: #6B5A48;
-    --text3: #B59A78;
-  }
-
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--font-body);
-    font-weight:300;
-    line-height:1.6;
-    min-height:100vh;
-    transition:background var(--trans),color var(--trans);
-  }
-
-  /* NAV */
-  nav{
-    position:fixed;top:0;left:0;right:0;z-index:200;
-    height:70px;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 48px;
-    border-bottom:1px solid var(--border);
-    background:rgba(15,12,10,0.92);
-    backdrop-filter:blur(24px);
-    transition:background var(--trans),border-color var(--trans);
-  }
-  [data-theme="light"] nav{background:rgba(255,248,240,0.92);}
-  .nav-logo{
-    font-family:var(--font-body);
-    font-size:14px;font-weight:600;
-    letter-spacing:0.2em;
-    text-transform:uppercase;
-    color:var(--text);
-    text-decoration:none;
-  }
-  .nav-logo .e-accent{color:var(--accent);}
-  .nav-links{
-    display:flex;
-    gap:24px;
-    align-items:center;
-  }
-  .nav-links a{
-    color:var(--text2);
-    text-decoration:none;
-    font-size:13px;
-  }
-  .nav-links a:hover{color:var(--accent);}
-  .theme-toggle{
-    width:36px;height:36px;border-radius:50%;
-    border:1px solid var(--border2);
-    background:var(--surface2);
-    color:var(--text2);
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all .2s;
-  }
-  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
-
-  /* DASHBOARD LAYOUT */
-  .dashboard{
-    max-width:1400px;
-    margin:0 auto;
-    padding:100px 48px 60px;
-  }
-  .dashboard-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:20px;
-    margin-bottom:32px;
-  }
-  .dashboard-header h1{
-    font-family:var(--font-display);
-    font-size:32px;
-    font-weight:600;
-  }
-  .add-unit-btn{
-    background:var(--accent);
-    color:var(--bg);
-    border:none;
-    border-radius:100px;
-    padding:12px 24px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.2s;
-  }
-  .add-unit-btn:hover{
-    transform:translateY(-2px);
-    opacity:0.9;
-  }
-
-  /* TABS */
-  .tabs{
-    display:flex;
-    gap:8px;
-    border-bottom:1px solid var(--border);
-    margin-bottom:32px;
-  }
-  .tab{
-    padding:12px 24px;
-    background:transparent;
-    border:none;
-    color:var(--text2);
-    font-size:14px;
-    font-weight:500;
-    cursor:pointer;
-    transition:all 0.2s;
-  }
-  .tab.active{
-    color:var(--accent);
-    border-bottom:2px solid var(--accent);
-  }
-
-  /* UNITS GRID */
-  .units-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-    gap:24px;
-    margin-bottom:40px;
-  }
-  .unit-card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    overflow:hidden;
-    transition:all 0.2s;
-  }
-  .unit-card:hover{
-    border-color:var(--accent-border);
-  }
-  .unit-image{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-    background:var(--surface2);
-  }
-  .unit-info{
-    padding:20px;
-  }
-  .unit-title{
-    font-family:var(--font-display);
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:6px;
-  }
-  .unit-price{
-    font-size:16px;
-    font-weight:500;
-    color:var(--accent);
-    margin:8px 0;
-  }
-  .unit-actions{
-    display:flex;
-    gap:12px;
-    margin-top:16px;
-  }
-  .edit-btn, .manage-btn{
-    flex:1;
-    padding:8px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:500;
-    cursor:pointer;
-    text-align:center;
-    text-decoration:none;
-  }
-  .edit-btn{
-    background:var(--surface2);
-    border:1px solid var(--border2);
-    color:var(--text2);
-  }
-  .manage-btn{
-    background:var(--accent-dim);
-    border:1px solid var(--accent-border);
-    color:var(--accent);
-  }
-
-  /* UNIT EDIT FORM */
-  .unit-form{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:32px;
-    margin-bottom:32px;
-  }
-  .form-section{
-    margin-bottom:32px;
-  }
-  .form-section h3{
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:16px;
-  }
-  .form-row{
-    margin-bottom:20px;
-  }
-  .form-row label{
-    display:block;
-    font-size:12px;
-    font-weight:500;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    color:var(--text3);
-    margin-bottom:8px;
-  }
-  .form-row input, .form-row textarea, .form-row select{
-    width:100%;
-    padding:12px;
-    background:var(--surface2);
-    border:1px solid var(--border2);
-    border-radius:8px;
-    color:var(--text);
-    font-family:var(--font-body);
-    font-size:14px;
-  }
-  .form-row textarea{
-    min-height:100px;
-    resize:vertical;
-  }
-  .image-upload-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-top:12px;
-  }
-  .image-upload-box{
-    aspect-ratio:1;
-    background:var(--surface2);
-    border:2px dashed var(--border2);
-    border-radius:12px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    gap:8px;
-    color:var(--text3);
-    font-size:12px;
-  }
-  .amenities-checkbox{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-  }
-  .amenities-checkbox label{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:13px;
-    text-transform:none;
-    letter-spacing:0;
-  }
-  .form-actions{
-    display:flex;
-    gap:12px;
-    justify-content:flex-end;
-    margin-top:24px;
-  }
-  .save-btn{
-    background:var(--accent);
-    color:var(--bg);
-    border:none;
-    border-radius:100px;
-    padding:12px 28px;
-    font-weight:600;
-    cursor:pointer;
-  }
-  .cancel-btn{
-    background:transparent;
-    border:1px solid var(--border2);
-    color:var(--text2);
-    border-radius:100px;
-    padding:12px 28px;
-    cursor:pointer;
-  }
-
-  /* BOOKINGS TABLE */
-  .bookings-table{
-    width:100%;
-    border-collapse:collapse;
-  }
-  .bookings-table th, .bookings-table td{
-    padding:12px;
-    text-align:left;
-    border-bottom:1px solid var(--border);
-  }
-  .bookings-table th{
-    font-weight:600;
-    color:var(--text3);
-    font-size:12px;
-    letter-spacing:1px;
-  }
-  .booking-status{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:100px;
-    font-size:11px;
-    font-weight:500;
-  }
-  .status-confirmed{background:rgba(26,191,160,0.15);color:#1ABFA0;}
-  .status-pending{background:rgba(230,126,34,0.15);color:var(--accent);}
-  .status-completed{background:var(--surface2);color:var(--text2);}
-
-  /* CALENDAR VIEW */
-  .calendar-view{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:24px;
-  }
-  .calendar-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:24px;
-  }
-  .calendar-month{
-    font-size:18px;
-    font-weight:600;
-  }
-  .calendar-nav{
-    display:flex;
-    gap:12px;
-  }
-  .calendar-nav button{
-    background:var(--surface2);
-    border:1px solid var(--border2);
-    border-radius:8px;
-    padding:8px 16px;
-    cursor:pointer;
-    color:var(--text);
-  }
-  .calendar-grid{
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:4px;
-  }
-  .calendar-day-header{
-    text-align:center;
-    font-size:12px;
-    font-weight:500;
-    color:var(--text3);
-    padding:8px;
-  }
-  .calendar-day{
-    aspect-ratio:1;
-    background:var(--surface2);
-    border-radius:8px;
-    padding:8px;
-    cursor:pointer;
-    transition:all 0.2s;
-    position:relative;
-  }
-  .calendar-day:hover{
-    background:var(--accent-dim);
-  }
-  .calendar-day.available{
-    background:var(--surface2);
-  }
-  .calendar-day.booked{
-    background:rgba(230,126,34,0.25);
-    border:1px solid var(--accent-border);
-  }
-  .calendar-day.blocked{
-    background:var(--surface);
-    opacity:0.5;
-    text-decoration:line-through;
-  }
-  .calendar-day.today{
-    border:2px solid var(--accent);
-  }
-  .day-number{
-    font-size:14px;
-    font-weight:500;
-  }
-
-  .empty-state{
-    text-align:center;
-    padding:60px;
-    color:var(--text3);
-  }
-
-  @media(max-width:700px){
-    nav{padding:0 24px;}
-    .dashboard{padding:90px 24px 40px;}
-    .amenities-checkbox{grid-template-columns:1fr;}
-    .image-upload-grid{grid-template-columns:repeat(2,1fr);}
-    .units-grid{grid-template-columns:1fr;}
-    .bookings-table{font-size:12px;}
-  }
-</style>
-</head>
-<body>
-
-<nav>
-  <a href="/" class="nav-logo">ARR<span class="e-accent">I</span>VE</a>
-  <div class="nav-links">
-    <a href="#" class="active">Dashboard</a>
-    <a href="host.html?host=grace">My Public Page</a>
-    <a href="#" id="logoutLink">Logout</a>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
-  </div>
-</nav>
-
-<div class="dashboard" id="dashboard">
-  <div class="dashboard-header">
-    <h1>Host Dashboard</h1>
-    <button class="add-unit-btn" id="addUnitBtn">+ Add new unit</button>
+<div class="dashboard-container">
+  <!-- Login Form (if not logged in) -->
+  <div id="loginSection" style="display: none;">
+    <h2>Host Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="handleLogin()">Login</button>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-tab="units">My Units</button>
-    <button class="tab" data-tab="bookings">Bookings</button>
-    <button class="tab" data-tab="calendar">Calendar</button>
-  </div>
+  <!-- Dashboard Content (if logged in) -->
+  <div id="dashboardContent" style="display: none;">
+    <!-- Units Tab -->
+    <div id="unitsTab" class="tab-content">
+      <button onclick="showAddUnitForm()">+ Add Unit</button>
+      <div id="unitsList"></div>
+    </div>
 
-  <div id="unitsTab" class="tab-content">
-    <div class="units-grid" id="unitsGrid"></div>
-  </div>
+    <!-- Bookings Tab -->
+    <div id="bookingsTab" class="tab-content" style="display: none;">
+      <div id="bookingsList"></div>
+    </div>
 
-  <div id="bookingsTab" class="tab-content" style="display:none;">
-    <div class="bookings-container" id="bookingsContainer"></div>
-  </div>
+    <!-- Guests Tab -->
+    <div id="guestsTab" class="tab-content" style="display: none;">
+      <div id="guestsList"></div>
+    </div>
 
-  <div id="calendarTab" class="tab-content" style="display:none;">
-    <div class="calendar-view" id="calendarView"></div>
+    <!-- Settings Tab -->
+    <div id="settingsTab" class="tab-content" style="display: none;">
+      <h3>Paystack Settings</h3>
+      <input type="text" id="paystackKey" placeholder="Paystack Secret Key">
+      <button onclick="savePaystackKey()">Save</button>
+      
+      <h3>Profile Settings</h3>
+      <input type="text" id="storeName" placeholder="Store Name">
+      <input type="text" id="storeDescription" placeholder="Description">
+      <button onclick="saveProfile()">Save Profile</button>
+    </div>
   </div>
 </div>
 
 <script>
-  // Mock host data
-  const hostId = "host_grace";
+// Initialize dashboard
+async function initDashboard() {
+  if (!isLoggedIn()) {
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('dashboardContent').style.display = 'none';
+    return;
+  }
   
-  let units = [
-    {
-      id: "unit_001",
-      title: "Cozy Cottage in Limuru",
-      location: "Limuru, Kiambu County",
-      type: "entire",
-      price_per_night: 3500,
-      cleaning_fee: 500,
-      max_guests: 4,
-      description: "Escape to the peaceful hills of Limuru. This cozy cottage offers stunning views...",
-      amenities: ["WiFi", "Free parking", "Kitchen", "Garden", "Fireplace"],
-      images: ["https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg"],
-      booked_dates: ["2024-06-10", "2024-06-11", "2024-06-12", "2024-06-25", "2024-06-26"]
-    },
-    {
-      id: "unit_002",
-      title: "Modern Apartment in Kilimani",
-      location: "Kilimani, Nairobi",
-      type: "entire",
-      price_per_night: 4500,
-      cleaning_fee: 700,
-      max_guests: 3,
-      description: "Modern, fully furnished apartment in the heart of Kilimani...",
-      amenities: ["WiFi", "Pool", "Gym", "Workspace", "Air conditioning"],
-      images: ["https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg"],
-      booked_dates: ["2024-06-15", "2024-06-16", "2024-06-17", "2024-07-01", "2024-07-02"]
-    }
-  ];
+  document.getElementById('loginSection').style.display = 'none';
+  document.getElementById('dashboardContent').style.display = 'block';
+  
+  // Load data
+  await loadUnits();
+  await loadBookings();
+  await loadGuests();
+}
 
-  let bookings = [
-    { id: "bok_001", unit_title: "Cozy Cottage in Limuru", guest_name: "James K.", check_in: "2024-06-10", check_out: "2024-06-12", guests: 2, total: 7000, status: "confirmed", created_at: "2024-05-15" },
-    { id: "bok_002", unit_title: "Modern Apartment in Kilimani", guest_name: "Sarah W.", check_in: "2024-06-15", check_out: "2024-06-17", guests: 2, total: 9700, status: "confirmed", created_at: "2024-05-20" },
-    { id: "bok_003", unit_title: "Cozy Cottage in Limuru", guest_name: "Michael O.", check_in: "2024-06-25", check_out: "2024-06-26", guests: 3, total: 4000, status: "pending", created_at: "2024-06-01" }
-  ];
-
-  let activeTab = "units";
-  let editingUnit = null;
-
-  // Render Units Tab
-  function renderUnits() {
-    const grid = document.getElementById('unitsGrid');
-    if (units.length === 0) {
-      grid.innerHTML = '<div class="empty-state">✨ You haven\'t listed any units yet. Click "Add new unit" to get started.</div>';
-      return;
-    }
-    
-    grid.innerHTML = units.map(unit => `
-      <div class="unit-card">
-        <img class="unit-image" src="${unit.images[0]}" alt="${unit.title}">
-        <div class="unit-info">
-          <div class="unit-title">${unit.title}</div>
-          <div class="unit-location">📍 ${unit.location}</div>
-          <div class="unit-price">KES ${unit.price_per_night.toLocaleString()} / night</div>
-          <div class="unit-actions">
-            <button class="edit-btn" onclick="editUnit('${unit.id}')">✏️ Edit</button>
-            <button class="manage-btn" onclick="manageAvailability('${unit.id}')">📅 Manage dates</button>
-          </div>
-        </div>
-      </div>
-    `).join('');
+// Load and render units
+async function loadUnits() {
+  const units = await fetchUnits();
+  const container = document.getElementById('unitsList');
+  
+  if (units.length === 0) {
+    container.innerHTML = '<p>No units yet. Click "Add Unit" to get started.</p>';
+    return;
   }
+  
+  container.innerHTML = units.map(unit => `
+    <div class="unit-card">
+      <img src="${unit.image1 || 'placeholder.jpg'}" class="unit-image">
+      <h3>${unit.name}</h3>
+      <p>KES ${unit.price_per_night}/night | Capacity: ${unit.capacity}</p>
+      <button onclick="editUnit('${unit._id}')">Edit</button>
+      <button onclick="deleteUnit('${unit._id}')">Delete</button>
+      <button onclick="manageAvailability('${unit._id}')">Manage Dates</button>
+    </div>
+  `).join('');
+}
 
-  // Edit Unit Form
-  function showEditForm(unit = null) {
-    editingUnit = unit;
-    const formHtml = `
-      <div class="unit-form" id="unitForm">
-        <div class="form-section">
-          <h3>${unit ? 'Edit Unit' : 'Add New Unit'}</h3>
-          
-          <div class="form-row">
-            <label>Unit Title</label>
-            <input type="text" id="unitTitle" value="${unit ? unit.title : ''}" placeholder="e.g., Cozy Cottage in Limuru">
-          </div>
-          
-          <div class="form-row">
-            <label>Location</label>
-            <input type="text" id="unitLocation" value="${unit ? unit.location : ''}" placeholder="e.g., Limuru, Kiambu County">
-          </div>
-          
-          <div class="form-row">
-            <label>Unit Type</label>
-            <select id="unitType">
-              <option value="entire" ${unit && unit.type === 'entire' ? 'selected' : ''}>Entire home</option>
-              <option value="private" ${unit && unit.type === 'private' ? 'selected' : ''}>Private room</option>
-              <option value="shared" ${unit && unit.type === 'shared' ? 'selected' : ''}>Shared room</option>
-            </select>
-          </div>
-          
-          <div class="form-row">
-            <label>Price per night (KES)</label>
-            <input type="number" id="unitPrice" value="${unit ? unit.price_per_night : ''}" placeholder="e.g., 3500">
-          </div>
-          
-          <div class="form-row">
-            <label>Cleaning fee (KES)</label>
-            <input type="number" id="cleaningFee" value="${unit ? unit.cleaning_fee : '500'}" placeholder="e.g., 500">
-          </div>
-          
-          <div class="form-row">
-            <label>Max guests</label>
-            <input type="number" id="maxGuests" value="${unit ? unit.max_guests : '4'}" placeholder="e.g., 4">
-          </div>
-          
-          <div class="form-row">
-            <label>Description</label>
-            <textarea id="unitDescription" placeholder="Describe your space...">${unit ? unit.description : ''}</textarea>
-          </div>
-          
-          <div class="form-row">
-            <label>Amenities</label>
-            <div class="amenities-checkbox" id="amenitiesCheckbox">
-              ${['WiFi', 'Parking', 'Kitchen', 'Garden', 'Pool', 'Gym', 'Workspace', 'Air conditioning', 'TV', 'Washer'].map(amenity => `
-                <label>
-                  <input type="checkbox" value="${amenity}" ${unit && unit.amenities.includes(amenity) ? 'checked' : ''}>
-                  ${amenity}
-                </label>
-              `).join('')}
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <label>Photos</label>
-            <div class="image-upload-grid" id="imageUploadGrid">
-              <div class="image-upload-box" onclick="uploadImage()">
-                <span>+</span>
-                <span>Add photo</span>
-              </div>
-              ${unit && unit.images.map(img => `<img src="${img}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;">`).join('')}
-            </div>
-          </div>
-        </div>
-        
-        <div class="form-actions">
-          <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
-          <button class="save-btn" onclick="saveUnit()">Save Unit</button>
-        </div>
-      </div>
-    `;
-    
-    const unitsTab = document.getElementById('unitsTab');
-    const originalGrid = document.getElementById('unitsGrid');
-    originalGrid.insertAdjacentHTML('beforebegin', formHtml);
-    originalGrid.style.display = 'none';
+// Load and render bookings
+async function loadBookings() {
+  const bookings = await fetchBookings();
+  const container = document.getElementById('bookingsList');
+  
+  if (bookings.length === 0) {
+    container.innerHTML = '<p>No bookings yet.</p>';
+    return;
   }
+  
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr><th>Guest</th><th>Unit</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        ${bookings.map(b => `
+          <tr>
+            <td>${b.guest_name}</td>
+            <td>${b.unit_name}</td>
+            <td>${new Date(b.checkin).toLocaleDateString()}</td>
+            <td>${new Date(b.checkout).toLocaleDateString()}</td>
+            <td>${b.status}</td>
+            <td>
+              ${!b.checked_in ? `<button onclick="checkin('${b.order_reference}')">Check-in</button>` : ''}
+              ${!b.checked_out && b.checked_in ? `<button onclick="checkout('${b.order_reference}')">Check-out</button>` : ''}
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
 
-  function cancelEdit() {
-    editingUnit = null;
-    const form = document.getElementById('unitForm');
-    if (form) form.remove();
-    document.getElementById('unitsGrid').style.display = 'grid';
+// Load and render guests
+async function loadGuests() {
+  const guests = await fetchGuests();
+  const container = document.getElementById('guestsList');
+  
+  if (guests.length === 0) {
+    container.innerHTML = '<p>No guests yet.</p>';
+    return;
   }
+  
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Bookings</th></tr>
+      </thead>
+      <tbody>
+        ${guests.map(g => `
+          <tr>
+            <td>${g.name}</td>
+            <td>${g.email}</td>
+            <td>${g.phone}</td>
+            <td>${g.booking_count || 0}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
 
-  function saveUnit() {
-    const newUnit = {
-      id: editingUnit ? editingUnit.id : 'unit_' + Date.now(),
-      title: document.getElementById('unitTitle').value,
-      location: document.getElementById('unitLocation').value,
-      type: document.getElementById('unitType').value,
-      price_per_night: parseInt(document.getElementById('unitPrice').value),
-      cleaning_fee: parseInt(document.getElementById('cleaningFee').value),
-      max_guests: parseInt(document.getElementById('maxGuests').value),
-      description: document.getElementById('unitDescription').value,
-      amenities: Array.from(document.querySelectorAll('#amenitiesCheckbox input:checked')).map(cb => cb.value),
-      images: editingUnit ? editingUnit.images : ["https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg"],
-      booked_dates: editingUnit ? editingUnit.booked_dates : []
-    };
-    
-    if (editingUnit) {
-      const index = units.findIndex(u => u.id === editingUnit.id);
-      units[index] = newUnit;
-    } else {
-      units.push(newUnit);
-    }
-    
-    cancelEdit();
-    renderUnits();
+// Add unit form
+function showAddUnitForm() {
+  const name = prompt('Unit name:');
+  const price = prompt('Price per night (KES):');
+  const capacity = prompt('Max guests:');
+  const description = prompt('Description:');
+  
+  addUnit({ name, price_per_night: price, capacity, description });
+}
+
+// Edit unit
+async function editUnit(unitId) {
+  // Fetch unit details first, then show edit form
+  // Implementation similar to add but with pre-filled values
+}
+
+// Delete unit
+async function deleteUnit(unitId) {
+  if (confirm('Are you sure?')) {
+    await deleteUnit(unitId);
+    await loadUnits();
   }
+}
 
-  window.editUnit = function(unitId) {
-    const unit = units.find(u => u.id === unitId);
-    showEditForm(unit);
-  };
+// Check-in booking
+async function checkin(orderRef) {
+  await checkinBooking(orderRef);
+  await loadBookings();
+}
 
-  window.manageAvailability = function(unitId) {
-    activeTab = "calendar";
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelector('.tab[data-tab="calendar"]').classList.add('active');
-    document.getElementById('unitsTab').style.display = 'none';
-    document.getElementById('bookingsTab').style.display = 'none';
-    document.getElementById('calendarTab').style.display = 'block';
-    renderCalendar(unitId);
-  };
+// Check-out booking
+async function checkout(orderRef) {
+  await checkoutBooking(orderRef);
+  await loadBookings();
+}
 
-  // Render Bookings Tab
-  function renderBookings() {
-    const container = document.getElementById('bookingsContainer');
-    if (bookings.length === 0) {
-      container.innerHTML = '<div class="empty-state">📅 No bookings yet. When guests book, they\'ll appear here.</div>';
-      return;
-    }
-    
-    container.innerHTML = `
-      <table class="bookings-table">
-        <thead>
-          <tr><th>Unit</th><th>Guest</th><th>Check In</th><th>Check Out</th><th>Guests</th><th>Total</th><th>Status</th><th>Booked</th></tr>
-        </thead>
-        <tbody>
-          ${bookings.map(b => `
-            <tr>
-              <td>${b.unit_title}</td>
-              <td>${b.guest_name}</td>
-              <td>${b.check_in}</td>
-              <td>${b.check_out}</td>
-              <td>${b.guests}</td>
-              <td>KES ${b.total.toLocaleString()}</td>
-              <td><span class="booking-status status-${b.status}">${b.status}</span></td>
-              <td>${b.created_at}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
+// Save Paystack key
+async function savePaystackKey() {
+  const key = document.getElementById('paystackKey').value;
+  // Call update-paystack endpoint
+}
+
+// Save profile
+async function saveProfile() {
+  const name = document.getElementById('storeName').value;
+  const desc = document.getElementById('storeDescription').value;
+  // Call update-profile endpoint
+}
+
+// Tab switching
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.getElementById(`${tab}Tab`).style.display = 'block';
+}
+
+// Login handler
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const success = await login(email, password);
+  if (success) {
+    initDashboard();
+  } else {
+    alert('Login failed');
   }
+}
 
-  // Render Calendar Tab
-  let currentCalendarDate = new Date();
-  let selectedUnitId = null;
-
-  function renderCalendar(unitId = null) {
-    selectedUnitId = unitId;
-    const unit = unitId ? units.find(u => u.id === unitId) : null;
-    const year = currentCalendarDate.getFullYear();
-    const month = currentCalendarDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startOffset = firstDay.getDay();
-    const daysInMonth = lastDay.getDate();
-    
-    const today = new Date().toISOString().split('T')[0];
-    const bookedDates = unit ? unit.booked_dates : [];
-    
-    let days = [];
-    for (let i = 0; i < startOffset; i++) days.push(null);
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const isBooked = bookedDates.includes(dateStr);
-      const isToday = dateStr === today;
-      days.push({ date: d, dateStr, isBooked, isToday });
-    }
-    
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    
-    const calendarHtml = `
-      <div class="calendar-header">
-        <div class="calendar-month">${monthNames[month]} ${year} ${unit ? `— ${unit.title}` : ''}</div>
-        <div class="calendar-nav">
-          <button onclick="changeMonth(-1)">←</button>
-          <button onclick="changeMonth(1)">→</button>
-        </div>
-      </div>
-      <div class="calendar-grid">
-        ${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => `<div class="calendar-day-header">${day}</div>`).join('')}
-        ${days.map(day => day ? `
-          <div class="calendar-day ${day.isBooked ? 'booked' : 'available'} ${day.isToday ? 'today' : ''}" onclick="toggleDateBlock('${day.dateStr}')">
-            <div class="day-number">${day.date}</div>
-          </div>
-        ` : '<div class="calendar-day"></div>').join('')}
-      </div>
-      <div style="margin-top:24px; padding:16px; background:var(--surface2); border-radius:8px;">
-        <div style="display:flex; gap:24px; justify-content:center; font-size:12px;">
-          <span>🟢 Available — Click to block</span>
-          <span>🟠 Booked — Click to unblock</span>
-        </div>
-        <p style="text-align:center; font-size:11px; color:var(--text3); margin-top:12px;">
-          Click on any date to block/unblock it. Blocked dates won't be available for booking.
-        </p>
-      </div>
-    `;
-    
-    document.getElementById('calendarView').innerHTML = calendarHtml;
-  }
-
-  window.changeMonth = function(delta) {
-    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta);
-    renderCalendar(selectedUnitId);
-  };
-
-  window.toggleDateBlock = function(dateStr) {
-    if (!selectedUnitId) {
-      alert('Select a unit first by clicking "Manage dates" on a unit.');
-      return;
-    }
-    const unit = units.find(u => u.id === selectedUnitId);
-    const index = unit.booked_dates.indexOf(dateStr);
-    if (index === -1) {
-      unit.booked_dates.push(dateStr);
-    } else {
-      unit.booked_dates.splice(index, 1);
-    }
-    renderCalendar(selectedUnitId);
-  };
-
-  // Tab switching
-  function switchTab(tab) {
-    activeTab = tab;
-    document.getElementById('unitsTab').style.display = tab === 'units' ? 'block' : 'none';
-    document.getElementById('bookingsTab').style.display = tab === 'bookings' ? 'block' : 'none';
-    document.getElementById('calendarTab').style.display = tab === 'calendar' ? 'block' : 'none';
-    
-    if (tab === 'units') renderUnits();
-    if (tab === 'bookings') renderBookings();
-    if (tab === 'calendar') renderCalendar();
-  }
-
-  // Theme toggle
-  const html = document.documentElement;
-  const themeToggle = document.getElementById('themeToggle');
-  let theme = localStorage.getItem('arrive-theme') || 'dark';
-  function setTheme(t) {
-    html.dataset.theme = t;
-    themeToggle.textContent = t === 'dark' ? '☀' : '☾';
-    localStorage.setItem('arrive-theme', t);
-  }
-  setTheme(theme);
-  themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
-
-  // Event listeners
-  document.getElementById('addUnitBtn').onclick = () => showEditForm(null);
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.onclick = () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      switchTab(tab.dataset.tab);
-    };
-  });
-
-  // Initialize
-  renderUnits();
+// Initialize
+initDashboard();
 </script>
-</body>
-</html>
