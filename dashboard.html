@@ -894,7 +894,7 @@
   // BOOKINGS
   async function loadBookings() {
     try {
-      const data = await apiFetch(`/arrive/bookings?client_id=${clientId}`);
+      const data = await apiFetch(`/arrive/bookings/list?client_id=${clientId}`);
       allBookings = data.bookings || data.data || [];
     } catch(e) { console.error('loadBookings:', e.message); allBookings = []; toast('Bookings: ' + e.message, 'error'); }
   }
