@@ -612,7 +612,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size: 0.78rem;
   color: var(--grey-300);
   margin-bottom: 0.5rem;
-  line-height: 1.4;
 }
 
 .output-value {
@@ -1138,19 +1137,12 @@ footer {
           <input type="range" id="bookings" min="1" max="30" value="8">
         </div>
 
-        <div class="slider-wrap">
-          <div class="calc-label">
-            Your average nightly rate (KES)
-            <span class="calc-label-val" id="rate-val">5,000</span>
-          </div>
-          <input type="range" id="nightly-rate" min="1000" max="15000" step="500" value="5000">
-        </div>
-
         <div class="calc-assumptions">
           <div class="calc-assumptions-label">Assumptions used</div>
           <ul>
+            <li>Average nightly rate: KES 5,000</li>
             <li>Average stay: 2 nights</li>
-            <li>Reviews from 30% of guests</li>
+            <li>Reviews from 35% of guests</li>
             <li>Airbnb commission rate: 15%</li>
           </ul>
         </div>
@@ -1158,77 +1150,50 @@ footer {
 
       <!-- Outputs -->
       <div class="calc-outputs">
-        <!-- Top: Immediate Value -->
-        <div class="output-block" style="background: rgba(184,115,80,0.08);">
-          <div class="output-period">Pays for itself in</div>
-          <div class="output-value accent" id="out-breakeven">2-3 bookings</div>
-          <div class="output-sub">Try 14 days free — no risk</div>
-        </div>
-
-        <div class="output-row">
-          <div class="output-block">
-            <div class="output-period">Monthly commission saved</div>
-            <div class="output-label">vs Airbnb (15%)</div>
-            <div class="output-value accent" id="out-commission-mo">KES 12,000</div>
-          </div>
-          <div class="output-block">
-            <div class="output-period">Your net benefit</div>
-            <div class="output-label">After paying Arrivé</div>
-            <div class="output-value accent" id="out-net-benefit">KES 8,000</div>
-            <div class="output-sub">Extra in your pocket + peace of mind</div>
-          </div>
-        </div>
-
-        <!-- Middle: Growth Projections -->
         <div class="output-block">
-          <div class="output-period">In 3 months</div>
-          <div class="output-label">Guest records built</div>
-          <div class="output-value" id="out-guests-3">24</div>
-          <div class="output-sub">People who know and trust you</div>
+          <div class="output-period">Monthly</div>
+          <div class="output-label">Revenue processed through Arrivé</div>
+          <div class="output-value" id="out-revenue">KES 80,000</div>
         </div>
 
         <div class="output-row">
           <div class="output-block">
-            <div class="output-period">In 6 months</div>
+            <div class="output-period">At 3 months</div>
+            <div class="output-label">Guest records built</div>
+            <div class="output-value" id="out-guests-3">24</div>
+          </div>
+          <div class="output-block">
+            <div class="output-period">At 6 months</div>
             <div class="output-label">Guest records built</div>
             <div class="output-value" id="out-guests-6">48</div>
           </div>
-          <div class="output-block">
-            <div class="output-period">In 6 months</div>
-            <div class="output-label">Reviews you could have</div>
-            <div class="output-value" id="out-reviews">14</div>
-            <div class="output-sub">Based on 30% of guests</div>
-          </div>
         </div>
 
         <div class="output-block">
-          <div class="output-period">Total commission saved in 6 months</div>
-          <div class="output-value accent" id="out-commission-6">KES 72,000</div>
-          <div class="output-sub">Money that stays in your business</div>
+          <div class="output-period">At 6 months</div>
+          <div class="output-label">Reviews you could have</div>
+          <div class="output-value accent" id="out-reviews">16</div>
+          <div class="output-sub">at 35% of guests</div>
         </div>
 
-        <!-- Bottom: Cost Comparison + Stress Elimination -->
         <div class="output-row">
           <div class="output-block">
-            <div class="output-period">WITHOUT ARRIVÉ (Airbnb)</div>
-            <div class="output-label">You pay 15% commission</div>
-            <div class="output-label">You manage everything manually</div>
-            <div class="output-label">Guests see Airbnb, not your brand</div>
+            <div class="output-period">Monthly saving</div>
+            <div class="output-label">vs Airbnb commission</div>
+            <div class="output-value accent" id="out-commission-mo">KES 12,000</div>
           </div>
           <div class="output-block">
-            <div class="output-period">WITH ARRIVÉ</div>
-            <div class="output-label">You pay KES <span id="plan-cost-display">4,000</span>/month flat</div>
-            <div class="output-label">You keep 100% of booking revenue</div>
-            <div class="output-label">Guests see YOUR business name</div>
+            <div class="output-period">Over 6 months</div>
+            <div class="output-label">Commission saved</div>
+            <div class="output-value accent" id="out-commission-6">KES 72,000</div>
           </div>
         </div>
 
         <div class="output-block" style="background: rgba(184,115,80,0.08);">
-          <div class="output-period">What you stop worrying about</div>
-          <div class="output-label">✓ "Did they pay?" — Deposits collected automatically before check-in</div>
-          <div class="output-label">✓ "Am I double booked?" — Dashboard shows everything, always up to date</div>
-          <div class="output-label">✓ "Did they enjoy their stay?" — Automated review requests, you hear from them</div>
-          <div class="output-label">✓ "When are they checking out?" — Check-in/out times clearly communicated</div>
+          <div class="output-period">Your cost</div>
+          <div class="output-label">Arrivé plan</div>
+          <div class="output-value" id="out-plan-cost">KES 4,000 / mo</div>
+          <div class="output-sub" id="out-plan-name">Starter — up to 5 units</div>
         </div>
       </div>
     </div>
@@ -1354,8 +1319,9 @@ footer {
   reveals.forEach(el => observer.observe(el));
 
   // Calculator
+  const AVG_RATE = 5000;
   const AVG_NIGHTS = 2;
-  const REVIEW_RATE = 0.30;
+  const REVIEW_RATE = 0.35;
   const COMMISSION = 0.15;
 
   const plans = [
@@ -1377,53 +1343,31 @@ footer {
   function calc() {
     const units = parseInt(document.getElementById('units').value);
     const bookings = parseInt(document.getElementById('bookings').value);
-    const nightlyRate = parseInt(document.getElementById('nightly-rate').value);
 
     document.getElementById('units-val').textContent = units;
     document.getElementById('bookings-val').textContent = bookings;
-    document.getElementById('rate-val').textContent = nightlyRate.toLocaleString('en-KE');
 
-    const revenuePerBooking = nightlyRate * AVG_NIGHTS;
-    const monthlyRevenue = bookings * revenuePerBooking;
-    const commissionMo = monthlyRevenue * COMMISSION;
-    const commission6 = commissionMo * 6;
-    const plan = getPlan(units);
-    const netBenefit = commissionMo - plan.price;
-    
-    // Guest records
+    const revenueMonthly = bookings * AVG_RATE * AVG_NIGHTS;
     const guests3 = bookings * 3;
     const guests6 = bookings * 6;
-    
-    // Reviews (based on 30% of guests in 6 months)
     const reviews6 = Math.round(guests6 * REVIEW_RATE);
-    
-    // Breakeven message based on bookings
-    let breakevenMsg = '';
-    const bookingsToBreakEven = Math.ceil(plan.price / (revenuePerBooking * COMMISSION));
-    if (bookingsToBreakEven <= 2) {
-      breakevenMsg = '2-3 bookings';
-    } else if (bookingsToBreakEven <= 4) {
-      breakevenMsg = '3-4 bookings';
-    } else {
-      breakevenMsg = `${bookingsToBreakEven} bookings`;
-    }
-    
-    // Update plan cost display
-    document.getElementById('plan-cost-display').textContent = plan.price.toLocaleString('en-KE');
-    
-    // Animate all values
-    animateVal('out-breakeven', breakevenMsg);
-    animateVal('out-commission-mo', fmt(commissionMo));
-    animateVal('out-net-benefit', fmt(Math.max(0, netBenefit)));
+    const commissionMo = revenueMonthly * COMMISSION;
+    const commission6 = commissionMo * 6;
+    const plan = getPlan(units);
+
+    // animate values
+    animateVal('out-revenue', fmt(revenueMonthly));
     animateVal('out-guests-3', guests3);
     animateVal('out-guests-6', guests6);
     animateVal('out-reviews', reviews6);
+    animateVal('out-commission-mo', fmt(commissionMo));
     animateVal('out-commission-6', fmt(commission6));
+    animateVal('out-plan-cost', fmt(plan.price) + ' / mo');
+    document.getElementById('out-plan-name').textContent = plan.label;
   }
 
   function animateVal(id, newVal) {
     const el = document.getElementById(id);
-    if (!el) return;
     el.style.opacity = '0.4';
     el.style.transform = 'translateY(4px)';
     setTimeout(() => {
@@ -1436,7 +1380,6 @@ footer {
 
   document.getElementById('units').addEventListener('input', calc);
   document.getElementById('bookings').addEventListener('input', calc);
-  document.getElementById('nightly-rate').addEventListener('input', calc);
   calc();
 </script>
 </body>
