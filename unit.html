@@ -10,9 +10,9 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <style>
   :root {
-    --accent: #E67E22;
-    --accent-dim: rgba(230,126,34,0.12);
-    --accent-border: rgba(230,126,34,0.30);
+    --accent: #C9A96E;
+    --accent-dim: rgba(201,169,110,0.12);
+    --accent-border: rgba(201,169,110,0.30);
     --radius: 14px;
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'DM Sans', sans-serif;
@@ -20,26 +20,26 @@
   }
 
   [data-theme="dark"] {
-    --bg: #0F0C0A;
-    --bg2: #1C1714;
-    --surface: #1C1714;
-    --surface2: #2A221E;
-    --border: rgba(230,126,34,0.15);
-    --border2: rgba(230,126,34,0.25);
+    --bg: #0A0818;
+    --bg2: #0F0D1F;
+    --surface: #0F0D1F;
+    --surface2: #151229;
+    --border: rgba(201,169,110,0.15);
+    --border2: rgba(201,169,110,0.25);
     --text: #FDF4E3;
-    --text2: #C9B79A;
-    --text3: #8B7355;
+    --text2: #B8A87C;
+    --text3: #6A5A3A;
   }
 
   [data-theme="light"] {
-    --bg: #FFF8F0;
-    --bg2: #FEF7E9;
+    --bg: #FEF9E8;
+    --bg2: #FDF5E0;
     --surface: #FFFFFF;
-    --surface2: #FEF7E9;
-    --border: rgba(230,126,34,0.12);
-    --border2: rgba(230,126,34,0.20);
-    --text: #2C241A;
-    --text2: #6B5A48;
+    --surface2: #FEF9E8;
+    --border: rgba(201,169,110,0.20);
+    --border2: rgba(201,169,110,0.35);
+    --text: #1A1625;
+    --text2: #5E4B2C;
     --text3: #B59A78;
   }
 
@@ -55,18 +55,16 @@
     transition:background var(--trans),color var(--trans);
   }
 
-  /* NAV */
   nav{
     position:fixed;top:0;left:0;right:0;z-index:200;
     height:70px;
     display:flex;align-items:center;justify-content:space-between;
     padding:0 48px;
     border-bottom:1px solid var(--border);
-    background:rgba(15,12,10,0.92);
+    background:rgba(10,8,24,0.92);
     backdrop-filter:blur(24px);
-    transition:background var(--trans),border-color var(--trans);
   }
-  [data-theme="light"] nav{background:rgba(255,248,240,0.92);}
+  [data-theme="light"] nav{background:rgba(254,249,232,0.92);}
   .nav-logo{
     font-family:var(--font-body);
     font-size:14px;font-weight:600;
@@ -98,7 +96,6 @@
   }
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
 
-  /* MAIN LAYOUT */
   .container{
     max-width:1200px;
     margin:0 auto;
@@ -109,12 +106,7 @@
     grid-template-columns:1fr 380px;
     gap:48px;
   }
-
-  /* GALLERY */
-  .gallery{
-    position:relative;
-    margin-bottom:32px;
-  }
+  .gallery{position:relative;margin-bottom:32px;}
   .main-image{
     width:100%;
     height:480px;
@@ -137,14 +129,7 @@
     border:2px solid transparent;
     transition:all 0.2s;
   }
-  .thumbnail.active{
-    border-color:var(--accent);
-  }
-  .thumbnail:hover{
-    opacity:0.8;
-  }
-
-  /* PROPERTY INFO */
+  .thumbnail.active{border-color:var(--accent);}
   .property-title{
     font-family:var(--font-display);
     font-size:32px;
@@ -180,81 +165,17 @@
     font-weight:600;
     color:var(--accent);
   }
-  .host-details h4{
-    font-size:16px;
-    font-weight:600;
-    margin-bottom:4px;
-  }
-  .host-badge{
-    display:flex;
-    gap:12px;
-    font-size:12px;
-    color:var(--text2);
-  }
-  .host-badge span{
-    display:flex;
-    align-items:center;
-    gap:4px;
-  }
-  .amenities{
-    margin:24px 0;
-  }
-  .amenities h3{
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:16px;
-  }
+  .host-details h4{font-size:16px;font-weight:600;margin-bottom:4px;}
+  .host-badge{display:flex;gap:12px;font-size:12px;color:var(--text2);}
+  .amenities{margin:24px 0;}
+  .amenities h3{font-size:18px;font-weight:600;margin-bottom:16px;}
   .amenities-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:12px;
   }
-  .amenity{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:14px;
-    color:var(--text2);
-  }
-  .description{
-    margin:24px 0;
-    line-height:1.8;
-    color:var(--text2);
-  }
-  .reviews{
-    margin-top:32px;
-    padding-top:24px;
-    border-top:1px solid var(--border);
-  }
-  .reviews h3{
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:16px;
-  }
-  .review-card{
-    background:var(--surface2);
-    border-radius:12px;
-    padding:16px;
-    margin-bottom:12px;
-  }
-  .review-header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:8px;
-  }
-  .review-name{
-    font-weight:500;
-  }
-  .review-stars{
-    color:var(--accent);
-  }
-  .review-text{
-    font-size:13px;
-    color:var(--text2);
-    line-height:1.6;
-  }
-
-  /* BOOKING CARD */
+  .amenity{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text2);}
+  .description{margin:24px 0;line-height:1.8;color:var(--text2);}
   .booking-card{
     position:sticky;
     top:90px;
@@ -269,14 +190,8 @@
     color:var(--accent);
     margin-bottom:8px;
   }
-  .booking-price span{
-    font-size:14px;
-    font-weight:400;
-    color:var(--text2);
-  }
-  .date-picker{
-    margin:20px 0;
-  }
+  .booking-price span{font-size:14px;font-weight:400;color:var(--text2);}
+  .date-picker{margin:20px 0;}
   .date-input{
     width:100%;
     padding:14px;
@@ -335,40 +250,20 @@
     transition:all 0.2s;
     margin-bottom:12px;
   }
-  .book-btn:hover{
-    transform:translateY(-2px);
-    opacity:0.9;
-  }
-  .chat-option{
-    text-align:center;
-    font-size:12px;
-    color:var(--text3);
-  }
-  .chat-option a{
-    color:var(--accent);
-    text-decoration:none;
-  }
-  .calendar-info{
-    font-size:12px;
-    color:var(--text3);
-    text-align:center;
-    margin-top:16px;
-    padding-top:12px;
-    border-top:1px solid var(--border);
-  }
-  .loading{
+  .book-btn:hover{transform:translateY(-2px);opacity:0.9;}
+  .chat-option{text-align:center;font-size:12px;color:var(--text3);}
+  .chat-option a{color:var(--accent);text-decoration:none;}
+  .loading, .error-state{
     text-align:center;
     padding:60px;
     color:var(--text3);
   }
-
   @media(max-width:900px){
     nav{padding:0 24px;}
     .container{padding:90px 24px 40px;}
     .listing-grid{grid-template-columns:1fr;gap:32px;}
     .booking-card{position:relative;top:0;}
     .main-image{height:320px;}
-    .thumbnail-grid{gap:8px;}
     .thumbnail{height:70px;}
   }
 </style>
@@ -378,7 +273,7 @@
 <nav>
   <a href="/" class="nav-logo">ARR<span class="e-accent">I</span>VE</a>
   <div style="display:flex; gap:16px; align-items:center;">
-    <a href="javascript:history.back()" class="back-link">← Back to host</a>
+    <a href="javascript:history.back()" class="back-link">← Back</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
   </div>
 </nav>
@@ -388,369 +283,326 @@
 </div>
 
 <script>
-  // Mock units database - would come from API
-  const unitsDatabase = {
-    "unit_001": {
-      id: "unit_001",
-      host_id: "host_grace",
-      title: "Cozy Cottage in Limuru",
-      location: "Limuru, Kiambu County",
-      price_per_night: 3500,
-      cleaning_fee: 500,
-      max_guests: 4,
-      description: "Escape to the peaceful hills of Limuru. This cozy cottage offers stunning views of the surrounding tea plantations, a private garden, and all the comforts of home. Perfect for couples, small families, or anyone looking to unwind from the city.",
-      amenities: ["WiFi", "Free parking", "Kitchen", "Garden", "Fireplace", "Mountain view", "Workspace", "Self check-in"],
-      images: [
-        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg",
-        "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg",
-        "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-        "https://images.pexels.com/photos/7031404/pexels-photo-7031404.jpeg"
-      ],
-      host: {
-        name: "Grace Muthoni",
-        avatar: "G",
-        rating: 4.9,
-        response_rate: 98,
-        reviews_count: 24
-      },
-      reviews: [
-        { name: "James K.", rating: 5, text: "Absolutely stunning! The views were incredible and Grace was so welcoming. Highly recommend!" },
-        { name: "Sarah W.", rating: 5, text: "Peaceful getaway. The cottage is cozy and well-equipped. Will definitely return." },
-        { name: "Michael O.", rating: 4, text: "Great location, beautiful surroundings. Host was responsive and helpful." }
-      ],
-      booked_dates: ["2024-06-10", "2024-06-11", "2024-06-12", "2024-06-25", "2024-06-26"]
-    },
-    "unit_002": {
-      id: "unit_002",
-      host_id: "host_grace",
-      title: "Modern Apartment in Kilimani",
-      location: "Kilimani, Nairobi",
-      price_per_night: 4500,
-      cleaning_fee: 700,
-      max_guests: 3,
-      description: "Modern, fully furnished apartment in the heart of Kilimani. Walking distance to restaurants, cafes, and shopping. Secure building with 24/7 security, pool, and gym access.",
-      amenities: ["WiFi", "Pool", "Gym", "Workspace", "Air conditioning", "Smart TV", "Elevator"],
-      images: [
-        "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg",
-        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg",
-        "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-        "https://images.pexels.com/photos/7031404/pexels-photo-7031404.jpeg"
-      ],
-      host: {
-        name: "Grace Muthoni",
-        avatar: "G",
-        rating: 4.9,
-        response_rate: 98,
-        reviews_count: 24
-      },
-      reviews: [
-        { name: "David W.", rating: 5, text: "Great location and very clean. Would stay again!" },
-        { name: "Lucy M.", rating: 5, text: "Exactly as described. Host was very responsive." }
-      ],
-      booked_dates: ["2024-06-15", "2024-06-16", "2024-06-17", "2024-07-01", "2024-07-02"]
-    }
+const API_BASE = 'https://breezy-api-r7jg.onrender.com';
+
+// Get URL parameters
+function getUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    host: params.get('host'),
+    unit: params.get('unit'),
+    check_in: params.get('check_in'),
+    check_out: params.get('check_out'),
+    guests: parseInt(params.get('guests')) || 2
   };
+}
 
-  // Get URL parameters
-  function getUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-    return {
-      host: params.get('host'),
-      unit: params.get('unit'),
-      check_in: params.get('check_in'),
-      check_out: params.get('check_out'),
-      guests: parseInt(params.get('guests')) || 2
-    };
-  }
+let unitData = null;
+let hostData = null;
+let bookedDates = [];
+let selectedCheckIn = null;
+let selectedCheckOut = null;
+let selectedGuests = 2;
 
-  // Global state
-  let unitData = null;
-  let selectedCheckIn = null;
-  let selectedCheckOut = null;
-  let selectedGuests = 2;
-
-  // Render page
-  function renderPage() {
-    if (!unitData) return;
+// Fetch unit details
+async function fetchUnit(unitId, hostId) {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/unit/${encodeURIComponent(unitId)}?client_id=${hostId}`);
+    const data = await res.json();
     
-    const container = document.getElementById('container');
-    const params = getUrlParams();
-    
-    // Set initial dates from URL if present
-    selectedCheckIn = params.check_in || null;
-    selectedCheckOut = params.check_out || null;
-    selectedGuests = params.guests || 2;
-    
-    container.innerHTML = `
-      <div class="listing-grid">
-        <!-- LEFT COLUMN - PROPERTY DETAILS -->
-        <div>
-          <!-- Gallery -->
-          <div class="gallery">
-            <img id="mainImage" class="main-image" src="${unitData.images[0]}" alt="${unitData.title}">
-            <div class="thumbnail-grid" id="thumbnailGrid"></div>
-          </div>
-
-          <h1 class="property-title">${unitData.title}</h1>
-          <div class="property-location">
-            <span>📍</span>
-            <span>${unitData.location}</span>
-          </div>
-
-          <div class="host-info">
-            <div class="host-avatar">${unitData.host.avatar}</div>
-            <div class="host-details">
-              <h4>Hosted by ${unitData.host.name}</h4>
-              <div class="host-badge">
-                <span>⭐ ${unitData.host.rating}</span>
-                <span>✓ ${unitData.host.response_rate}% response rate</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="amenities">
-            <h3>What this place offers</h3>
-            <div class="amenities-grid" id="amenitiesGrid"></div>
-          </div>
-
-          <div class="description">${unitData.description}</div>
-
-          <div class="reviews">
-            <h3>Guest reviews</h3>
-            <div id="reviewsContainer"></div>
-          </div>
-        </div>
-
-        <!-- RIGHT COLUMN - BOOKING CARD -->
-        <div>
-          <div class="booking-card">
-            <div class="booking-price">
-              KES ${unitData.price_per_night.toLocaleString()}<span> / night</span>
-            </div>
-            
-            <div class="date-picker">
-              <input type="text" id="dateRange" class="date-input" placeholder="Select dates" value="${selectedCheckIn && selectedCheckOut ? selectedCheckIn + ' to ' + selectedCheckOut : ''}">
-            </div>
-            
-            <select id="guestCount" class="guest-select">
-              <option value="1" ${selectedGuests === 1 ? 'selected' : ''}>1 guest</option>
-              <option value="2" ${selectedGuests === 2 ? 'selected' : ''}>2 guests</option>
-              <option value="3" ${selectedGuests === 3 ? 'selected' : ''}>3 guests</option>
-              <option value="4" ${selectedGuests === 4 ? 'selected' : ''}>4 guests</option>
-              <option value="5" ${selectedGuests === 5 ? 'selected' : ''}>5 guests</option>
-              <option value="6" ${selectedGuests === 6 ? 'selected' : ''}>6+ guests</option>
-            </select>
-            
-            <div class="price-breakdown" id="priceBreakdown">
-              <div class="price-row">
-                <span>KES ${unitData.price_per_night} x <span id="nightsCount">0</span> nights</span>
-                <span>KES <span id="subtotal">0</span></span>
-              </div>
-              <div class="price-row">
-                <span>Cleaning fee</span>
-                <span>KES ${unitData.cleaning_fee}</span>
-              </div>
-              <div class="price-total">
-                <span>Total</span>
-                <span>KES <span id="totalPrice">0</span></span>
-              </div>
-            </div>
-            
-            <button class="book-btn" id="bookBtn">Book now →</button>
-            <div class="chat-option">
-              Prefer to chat? <a href="#" id="chatOption">Message host directly</a>
-            </div>
-            <div class="calendar-info">
-              📅 Select dates to check availability
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-    
-    // Fill amenities
-    const amenitiesGrid = document.getElementById('amenitiesGrid');
-    amenitiesGrid.innerHTML = unitData.amenities.map(a => `<div class="amenity">✓ ${a}</div>`).join('');
-    
-    // Fill reviews
-    const reviewsContainer = document.getElementById('reviewsContainer');
-    reviewsContainer.innerHTML = unitData.reviews.map(r => `
-      <div class="review-card">
-        <div class="review-header">
-          <span class="review-name">${r.name}</span>
-          <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
-        </div>
-        <div class="review-text">${r.text}</div>
-      </div>
-    `).join('');
-    
-    // Setup gallery thumbnails
-    const thumbnailGrid = document.getElementById('thumbnailGrid');
-    thumbnailGrid.innerHTML = unitData.images.map((img, i) => `
-      <img class="thumbnail ${i === 0 ? 'active' : ''}" src="${img}" onclick="changeImage(${i})">
-    `).join('');
-    
-    // Setup calendar
-    setupCalendar();
-    
-    // Update price if dates were pre-selected
-    if (selectedCheckIn && selectedCheckOut) {
-      updatePrice();
+    if (data.success && data.unit) {
+      unitData = data.unit;
+      return true;
+    } else {
+      throw new Error(data.error || 'Unit not found');
     }
+  } catch (err) {
+    console.error('Failed to fetch unit:', err);
+    return false;
+  }
+}
+
+// Fetch host info
+async function fetchHostInfo(hostId) {
+  try {
+    const res = await fetch(`${API_BASE}/stores/list`);
+    const data = await res.json();
+    const stores = data.stores || [];
+    hostData = stores.find(s => s.client_id === hostId);
+    return true;
+  } catch (err) {
+    console.error('Failed to fetch host:', err);
+    return false;
+  }
+}
+
+// Fetch availability (booked dates) for this unit
+async function fetchAvailability(unitId, hostId) {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/unit/${encodeURIComponent(unitId)}/availability?client_id=${hostId}`);
+    const data = await res.json();
     
-    // Event listeners
-    document.getElementById('guestCount').addEventListener('change', (e) => {
-      selectedGuests = parseInt(e.target.value);
-      updatePrice();
-    });
-    
-    document.getElementById('bookBtn').addEventListener('click', handleBooking);
-    document.getElementById('chatOption').addEventListener('click', (e) => {
-      e.preventDefault();
-      handleChat();
-    });
+    if (data.success) {
+      bookedDates = data.booked_dates || [];
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error('Failed to fetch availability:', err);
+    return false;
+  }
+}
+
+// Render the page
+function renderPage() {
+  if (!unitData) return;
+  
+  const container = document.getElementById('container');
+  const images = [unitData.image1, unitData.image2, unitData.image3].filter(Boolean);
+  const mainImage = images[0] || 'https://placehold.co/800x600/151229/C9A96E?text=No+Image';
+  
+  container.innerHTML = `
+    <div class="listing-grid">
+      <div>
+        <div class="gallery">
+          <img id="mainImage" class="main-image" src="${mainImage}" alt="${unitData.name}">
+          <div class="thumbnail-grid" id="thumbnailGrid"></div>
+        </div>
+        <h1 class="property-title">${unitData.name || 'Untitled Unit'}</h1>
+        <div class="property-location">
+          <span>📍</span>
+          <span>${hostData?.store_name || 'Arrive Host'}</span>
+        </div>
+        <div class="host-info">
+          <div class="host-avatar">${hostData?.store_name?.[0]?.toUpperCase() || 'H'}</div>
+          <div class="host-details">
+            <h4>Hosted by ${hostData?.store_name || 'Arrive Host'}</h4>
+            <div class="host-badge">
+              <span>⭐ ${hostData?.rating || 'New'}</span>
+              <span>✓ ${hostData?.response_rate || '100'}% response rate</span>
+            </div>
+          </div>
+        </div>
+        <div class="amenities">
+          <h3>What this place offers</h3>
+          <div class="amenities-grid" id="amenitiesGrid"></div>
+        </div>
+        <div class="description">${unitData.description || 'No description provided.'}</div>
+      </div>
+      <div>
+        <div class="booking-card">
+          <div class="booking-price">
+            KES ${(unitData.price_per_night || 0).toLocaleString()}<span> / night</span>
+          </div>
+          <div class="date-picker">
+            <input type="text" id="dateRange" class="date-input" placeholder="Select dates">
+          </div>
+          <select id="guestCount" class="guest-select">
+            <option value="1">1 guest</option>
+            <option value="2" ${selectedGuests === 2 ? 'selected' : ''}>2 guests</option>
+            <option value="3" ${selectedGuests === 3 ? 'selected' : ''}>3 guests</option>
+            <option value="4" ${selectedGuests === 4 ? 'selected' : ''}>4 guests</option>
+            <option value="5" ${selectedGuests === 5 ? 'selected' : ''}>5 guests</option>
+            <option value="6" ${selectedGuests === 6 ? 'selected' : ''}>6+ guests</option>
+          </select>
+          <div class="price-breakdown" id="priceBreakdown">
+            <div class="price-row">
+              <span>KES ${unitData.price_per_night || 0} x <span id="nightsCount">0</span> nights</span>
+              <span>KES <span id="subtotal">0</span></span>
+            </div>
+            <div class="price-total">
+              <span>Total</span>
+              <span>KES <span id="totalPrice">0</span></span>
+            </div>
+          </div>
+          <button class="book-btn" id="bookBtn">Book now →</button>
+          <div class="chat-option">
+            Prefer to chat? <a href="#" id="chatOption">Message host directly</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Setup amenities
+  if (unitData.amenities) {
+    const amenitiesArray = unitData.amenities.split(',').map(a => a.trim());
+    const amenitiesGrid = document.getElementById('amenitiesGrid');
+    amenitiesGrid.innerHTML = amenitiesArray.map(a => `<div class="amenity">✓ ${a}</div>`).join('');
   }
   
-  window.changeImage = function(index) {
-    const mainImage = document.getElementById('mainImage');
-    mainImage.src = unitData.images[index];
+  // Setup gallery thumbnails
+  const thumbnailGrid = document.getElementById('thumbnailGrid');
+  if (images.length > 1) {
+    thumbnailGrid.innerHTML = images.map((img, i) => `
+      <img class="thumbnail ${i === 0 ? 'active' : ''}" src="${img}" onclick="changeImage(${i})">
+    `).join('');
+  } else {
+    thumbnailGrid.style.display = 'none';
+  }
+  
+  // Setup calendar
+  setupCalendar();
+  
+  // Update price if dates pre-selected
+  if (selectedCheckIn && selectedCheckOut) updatePrice();
+  
+  // Event listeners
+  document.getElementById('guestCount').addEventListener('change', (e) => {
+    selectedGuests = parseInt(e.target.value);
+    updatePrice();
+  });
+  document.getElementById('bookBtn').addEventListener('click', handleBooking);
+  document.getElementById('chatOption').addEventListener('click', (e) => {
+    e.preventDefault();
+    handleChat();
+  });
+}
+
+window.changeImage = function(index) {
+  const images = [unitData.image1, unitData.image2, unitData.image3].filter(Boolean);
+  const mainImage = document.getElementById('mainImage');
+  if (mainImage && images[index]) {
+    mainImage.src = images[index];
     document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
       thumb.classList.toggle('active', i === index);
     });
-  };
+  }
+};
+
+function setupCalendar() {
+  const dateInput = document.getElementById('dateRange');
   
-  function setupCalendar() {
-    const dateInput = document.getElementById('dateRange');
-    const bookedDates = unitData.booked_dates || [];
-    
-    flatpickr(dateInput, {
-      mode: "range",
-      minDate: "today",
-      dateFormat: "Y-m-d",
-      disable: bookedDates,
-      defaultDate: selectedCheckIn && selectedCheckOut ? [selectedCheckIn, selectedCheckOut] : null,
-      onChange: function(selectedDates, dateStr, instance) {
-        if (selectedDates.length === 2) {
-          selectedCheckIn = selectedDates[0].toISOString().split('T')[0];
-          selectedCheckOut = selectedDates[1].toISOString().split('T')[0];
-          updatePrice();
-        } else {
-          selectedCheckIn = null;
-          selectedCheckOut = null;
-          updatePrice();
-        }
+  flatpickr(dateInput, {
+    mode: "range",
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    disable: bookedDates,
+    defaultDate: selectedCheckIn && selectedCheckOut ? [selectedCheckIn, selectedCheckOut] : null,
+    onChange: function(selectedDates, dateStr, instance) {
+      if (selectedDates.length === 2) {
+        selectedCheckIn = selectedDates[0].toISOString().split('T')[0];
+        selectedCheckOut = selectedDates[1].toISOString().split('T')[0];
+        updatePrice();
+      } else {
+        selectedCheckIn = null;
+        selectedCheckOut = null;
+        updatePrice();
       }
-    });
-  }
-  
-  function updatePrice() {
-    if (!selectedCheckIn || !selectedCheckOut) {
-      document.getElementById('nightsCount').textContent = '0';
-      document.getElementById('subtotal').textContent = '0';
-      document.getElementById('totalPrice').textContent = '0';
-      return;
     }
-    
-    const checkIn = new Date(selectedCheckIn);
-    const checkOut = new Date(selectedCheckOut);
-    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-    const subtotal = nights * unitData.price_per_night;
-    const total = subtotal + unitData.cleaning_fee;
-    
-    document.getElementById('nightsCount').textContent = nights;
-    document.getElementById('subtotal').textContent = subtotal.toLocaleString();
-    document.getElementById('totalPrice').textContent = total.toLocaleString();
+  });
+}
+
+function updatePrice() {
+  if (!selectedCheckIn || !selectedCheckOut || !unitData) {
+    document.getElementById('nightsCount').textContent = '0';
+    document.getElementById('subtotal').textContent = '0';
+    document.getElementById('totalPrice').textContent = '0';
+    return;
   }
   
-  function checkAvailability() {
-    if (!selectedCheckIn || !selectedCheckOut) {
-      alert('Please select your check-in and check-out dates first.');
+  const checkIn = new Date(selectedCheckIn);
+  const checkOut = new Date(selectedCheckOut);
+  const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+  const subtotal = nights * (unitData.price_per_night || 0);
+  const total = subtotal;
+  
+  document.getElementById('nightsCount').textContent = nights;
+  document.getElementById('subtotal').textContent = subtotal.toLocaleString();
+  document.getElementById('totalPrice').textContent = total.toLocaleString();
+}
+
+function checkAvailability() {
+  if (!selectedCheckIn || !selectedCheckOut) {
+    alert('Please select your check-in and check-out dates first.');
+    return false;
+  }
+  
+  const checkIn = new Date(selectedCheckIn);
+  const checkOut = new Date(selectedCheckOut);
+  let current = new Date(checkIn);
+  
+  while (current < checkOut) {
+    const dateStr = current.toISOString().split('T')[0];
+    if (bookedDates.includes(dateStr)) {
+      alert('Sorry, some of your selected dates are no longer available. Please choose different dates.');
       return false;
     }
-    
-    const bookedDates = unitData.booked_dates || [];
-    const checkIn = new Date(selectedCheckIn);
-    const checkOut = new Date(selectedCheckOut);
-    let current = new Date(checkIn);
-    
-    while (current < checkOut) {
-      const dateStr = current.toISOString().split('T')[0];
-      if (bookedDates.includes(dateStr)) {
-        alert('Sorry, some of your selected dates are no longer available. Please choose different dates.');
-        return false;
-      }
-      current.setDate(current.getDate() + 1);
-    }
-    return true;
+    current.setDate(current.getDate() + 1);
+  }
+  return true;
+}
+
+function handleBooking() {
+  if (!checkAvailability()) return;
+  
+  const params = getUrlParams();
+  const nights = Math.ceil((new Date(selectedCheckOut) - new Date(selectedCheckIn)) / (1000 * 60 * 60 * 24));
+  const total = nights * (unitData.price_per_night || 0);
+  
+  const payload = {
+    host_id: params.host,
+    unit_id: unitData._id || unitData.unit_id,
+    unit_name: unitData.name,
+    check_in: selectedCheckIn,
+    check_out: selectedCheckOut,
+    guests: selectedGuests,
+    nights: nights,
+    total: total
+  };
+  
+  const encodedPayload = btoa(JSON.stringify(payload));
+  const widgetUrl = `https://www.uchat.com.au/p/web/3mqg0rm2p5hxf5jh/full?ref=arrive--${encodedPayload}`;
+  
+  window.open(widgetUrl, '_blank');
+}
+
+function handleChat() {
+  const params = getUrlParams();
+  const phone = "254762826978";
+  const message = `Hi! I'm interested in booking "${unitData?.name || 'a property'}" on Arrive. Can you tell me more about availability?`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// Theme toggle
+const html = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+let theme = localStorage.getItem('arrive-theme') || 'dark';
+function setTheme(t) {
+  html.dataset.theme = t;
+  if (themeToggle) themeToggle.textContent = t === 'dark' ? '☀' : '☾';
+  localStorage.setItem('arrive-theme', t);
+}
+setTheme(theme);
+if (themeToggle) themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
+// Initialize page
+async function init() {
+  const params = getUrlParams();
+  selectedGuests = params.guests || 2;
+  selectedCheckIn = params.check_in || null;
+  selectedCheckOut = params.check_out || null;
+  
+  if (!params.unit) {
+    document.getElementById('container').innerHTML = '<div class="error-state">❌ No unit specified. Please go back and select a unit.</div>';
+    return;
   }
   
-  function handleBooking() {
-    if (!checkAvailability()) return;
-    
-    const nights = Math.ceil((new Date(selectedCheckOut) - new Date(selectedCheckIn)) / (1000 * 60 * 60 * 24));
-    const subtotal = nights * unitData.price_per_night;
-    const total = subtotal + unitData.cleaning_fee;
-    
-    // Create payload for uChat widget
-    const payload = {
-      host_id: unitData.host_id,
-      unit_id: unitData.id,
-      unit_title: unitData.title,
-      check_in: selectedCheckIn,
-      check_out: selectedCheckOut,
-      guests: selectedGuests,
-      nights: nights,
-      subtotal: subtotal,
-      cleaning_fee: unitData.cleaning_fee,
-      total: total
-    };
-    
-    const encodedPayload = btoa(JSON.stringify(payload));
-    // Replace with your actual uChat widget URL
-    const widgetUrl = `https://www.uchat.com.au/p/web/3mqg0rm2p5hxf5jh/full?ref=arrive--${encodedPayload}`;
-    
-    window.open(widgetUrl, '_blank');
+  const unitLoaded = await fetchUnit(params.unit, params.host);
+  if (!unitLoaded) {
+    document.getElementById('container').innerHTML = '<div class="error-state">❌ Unit not found. Please go back and try again.</div>';
+    return;
   }
   
-  function handleChat() {
-    const phone = "254762826978";
-    const message = `Hi! I'm interested in booking "${unitData.title}" on Arrive. Can you tell me more about availability?`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
-  }
+  await Promise.all([
+    fetchHostInfo(params.host),
+    fetchAvailability(params.unit, params.host)
+  ]);
   
-  // Load unit data from URL
-  function loadUnit() {
-    const params = getUrlParams();
-    const unitId = params.unit;
-    
-    if (!unitId || !unitsDatabase[unitId]) {
-      document.getElementById('container').innerHTML = `
-        <div class="loading">
-          <p>❌ Unit not found.</p>
-          <p><a href="javascript:history.back()" style="color: var(--accent);">← Go back to host page</a></p>
-        </div>
-      `;
-      return;
-    }
-    
-    unitData = unitsDatabase[unitId];
-    renderPage();
-  }
-  
-  // Theme toggle
-  const html = document.documentElement;
-  const themeToggle = document.getElementById('themeToggle');
-  let theme = localStorage.getItem('arrive-theme') || 'dark';
-  function setTheme(t) {
-    html.dataset.theme = t;
-    if (themeToggle) themeToggle.textContent = t === 'dark' ? '☀' : '☾';
-    localStorage.setItem('arrive-theme', t);
-  }
-  setTheme(theme);
-  if (themeToggle) themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
-  
-  // Initialize
-  loadUnit();
+  renderPage();
+}
+
+init();
 </script>
 </body>
 </html>
