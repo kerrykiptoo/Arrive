@@ -1,110 +1,534 @@
-<div class="dashboard-container">
-  <!-- Login Form (if not logged in) -->
-  <div id="loginSection" style="display: none;">
-    <h2>Host Login</h2>
-    <input type="email" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <button onclick="handleLogin()">Login</button>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrive — Host Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #C9A96E;
+    --accent-dim: rgba(201,169,110,0.12);
+    --accent-border: rgba(201,169,110,0.30);
+    --radius: 14px;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --trans: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0A0818;
+    --surface: #0F0D1F;
+    --surface2: #151229;
+    --border: rgba(201,169,110,0.15);
+    --border2: rgba(201,169,110,0.25);
+    --text: #FDF4E3;
+    --text2: #B8A87C;
+    --text3: #6A5A3A;
+  }
+
+  [data-theme="light"] {
+    --bg: #FEF9E8;
+    --surface: #FFFFFF;
+    --surface2: #FEF9E8;
+    --border: rgba(201,169,110,0.20);
+    --border2: rgba(201,169,110,0.35);
+    --text: #1A1625;
+    --text2: #5E4B2C;
+    --text3: #B59A78;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.6;
+    min-height:100vh;
+    transition:all var(--trans);
+  }
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    height:70px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 48px;
+    border-bottom:1px solid var(--border);
+    background:rgba(10,8,24,0.92);
+    backdrop-filter:blur(24px);
+  }
+  .nav-logo{
+    font-family:var(--font-body);
+    font-size:14px;font-weight:600;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--text);
+    text-decoration:none;
+  }
+  .nav-logo .e-accent{color:var(--accent);}
+  .theme-toggle{
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--border2);
+    background:var(--surface2);
+    color:var(--text2);
+    cursor:pointer;
+  }
+
+  /* DASHBOARD */
+  .dashboard{
+    max-width:1400px;
+    margin:0 auto;
+    padding:100px 48px 60px;
+  }
+  .dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:32px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .dashboard-header h1{
+    font-family:var(--font-display);
+    font-size:32px;
+    font-weight:600;
+  }
+  .logout-btn{
+    background:transparent;
+    border:1px solid var(--border2);
+    color:var(--text2);
+    padding:8px 20px;
+    border-radius:100px;
+    cursor:pointer;
+  }
+  .logout-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* TABS */
+  .tabs{
+    display:flex;
+    gap:8px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:32px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    padding:12px 24px;
+    background:transparent;
+    border:none;
+    color:var(--text2);
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--accent);
+    border-bottom:2px solid var(--accent);
+  }
+
+  /* FORMS */
+  .login-card{
+    max-width:400px;
+    margin:100px auto;
+    background:var(--surface);
+    border:1px solid var(--border2);
+    border-radius:var(--radius);
+    padding:32px;
+  }
+  .login-card h2{
+    font-family:var(--font-display);
+    margin-bottom:24px;
+  }
+  .login-card input{
+    width:100%;
+    padding:12px;
+    margin-bottom:16px;
+    background:var(--surface2);
+    border:1px solid var(--border2);
+    border-radius:8px;
+    color:var(--text);
+  }
+  .login-card button{
+    width:100%;
+    padding:12px;
+    background:var(--accent);
+    color:var(--bg);
+    border:none;
+    border-radius:100px;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  /* UNITS GRID */
+  .units-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:24px;
+    margin-top:24px;
+  }
+  .unit-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .unit-image{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+  }
+  .unit-info{padding:20px;}
+  .unit-title{
+    font-family:var(--font-display);
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .unit-price{
+    color:var(--accent);
+    font-weight:500;
+    margin:8px 0;
+  }
+  .unit-actions{
+    display:flex;
+    gap:8px;
+    margin-top:16px;
+  }
+  .unit-actions button{
+    flex:1;
+    padding:8px;
+    border-radius:8px;
+    font-size:12px;
+    cursor:pointer;
+  }
+  .btn-edit{
+    background:var(--surface2);
+    border:1px solid var(--border2);
+    color:var(--text2);
+  }
+  .btn-delete{
+    background:rgba(201,169,110,0.15);
+    border:1px solid var(--accent-border);
+    color:var(--accent);
+  }
+
+  /* TABLES */
+  .data-table{
+    width:100%;
+    border-collapse:collapse;
+  }
+  .data-table th,.data-table td{
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid var(--border);
+  }
+  .data-table th{
+    font-weight:600;
+    color:var(--text3);
+    font-size:12px;
+  }
+  .status-badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:100px;
+    font-size:11px;
+  }
+  .status-confirmed{background:rgba(201,169,110,0.2);color:var(--accent);}
+  .action-btn{
+    background:transparent;
+    border:1px solid var(--border2);
+    padding:4px 12px;
+    border-radius:100px;
+    font-size:11px;
+    cursor:pointer;
+    color:var(--text2);
+  }
+  .empty-state{
+    text-align:center;
+    padding:60px;
+    color:var(--text3);
+  }
+
+  /* MODAL */
+  .modal{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+  }
+  .modal-content{
+    background:var(--surface);
+    border-radius:var(--radius);
+    padding:32px;
+    max-width:500px;
+    width:90%;
+  }
+  .modal-content input,.modal-content textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    background:var(--surface2);
+    border:1px solid var(--border2);
+    border-radius:8px;
+    color:var(--text);
+  }
+  .modal-buttons{
+    display:flex;
+    gap:12px;
+    justify-content:flex-end;
+    margin-top:16px;
+  }
+
+  @media(max-width:700px){
+    nav{padding:0 24px;}
+    .dashboard{padding:90px 24px 40px;}
+    .units-grid{grid-template-columns:1fr;}
+    .data-table{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">ARR<span class="e-accent">I</span>VE</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
+</nav>
+
+<div class="dashboard" id="dashboard">
+  <!-- Login Section -->
+  <div id="loginSection">
+    <div class="login-card">
+      <h2>Host Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email address">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button id="loginBtn">Login to dashboard →</button>
+    </div>
   </div>
 
-  <!-- Dashboard Content (if logged in) -->
-  <div id="dashboardContent" style="display: none;">
+  <!-- Dashboard Content -->
+  <div id="dashboardContent" style="display:none;">
+    <div class="dashboard-header">
+      <h1>Host Dashboard</h1>
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="units">Units</button>
+      <button class="tab" data-tab="bookings">Bookings</button>
+      <button class="tab" data-tab="guests">Guests</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+
     <!-- Units Tab -->
     <div id="unitsTab" class="tab-content">
-      <button onclick="showAddUnitForm()">+ Add Unit</button>
-      <div id="unitsList"></div>
+      <button id="addUnitBtn" style="background:var(--accent);color:var(--bg);border:none;padding:10px 20px;border-radius:100px;margin-bottom:20px;cursor:pointer;">+ Add New Unit</button>
+      <div id="unitsList" class="units-grid"></div>
     </div>
 
     <!-- Bookings Tab -->
-    <div id="bookingsTab" class="tab-content" style="display: none;">
+    <div id="bookingsTab" class="tab-content" style="display:none;">
       <div id="bookingsList"></div>
     </div>
 
     <!-- Guests Tab -->
-    <div id="guestsTab" class="tab-content" style="display: none;">
+    <div id="guestsTab" class="tab-content" style="display:none;">
       <div id="guestsList"></div>
     </div>
 
     <!-- Settings Tab -->
-    <div id="settingsTab" class="tab-content" style="display: none;">
-      <h3>Paystack Settings</h3>
-      <input type="text" id="paystackKey" placeholder="Paystack Secret Key">
-      <button onclick="savePaystackKey()">Save</button>
-      
-      <h3>Profile Settings</h3>
-      <input type="text" id="storeName" placeholder="Store Name">
-      <input type="text" id="storeDescription" placeholder="Description">
-      <button onclick="saveProfile()">Save Profile</button>
+    <div id="settingsTab" class="tab-content" style="display:none;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px;">
+        <h3 style="margin-bottom:16px;">Paystack Settings</h3>
+        <input type="text" id="paystackKey" placeholder="Paystack Secret Key" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;margin-bottom:16px;">
+        <button id="savePaystackBtn" style="background:var(--accent);color:var(--bg);border:none;padding:10px 20px;border-radius:100px;cursor:pointer;">Save Paystack Key</button>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+        <h3 style="margin-bottom:16px;">Profile Settings</h3>
+        <input type="text" id="storeName" placeholder="Store Name" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;margin-bottom:16px;">
+        <textarea id="storeDescription" placeholder="Store Description" rows="3" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;margin-bottom:16px;"></textarea>
+        <button id="saveProfileBtn" style="background:var(--accent);color:var(--bg);border:none;padding:10px 20px;border-radius:100px;cursor:pointer;">Save Profile</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// Initialize dashboard
-async function initDashboard() {
-  if (!isLoggedIn()) {
-    document.getElementById('loginSection').style.display = 'block';
-    document.getElementById('dashboardContent').style.display = 'none';
-    return;
+const API_BASE = 'https://breezy-api-r7jg.onrender.com';
+let currentClientId = null;
+let authToken = null;
+
+// ========== API FUNCTIONS ==========
+async function login(email, password) {
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (data.success && data.token) {
+      authToken = data.token;
+      currentClientId = data.client_id;
+      localStorage.setItem('arrive_token', authToken);
+      localStorage.setItem('arrive_client_id', currentClientId);
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error('Login failed:', err);
+    return false;
   }
-  
-  document.getElementById('loginSection').style.display = 'none';
-  document.getElementById('dashboardContent').style.display = 'block';
-  
-  // Load data
-  await loadUnits();
-  await loadBookings();
-  await loadGuests();
 }
 
-// Load and render units
-async function loadUnits() {
+async function fetchUnits() {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/units/list?client_id=${currentClientId}`);
+    const data = await res.json();
+    return data.success ? data.units : [];
+  } catch (err) {
+    console.error('Fetch units failed:', err);
+    return [];
+  }
+}
+
+async function addUnit(unitData) {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/units/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: currentClientId, ...unitData })
+    });
+    const data = await res.json();
+    return data.success;
+  } catch (err) {
+    console.error('Add unit failed:', err);
+    return false;
+  }
+}
+
+async function deleteUnit(unitId) {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/units/delete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: currentClientId, unit_id: unitId })
+    });
+    const data = await res.json();
+    return data.success;
+  } catch (err) {
+    console.error('Delete unit failed:', err);
+    return false;
+  }
+}
+
+async function fetchBookings() {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/bookings/list?client_id=${currentClientId}`);
+    const data = await res.json();
+    return data.success ? data.bookings : [];
+  } catch (err) {
+    console.error('Fetch bookings failed:', err);
+    return [];
+  }
+}
+
+async function fetchGuests() {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/guests/list?client_id=${currentClientId}`);
+    const data = await res.json();
+    return data.success ? data.guests : [];
+  } catch (err) {
+    console.error('Fetch guests failed:', err);
+    return [];
+  }
+}
+
+async function checkinBooking(orderReference) {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/bookings/checkin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: currentClientId, order_reference: orderReference })
+    });
+    const data = await res.json();
+    return data.success;
+  } catch (err) {
+    console.error('Check-in failed:', err);
+    return false;
+  }
+}
+
+async function checkoutBooking(orderReference) {
+  try {
+    const res = await fetch(`${API_BASE}/arrive/bookings/checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: currentClientId, order_reference: orderReference })
+    });
+    const data = await res.json();
+    return data.success;
+  } catch (err) {
+    console.error('Check-out failed:', err);
+    return false;
+  }
+}
+
+// ========== RENDER FUNCTIONS ==========
+async function renderUnits() {
   const units = await fetchUnits();
   const container = document.getElementById('unitsList');
   
-  if (units.length === 0) {
-    container.innerHTML = '<p>No units yet. Click "Add Unit" to get started.</p>';
+  if (!units.length) {
+    container.innerHTML = '<div class="empty-state">✨ No units yet. Click "Add New Unit" to get started.</div>';
     return;
   }
   
   container.innerHTML = units.map(unit => `
     <div class="unit-card">
-      <img src="${unit.image1 || 'placeholder.jpg'}" class="unit-image">
-      <h3>${unit.name}</h3>
-      <p>KES ${unit.price_per_night}/night | Capacity: ${unit.capacity}</p>
-      <button onclick="editUnit('${unit._id}')">Edit</button>
-      <button onclick="deleteUnit('${unit._id}')">Delete</button>
-      <button onclick="manageAvailability('${unit._id}')">Manage Dates</button>
+      <img class="unit-image" src="${unit.image1 || 'https://placehold.co/600x400/151229/C9A96E?text=No+Image'}" alt="${unit.name}">
+      <div class="unit-info">
+        <div class="unit-title">${unit.name}</div>
+        <div class="unit-price">KES ${(unit.price_per_night || 0).toLocaleString()} / night</div>
+        <div>👥 Up to ${unit.capacity || 2} guests</div>
+        <div class="unit-actions">
+          <button class="btn-edit" onclick="editUnitPrompt('${unit._id}')">✏️ Edit</button>
+          <button class="btn-delete" onclick="deleteUnitPrompt('${unit._id}')">🗑️ Delete</button>
+        </div>
+      </div>
     </div>
   `).join('');
 }
 
-// Load and render bookings
-async function loadBookings() {
+async function renderBookings() {
   const bookings = await fetchBookings();
   const container = document.getElementById('bookingsList');
   
-  if (bookings.length === 0) {
-    container.innerHTML = '<p>No bookings yet.</p>';
+  if (!bookings.length) {
+    container.innerHTML = '<div class="empty-state">📅 No bookings yet.</div>';
     return;
   }
   
   container.innerHTML = `
-    <table>
-      <thead>
-        <tr><th>Guest</th><th>Unit</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Actions</th></tr>
-      </thead>
+    <table class="data-table">
+      <thead><tr><th>Guest</th><th>Unit</th><th>Check-in</th><th>Check-out</th><th>Guests</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
         ${bookings.map(b => `
           <tr>
-            <td>${b.guest_name}</td>
-            <td>${b.unit_name}</td>
-            <td>${new Date(b.checkin).toLocaleDateString()}</td>
-            <td>${new Date(b.checkout).toLocaleDateString()}</td>
-            <td>${b.status}</td>
+            <td>${b.guest_name || '-'}</td>
+            <td>${b.unit_name || '-'}</td>
+            <td>${b.checkin ? new Date(b.checkin).toLocaleDateString() : '-'}</td>
+            <td>${b.checkout ? new Date(b.checkout).toLocaleDateString() : '-'}</td>
+            <td>${b.guests || '-'}</td>
+            <td>KES ${(b.total_price || 0).toLocaleString()}</td>
+            <td><span class="status-badge status-confirmed">${b.status || 'confirmed'}</span></td>
             <td>
-              ${!b.checked_in ? `<button onclick="checkin('${b.order_reference}')">Check-in</button>` : ''}
-              ${!b.checked_out && b.checked_in ? `<button onclick="checkout('${b.order_reference}')">Check-out</button>` : ''}
+              ${!b.checked_in ? `<button class="action-btn" onclick="checkinBookingAction('${b.order_reference}')">Check-in</button>` : ''}
+              ${b.checked_in && !b.checked_out ? `<button class="action-btn" onclick="checkoutBookingAction('${b.order_reference}')">Check-out</button>` : ''}
             </td>
           </tr>
         `).join('')}
@@ -113,27 +537,24 @@ async function loadBookings() {
   `;
 }
 
-// Load and render guests
-async function loadGuests() {
+async function renderGuests() {
   const guests = await fetchGuests();
   const container = document.getElementById('guestsList');
   
-  if (guests.length === 0) {
-    container.innerHTML = '<p>No guests yet.</p>';
+  if (!guests.length) {
+    container.innerHTML = '<div class="empty-state">👥 No guests yet.</div>';
     return;
   }
   
   container.innerHTML = `
-    <table>
-      <thead>
-        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Bookings</th></tr>
-      </thead>
+    <table class="data-table">
+      <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Bookings</th></tr></thead>
       <tbody>
         ${guests.map(g => `
           <tr>
-            <td>${g.name}</td>
-            <td>${g.email}</td>
-            <td>${g.phone}</td>
+            <td>${g.name || '-'}</td>
+            <td>${g.email || '-'}</td>
+            <td>${g.phone || '-'}</td>
             <td>${g.booking_count || 0}</td>
           </tr>
         `).join('')}
@@ -142,73 +563,122 @@ async function loadGuests() {
   `;
 }
 
-// Add unit form
-function showAddUnitForm() {
+// ========== ACTIONS ==========
+window.editUnitPrompt = async function(unitId) {
+  // Simple edit - in production, load current data first
+  const newName = prompt('New unit name:');
+  if (newName) {
+    // Call update endpoint
+    alert('Edit functionality will be implemented fully in next iteration');
+  }
+};
+
+window.deleteUnitPrompt = async function(unitId) {
+  if (confirm('Are you sure you want to delete this unit?')) {
+    await deleteUnit(unitId);
+    await renderUnits();
+  }
+};
+
+window.checkinBookingAction = async function(orderRef) {
+  await checkinBooking(orderRef);
+  await renderBookings();
+};
+
+window.checkoutBookingAction = async function(orderRef) {
+  await checkoutBooking(orderRef);
+  await renderBookings();
+};
+
+function showAddUnitModal() {
   const name = prompt('Unit name:');
   const price = prompt('Price per night (KES):');
   const capacity = prompt('Max guests:');
   const description = prompt('Description:');
   
-  addUnit({ name, price_per_night: price, capacity, description });
-}
-
-// Edit unit
-async function editUnit(unitId) {
-  // Fetch unit details first, then show edit form
-  // Implementation similar to add but with pre-filled values
-}
-
-// Delete unit
-async function deleteUnit(unitId) {
-  if (confirm('Are you sure?')) {
-    await deleteUnit(unitId);
-    await loadUnits();
+  if (name && price) {
+    addUnit({ 
+      name, 
+      price_per_night: parseFloat(price), 
+      capacity: parseInt(capacity) || 2,
+      description: description || ''
+    }).then(success => {
+      if (success) renderUnits();
+      else alert('Failed to add unit');
+    });
   }
 }
 
-// Check-in booking
-async function checkin(orderRef) {
-  await checkinBooking(orderRef);
-  await loadBookings();
+// ========== TAB SWITCHING ==========
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+  document.getElementById(`${tabName}Tab`).style.display = 'block';
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+  
+  if (tabName === 'units') renderUnits();
+  if (tabName === 'bookings') renderBookings();
+  if (tabName === 'guests') renderGuests();
 }
 
-// Check-out booking
-async function checkout(orderRef) {
-  await checkoutBooking(orderRef);
-  await loadBookings();
-}
-
-// Save Paystack key
-async function savePaystackKey() {
-  const key = document.getElementById('paystackKey').value;
-  // Call update-paystack endpoint
-}
-
-// Save profile
-async function saveProfile() {
-  const name = document.getElementById('storeName').value;
-  const desc = document.getElementById('storeDescription').value;
-  // Call update-profile endpoint
-}
-
-// Tab switching
-function switchTab(tab) {
-  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-  document.getElementById(`${tab}Tab`).style.display = 'block';
+// ========== INITIALIZATION ==========
+function initDashboard() {
+  const token = localStorage.getItem('arrive_token');
+  const clientId = localStorage.getItem('arrive_client_id');
+  
+  if (token && clientId) {
+    authToken = token;
+    currentClientId = clientId;
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('dashboardContent').style.display = 'block';
+    renderUnits();
+  } else {
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('dashboardContent').style.display = 'none';
+  }
 }
 
 // Login handler
-async function handleLogin() {
+document.getElementById('loginBtn')?.addEventListener('click', async () => {
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
   const success = await login(email, password);
   if (success) {
     initDashboard();
   } else {
-    alert('Login failed');
+    alert('Login failed. Check your credentials.');
   }
+});
+
+// Logout handler
+document.getElementById('logoutBtn')?.addEventListener('click', () => {
+  localStorage.removeItem('arrive_token');
+  localStorage.removeItem('arrive_client_id');
+  initDashboard();
+});
+
+// Add unit button
+document.getElementById('addUnitBtn')?.addEventListener('click', showAddUnitModal);
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+});
+
+// Theme toggle
+const html = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+let theme = localStorage.getItem('arrive-theme') || 'dark';
+function setTheme(t) {
+  html.dataset.theme = t;
+  themeToggle.textContent = t === 'dark' ? '☀' : '☾';
+  localStorage.setItem('arrive-theme', t);
 }
+setTheme(theme);
+themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
 // Initialize
 initDashboard();
 </script>
+</body>
+</html>
