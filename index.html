@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arrive — Turn your space into income</title>
+<title>Arrive — Your property. Your guests. Your reviews.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent: #E67E22;
-    --accent-dim: rgba(230,126,34,0.12);
-    --accent-border: rgba(230,126,34,0.30);
+    --accent: #C9A96E;
+    --accent-dim: rgba(201,169,110,0.12);
+    --accent-border: rgba(201,169,110,0.30);
     --radius: 14px;
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'DM Sans', sans-serif;
@@ -18,32 +18,31 @@
   }
 
   [data-theme="dark"] {
-    --bg: #0F0C0A;
-    --bg2: #1C1714;
-    --surface: #1C1714;
-    --surface2: #2A221E;
-    --border: rgba(230,126,34,0.15);
-    --border2: rgba(230,126,34,0.25);
+    --bg: #0A0818;
+    --bg2: #0F0D1F;
+    --surface: #0F0D1F;
+    --surface2: #151229;
+    --border: rgba(201,169,110,0.15);
+    --border2: rgba(201,169,110,0.25);
     --text: #FDF4E3;
-    --text2: #C9B79A;
-    --text3: #8B7355;
+    --text2: #B8A87C;
+    --text3: #6A5A3A;
   }
 
   [data-theme="light"] {
-    --bg: #FFF8F0;
-    --bg2: #FEF7E9;
+    --bg: #FEF9E8;
+    --bg2: #FDF5E0;
     --surface: #FFFFFF;
-    --surface2: #FEF7E9;
-    --border: rgba(230,126,34,0.12);
-    --border2: rgba(230,126,34,0.20);
-    --text: #2C241A;
-    --text2: #6B5A48;
+    --surface2: #FEF9E8;
+    --border: rgba(201,169,110,0.20);
+    --border2: rgba(201,169,110,0.35);
+    --text: #1A1625;
+    --text2: #5E4B2C;
     --text3: #B59A78;
   }
 
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{
     background:var(--bg);
     color:var(--text);
@@ -51,7 +50,6 @@
     font-weight:300;
     line-height:1.6;
     min-height:100vh;
-    overflow-x:hidden;
     transition:background var(--trans),color var(--trans);
   }
 
@@ -62,215 +60,112 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:0 48px;
     border-bottom:1px solid var(--border);
-    background:rgba(15,12,10,0.92);
+    background:rgba(10,8,24,0.92);
     backdrop-filter:blur(24px);
-    -webkit-backdrop-filter:blur(24px);
-    transition:background var(--trans),border-color var(--trans);
   }
-  [data-theme="light"] nav{background:rgba(255,248,240,0.92);}
-
   .nav-logo{
-    font-family:var(--font-body);
     font-size:14px;font-weight:600;
     letter-spacing:0.2em;
     text-transform:uppercase;
     color:var(--text);
     text-decoration:none;
   }
-  .nav-logo .e-accent{
-    color:var(--accent);
-  }
-
+  .nav-logo .e-accent{color:var(--accent);}
   .nav-links{
     display:flex;
-    align-items:center;
     gap:32px;
+    align-items:center;
   }
   .nav-links a{
-    font-size:13px;
-    font-weight:400;
     color:var(--text2);
     text-decoration:none;
-    transition:color 0.2s;
+    font-size:13px;
   }
-  .nav-links a:hover{
-    color:var(--text);
-  }
+  .nav-links a:hover{color:var(--accent);}
   .nav-cta{
     padding:10px 24px;
     background:var(--accent);
     color:var(--bg)!important;
-    font-weight:600!important;
-    font-size:11px!important;
-    letter-spacing:2px;
-    text-transform:uppercase;
     border-radius:100px;
-    transition:all 0.2s;
-  }
-  .nav-cta:hover{
-    transform:translateY(-1px);
-    opacity:0.9;
+    font-weight:600;
+    font-size:12px;
   }
   .theme-toggle{
-    width:36px;
-    height:36px;
-    border-radius:50%;
+    width:36px;height:36px;border-radius:50%;
     border:1px solid var(--border2);
     background:var(--surface2);
     color:var(--text2);
     cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:15px;
-    transition:all .2s;
-  }
-  .theme-toggle:hover{
-    border-color:var(--accent);
-    color:var(--accent);
   }
 
   /* HERO */
   .hero{
-    padding-top:70px;
-    min-height:90vh;
-    display:flex;
+    padding:120px 48px 80px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
     align-items:center;
-    position:relative;
-    overflow:hidden;
-    padding-left:48px;
-    padding-right:48px;
+    max-width:1400px;
+    margin:0 auto;
   }
-  .hero-orb{
-    position:absolute;
-    width:800px;
-    height:800px;
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(230,126,34,0.06) 0%,transparent 70%);
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    pointer-events:none;
-  }
-  .hero-content{
-    max-width:600px;
-    position:relative;
-    z-index:2;
-  }
-  .pill{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid var(--accent-border);
-    background:var(--accent-dim);
-    border-radius:100px;
-    padding:6px 16px 6px 11px;
-    font-size:12px;
-    color:var(--accent);
-    font-weight:500;
-    letter-spacing:0.04em;
-    margin-bottom:28px;
-    opacity:0;
-    animation:up 0.6s 0.1s forwards;
-  }
-  .dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:var(--accent);
-    animation:blink 2.5s infinite;
-  }
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-  @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
-  .hero h1{
+  .hero-left h1{
     font-family:var(--font-display);
-    font-size:clamp(48px,7vw,80px);
-    font-weight:700;
-    line-height:1.05;
-    letter-spacing:-0.02em;
+    font-size:clamp(40px,5vw,64px);
+    font-weight:600;
+    line-height:1.1;
     margin-bottom:24px;
-    opacity:0;
-    animation:up 0.7s 0.2s forwards;
   }
-  .hero h1 em{
+  .hero-left h1 em{
+    color:var(--accent);
     font-style:italic;
+  }
+  .hero-left p{
+    font-size:18px;
+    color:var(--text2);
+    margin-bottom:32px;
+    line-height:1.7;
+  }
+  .hero-stats{
+    display:flex;
+    gap:32px;
+    margin-bottom:40px;
+  }
+  .stat-item h3{
+    font-size:28px;
+    font-weight:600;
     color:var(--accent);
   }
-  .hero p{
-    font-size:18px;
-    font-weight:300;
-    color:var(--text2);
-    line-height:1.7;
-    margin-bottom:32px;
-    max-width:520px;
-    opacity:0;
-    animation:up 0.6s 0.3s forwards;
+  .stat-item p{
+    font-size:12px;
+    color:var(--text3);
+    margin:0;
   }
   .hero-buttons{
     display:flex;
     gap:16px;
-    flex-wrap:wrap;
-    margin-bottom:48px;
-    opacity:0;
-    animation:up 0.6s 0.4s forwards;
   }
   .btn-primary{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
     background:var(--accent);
     color:var(--bg);
-    border:none;
-    border-radius:100px;
     padding:14px 32px;
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:1px;
-    text-transform:uppercase;
+    border-radius:100px;
     text-decoration:none;
-    transition:all 0.2s;
-  }
-  .btn-primary:hover{
-    transform:translateY(-2px);
-    opacity:0.9;
+    font-weight:600;
+    font-size:14px;
+    display:inline-block;
   }
   .btn-outline{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:transparent;
     border:1px solid var(--border2);
     color:var(--text);
-    border-radius:100px;
     padding:14px 32px;
-    font-size:12px;
-    font-weight:500;
+    border-radius:100px;
     text-decoration:none;
-    transition:all 0.2s;
-  }
-  .btn-outline:hover{
-    border-color:var(--accent);
-    color:var(--accent);
-    transform:translateY(-2px);
-  }
-  .trust-badges{
-    display:flex;
-    align-items:center;
-    gap:24px;
-    flex-wrap:wrap;
-    opacity:0;
-    animation:up 0.5s 0.5s forwards;
-  }
-  .trust-item{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:12px;
-    color:var(--text3);
-  }
-  .trust-item span{
     font-size:14px;
+  }
+  .hero-right img{
+    width:100%;
+    border-radius:var(--radius);
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
   }
 
   /* CALCULATOR SECTION */
@@ -290,117 +185,73 @@
   }
   .calc-left h2{
     font-family:var(--font-display);
-    font-size:clamp(32px,4vw,48px);
+    font-size:clamp(32px,4vw,44px);
     font-weight:600;
     margin-bottom:16px;
-    line-height:1.2;
   }
-  .calc-left h2 em{
-    color:var(--accent);
-    font-style:italic;
-  }
-  .calc-left p{
-    font-size:15px;
-    color:var(--text2);
-    line-height:1.7;
-    margin-bottom:32px;
-  }
+  .calc-left h2 em{color:var(--accent);font-style:italic;}
+  .calc-left p{color:var(--text2);margin-bottom:24px;}
   .calc-card{
     background:var(--surface2);
     border:1px solid var(--border2);
     border-radius:var(--radius);
     padding:32px;
   }
-  .calc-input-group{
+  .slider-group{
     margin-bottom:24px;
   }
-  .calc-label{
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:1px;
-    text-transform:uppercase;
+  .slider-label{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
     color:var(--text3);
     margin-bottom:8px;
-    display:block;
   }
-  .calc-input{
+  input[type="range"]{
     width:100%;
-    padding:12px 16px;
-    background:var(--surface);
-    border:1px solid var(--border2);
-    border-radius:8px;
-    font-size:16px;
-    font-weight:500;
-    color:var(--text);
-    font-family:var(--font-body);
-    outline:none;
-    transition:border-color 0.2s;
-  }
-  .calc-input:focus{
-    border-color:var(--accent);
-  }
-  .calc-slider{
-    width:100%;
-    margin:12px 0;
     accent-color:var(--accent);
   }
   .calc-result{
-    background:var(--accent-dim);
+    background:rgba(201,169,110,0.08);
     border:1px solid var(--accent-border);
     border-radius:12px;
     padding:24px;
-    margin:24px 0;
-    text-align:center;
+    margin-top:24px;
   }
-  .calc-result-label{
-    font-size:11px;
-    color:var(--text3);
-    letter-spacing:1px;
-    margin-bottom:8px;
-  }
-  .calc-result-value{
-    font-family:var(--font-display);
-    font-size:42px;
-    font-weight:600;
-    color:var(--accent);
-    line-height:1;
-  }
-  .calc-result-sub{
-    font-size:12px;
-    color:var(--text2);
-    margin-top:8px;
-  }
-  .calc-note{
-    font-size:11px;
-    color:var(--text3);
-    text-align:center;
-    margin-top:16px;
-  }
-  .testimonial-card{
-    background:var(--surface2);
-    border:1px solid var(--border2);
-    border-radius:var(--radius);
-    padding:28px;
-    margin-bottom:24px;
-  }
-  .testimonial-card:last-child{margin-bottom:0;}
-  .testimonial-stars{
-    color:var(--accent);
-    font-size:18px;
+  .result-row{
+    display:flex;
+    justify-content:space-between;
     margin-bottom:12px;
-  }
-  .testimonial-text{
     font-size:14px;
-    color:var(--text2);
-    line-height:1.7;
-    margin-bottom:12px;
   }
-  .testimonial-author{
-    font-size:12px;
-    font-weight:500;
-    color:var(--text);
+  .result-total{
+    display:flex;
+    justify-content:space-between;
+    padding-top:12px;
+    margin-top:8px;
+    border-top:1px solid var(--border);
+    font-weight:700;
+    font-size:20px;
+    color:var(--accent);
   }
-  .testimonial-location{
+  .growth-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:24px;
+  }
+  .growth-card{
+    text-align:center;
+    padding:16px;
+    background:var(--surface2);
+    border-radius:12px;
+  }
+  .growth-value{
+    font-size:24px;
+    font-weight:700;
+    color:var(--accent);
+  }
+  .growth-label{
     font-size:11px;
     color:var(--text3);
   }
@@ -408,243 +259,61 @@
   /* FEATURES */
   .features{
     padding:80px 48px;
-  }
-  .section-header{
-    text-align:center;
-    max-width:700px;
-    margin:0 auto 60px;
-  }
-  .section-header h2{
-    font-family:var(--font-display);
-    font-size:clamp(32px,4vw,48px);
-    font-weight:600;
-    margin-bottom:16px;
-  }
-  .section-header h2 em{
-    color:var(--accent);
-    font-style:italic;
-  }
-  .section-header p{
-    font-size:16px;
-    color:var(--text2);
-  }
-  .features-grid{
     max-width:1200px;
     margin:0 auto;
+    text-align:center;
+  }
+  .features h2{
+    font-family:var(--font-display);
+    font-size:clamp(32px,4vw,44px);
+    margin-bottom:16px;
+  }
+  .features h2 em{color:var(--accent);font-style:italic;}
+  .features-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:24px;
+    grid-template-columns:repeat(4,1fr);
+    gap:32px;
+    margin-top:48px;
   }
   .feature-card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:32px;
-    transition:all 0.2s;
-  }
-  .feature-card:hover{
-    border-color:var(--accent-border);
-    transform:translateY(-4px);
+    text-align:center;
+    padding:24px;
   }
   .feature-icon{
-    font-size:42px;
-    margin-bottom:20px;
+    font-size:40px;
+    margin-bottom:16px;
   }
   .feature-card h3{
     font-size:18px;
-    font-weight:600;
-    margin-bottom:12px;
+    margin-bottom:8px;
   }
   .feature-card p{
     font-size:13px;
     color:var(--text2);
-    line-height:1.6;
   }
 
-  /* HOW IT WORKS */
-  .how-it-works{
+  /* QUOTE */
+  .quote{
     padding:80px 48px;
     background:var(--surface);
-    border-top:1px solid var(--border);
-  }
-  .steps-grid{
-    max-width:1200px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:32px;
-  }
-  .step{
     text-align:center;
   }
-  .step-number{
-    width:56px;
-    height:56px;
-    background:var(--accent-dim);
-    border:1px solid var(--accent-border);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  .quote blockquote{
     font-family:var(--font-display);
-    font-size:24px;
-    font-weight:600;
-    color:var(--accent);
-    margin:0 auto 20px;
+    font-size:28px;
+    font-style:italic;
+    max-width:800px;
+    margin:0 auto 24px;
+    line-height:1.4;
   }
-  .step h4{
-    font-size:16px;
-    font-weight:600;
-    margin-bottom:8px;
-  }
-  .step p{
-    font-size:12px;
-    color:var(--text2);
-    line-height:1.6;
-  }
+  .quote p{color:var(--text2);}
 
-  /* PRICING TIERS */
-  .pricing{
-    padding:80px 48px;
-  }
-  .pricing-grid{
-    max-width:1200px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:24px;
-  }
-  .pricing-card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:32px;
-    transition:all 0.2s;
-  }
-  .pricing-card.featured{
-    border-color:var(--accent-border);
-    background:var(--surface2);
-    transform:scale(1.02);
-  }
-  .pricing-tier{
-    font-size:12px;
-    font-weight:600;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin-bottom:12px;
-  }
-  .pricing-price{
-    font-family:var(--font-display);
-    font-size:42px;
-    font-weight:600;
-    margin-bottom:8px;
-  }
-  .pricing-price span{
-    font-size:16px;
-    font-weight:400;
-    color:var(--text3);
-  }
-  .pricing-desc{
-    font-size:13px;
-    color:var(--text2);
-    margin-bottom:24px;
-    padding-bottom:24px;
-    border-bottom:1px solid var(--border);
-  }
-  .pricing-features{
-    list-style:none;
-    margin-bottom:32px;
-  }
-  .pricing-features li{
-    font-size:13px;
-    color:var(--text2);
-    padding:8px 0;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .pricing-features li::before{
-    content:"✓";
-    color:var(--accent);
-    font-weight:600;
-  }
-  .pricing-btn{
-    display:block;
-    text-align:center;
-    background:transparent;
-    border:1px solid var(--border2);
-    color:var(--text);
-    border-radius:100px;
-    padding:12px;
-    font-size:12px;
-    font-weight:600;
-    text-decoration:none;
-    transition:all 0.2s;
-  }
-  .pricing-btn:hover{
-    border-color:var(--accent);
-    color:var(--accent);
-  }
-  .featured .pricing-btn{
-    background:var(--accent);
-    color:var(--bg);
-    border:none;
-  }
-  .featured .pricing-btn:hover{
-    opacity:0.9;
-    transform:translateY(-2px);
-  }
-
-  /* FAQ */
-  .faq{
-    padding:80px 48px;
-    background:var(--surface);
-    border-top:1px solid var(--border);
-  }
-  .faq-grid{
-    max-width:900px;
-    margin:0 auto;
-  }
-  .faq-item{
-    border-bottom:1px solid var(--border);
-    padding:20px 0;
-  }
-  .faq-question{
-    font-size:16px;
-    font-weight:500;
-    cursor:pointer;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-  }
-  .faq-question:hover{
-    color:var(--accent);
-  }
-  .faq-answer{
-    font-size:14px;
-    color:var(--text2);
-    line-height:1.7;
-    padding-top:12px;
-    display:none;
-  }
-  .faq-answer.show{
-    display:block;
-  }
-  .faq-icon{
-    font-size:20px;
-    transition:transform 0.2s;
-  }
-  .faq-item.open .faq-icon{
-    transform:rotate(45deg);
-  }
-
-  /* TRIAL SECTION */
-  .trial-section{
+  /* CTA */
+  .cta{
     padding:80px 48px;
     text-align:center;
   }
-  .trial-card{
+  .cta-card{
     max-width:700px;
     margin:0 auto;
     background:var(--surface);
@@ -652,104 +321,37 @@
     border-radius:24px;
     padding:48px;
   }
-  .trial-card h2{
+  .cta-card h2{
     font-family:var(--font-display);
-    font-size:clamp(28px,4vw,38px);
-    font-weight:600;
+    font-size:32px;
     margin-bottom:16px;
   }
-  .trial-card h2 em{
-    color:var(--accent);
-    font-style:italic;
-  }
-  .trial-card p{
-    font-size:15px;
+  .cta-card p{
     color:var(--text2);
     margin-bottom:32px;
   }
-  .trial-note{
-    font-size:11px;
-    color:var(--text3);
-    margin-top:24px;
-  }
 
-  /* FOOTER */
   footer{
-    padding:48px 48px 32px;
+    padding:48px;
     border-top:1px solid var(--border);
-  }
-  .footer-inner{
-    max-width:1200px;
-    margin:0 auto;
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:40px;
-  }
-  .footer-col h4{
+    text-align:center;
+    color:var(--text3);
     font-size:12px;
-    font-weight:600;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    color:var(--text3);
-    margin-bottom:16px;
-  }
-  .footer-col a{
-    display:block;
-    font-size:13px;
-    color:var(--text2);
-    text-decoration:none;
-    margin-bottom:10px;
-    transition:color 0.2s;
-  }
-  .footer-col a:hover{
-    color:var(--text);
-  }
-  .footer-bottom{
-    max-width:1200px;
-    margin:48px auto 0;
-    padding-top:24px;
-    border-top:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:16px;
-    font-size:11px;
-    color:var(--text3);
-  }
-
-  /* REVEAL ANIMATIONS */
-  .rv{
-    opacity:0;
-    transform:translateY(20px);
-    transition:opacity 0.6s,transform 0.6s;
-  }
-  .rv.in{
-    opacity:1;
-    transform:none;
   }
 
   @media(max-width:900px){
-    nav{padding:0 24px;}
-    .hero{padding:100px 24px 60px;text-align:center;}
-    .hero-content{max-width:100%;}
+    .hero{grid-template-columns:1fr;padding:100px 24px 60px;text-align:center;}
+    .hero-stats{justify-content:center;}
     .hero-buttons{justify-content:center;}
-    .trust-badges{justify-content:center;}
-    .calc-container{grid-template-columns:1fr;gap:40px;}
-    .features-grid{grid-template-columns:1fr 1fr;}
-    .steps-grid{grid-template-columns:repeat(2,1fr);}
-    .pricing-grid{grid-template-columns:1fr;}
-    .pricing-card.featured{transform:none;}
-    .footer-inner{grid-template-columns:repeat(2,1fr);}
+    .calc-container{grid-template-columns:1fr;}
+    .features-grid{grid-template-columns:repeat(2,1fr);}
+    .growth-grid{grid-template-columns:1fr;}
   }
   @media(max-width:600px){
-    .nav-links{display:none;}
     .features-grid{grid-template-columns:1fr;}
-    .steps-grid{grid-template-columns:1fr;}
-    .calc-section,.features,.how-it-works,.pricing,.faq,.trial-section{padding:60px 24px;}
-    .hero{padding:100px 24px 60px;}
-    .trial-card{padding:32px 24px;}
-    .footer-inner{grid-template-columns:1fr;}
+    .hero{padding:100px 20px 60px;}
+    .calc-section{padding:60px 24px;}
+    .cta-card{padding:32px 24px;}
   }
 </style>
 </head>
@@ -758,349 +360,160 @@
 <nav>
   <a href="/" class="nav-logo">ARR<span class="e-accent">I</span>VE</a>
   <div class="nav-links">
-    <a href="#features">Features</a>
     <a href="#calculator">Calculator</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
-    <a href="https://wa.me/254762826978" class="nav-cta" target="_blank">List your space →</a>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀</button>
+    <a href="#features">Features</a>
+    <a href="https://wa.me/254762826978?text=I'm%20ready%20to%20list%20my%20space%20on%20Arrive" class="nav-cta" target="_blank">List your space →</a>
+    <button class="theme-toggle" id="themeToggle">☀</button>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-orb"></div>
-  <div class="hero-content">
-    <div class="pill">
-      <span class="dot"></span>
-      No commission. Ever.
+  <div class="hero-left">
+    <h1>Your property.<br/><em>Your guests.</em><br/>Your reviews.</h1>
+    <p>Arrive gives you your own booking page. No commissions. No hidden fees. What guests pay is what you get. And every review stays with you — even if you leave.</p>
+    <div class="hero-stats">
+      <div class="stat-item"><h3>0%</h3><p>commission</p></div>
+      <div class="stat-item"><h3>100%</h3><p>of earnings</p></div>
+      <div class="stat-item"><h3>4.9★</h3><p>host rating</p></div>
     </div>
-    <h1>Turn your space into<br/><em>income, on your terms</em></h1>
-    <p>List your property, cabin, or spare room. Get your own booking page. Keep everything you earn. No hidden fees. No surprises.</p>
     <div class="hero-buttons">
-      <a href="https://wa.me/254762826978" class="btn-primary" target="_blank">Start your free trial →</a>
-      <a href="#calculator" class="btn-outline">See what you could earn</a>
+      <a href="#calculator" class="btn-primary">See what you could earn →</a>
+      <a href="https://wa.me/254762826978?text=I'm%20ready%20to%20list%20my%20space%20on%20Arrive" class="btn-outline" target="_blank">List your space</a>
     </div>
-    <div class="trust-badges">
-      <div class="trust-item"><span>✓</span> No setup fees</div>
-      <div class="trust-item"><span>✓</span> Keep 100% of earnings</div>
-      <div class="trust-item"><span>✓</span> Cancel anytime</div>
-    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg" alt="Property preview">
   </div>
 </section>
 
 <section class="calc-section" id="calculator">
   <div class="calc-container">
-    <div class="calc-left rv">
-      <h2>What could you earn <em>this month?</em></h2>
-      <p>See exactly what your space could make. No guesswork. Just real numbers based on your property and availability.</p>
+    <div class="calc-left">
+      <h2>What could <em>your space</em> earn?</h2>
+      <p>Not a guess. Not a pitch. Real numbers based on your property, your availability, and realistic guest behavior.</p>
+      <div class="growth-grid" id="growthProjection">
+        <div class="growth-card"><div class="growth-value" id="growth14">KES 0</div><div class="growth-label">14 days</div></div>
+        <div class="growth-card"><div class="growth-value" id="growth3">KES 0</div><div class="growth-label">3 months</div></div>
+        <div class="growth-card"><div class="growth-value" id="growth6">KES 0</div><div class="growth-label">6 months</div></div>
+      </div>
+      <p style="font-size:12px; margin-top:16px;">*Based on realistic 30% review rate and 70% occupancy of max bookings</p>
+    </div>
+    <div class="calc-right">
       <div class="calc-card">
-        <div class="calc-input-group">
-          <label class="calc-label">NIGHTLY RATE (KES)</label>
-          <input type="number" id="nightlyRate" class="calc-input" value="3500" step="500">
+        <div class="slider-group">
+          <div class="slider-label"><span>Nightly rate (KES)</span><span id="rateValue">5,000</span></div>
+          <input type="range" id="nightlyRate" min="1000" max="20000" step="500" value="5000">
         </div>
-        <div class="calc-input-group">
-          <label class="calc-label">NIGHTS BOOKED PER MONTH</label>
-          <input type="range" id="nightsSlider" class="calc-slider" min="0" max="30" value="12" step="1">
-          <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text3); margin-top:8px;">
-            <span>0 nights</span>
-            <span id="nightsValue">12 nights</span>
-            <span>30 nights</span>
-          </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Units you have</span><span id="unitsValue">1</span></div>
+          <input type="range" id="unitCount" min="1" max="20" step="1" value="1">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Bookings per month (per unit)</span><span id="bookingsValue">8</span></div>
+          <input type="range" id="bookingsPerMonth" min="0" max="30" step="1" value="8">
         </div>
         <div class="calc-result">
-          <div class="calc-result-label">Estimated monthly earnings</div>
-          <div class="calc-result-value" id="earningsValue">KES 42,000</div>
-          <div class="calc-result-sub" id="yearlyValue">That's KES 504,000 per year</div>
+          <div class="result-row"><span>Monthly revenue</span><span id="monthlyRevenue">KES 40,000</span></div>
+          <div class="result-row"><span>Annual revenue</span><span id="annualRevenue">KES 480,000</span></div>
+          <div class="result-row"><span>Reviews you'd collect (30%)</span><span id="reviewsCount">~29 reviews/year</span></div>
+          <div class="result-total"><span>You keep 100%</span><span>KES 0 commission</span></div>
         </div>
-        <div class="calc-note">
-          Based on your nightly rate and occupancy. You keep 100%.
-        </div>
-      </div>
-    </div>
-    <div class="calc-left rv">
-      <h2>What hosts <em>are saying</em></h2>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text">"I listed my cottage in Limuru. First booking came in 3 days. I keep everything — no commission means I actually make money."</div>
-        <div class="testimonial-author">Grace M.</div>
-        <div class="testimonial-location">Limuru, Kenya</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text">"The guest communication is automated. I don't have to chase anyone. They book, they pay, they show up. Simple."</div>
-        <div class="testimonial-author">Michael K.</div>
-        <div class="testimonial-location">Kilimani, Nairobi</div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="features" id="features">
-  <div class="section-header rv">
-    <h2>Everything you need to <em>host with confidence</em></h2>
-    <p>Same powerful tools that run Breezy stores, now for your space.</p>
-  </div>
+  <h2>What <em>you get</em></h2>
+  <p style="color:var(--text2); margin-bottom:24px;">Everything you need to run a professional booking operation.</p>
   <div class="features-grid">
-    <div class="feature-card rv">
-      <div class="feature-icon">🏠</div>
-      <h3>Your own listing page</h3>
-      <p>Get a dedicated page at arrive.co.ke/yourname. Share it anywhere. Guests book directly with you.</p>
-    </div>
-    <div class="feature-card rv">
-      <div class="feature-icon">📅</div>
-      <h3>Smart availability calendar</h3>
-      <p>Block dates, set pricing, see upcoming bookings. Your calendar updates automatically.</p>
-    </div>
-    <div class="feature-card rv">
-      <div class="feature-icon">💬</div>
-      <h3>Conversational booking</h3>
-      <p>Guests book via chat — dates, guests, payment all handled. You just get the confirmation.</p>
-    </div>
-    <div class="feature-card rv">
-      <div class="feature-icon">💰</div>
-      <h3>Keep everything you earn</h3>
-      <p>No commission. No platform fees. What guests pay is what you get. Paid directly to you.</p>
-    </div>
-    <div class="feature-card rv">
-      <div class="feature-icon">📊</div>
-      <h3>Host dashboard</h3>
-      <p>See earnings, manage bookings, respond to guests, track performance — all in one place.</p>
-    </div>
-    <div class="feature-card rv">
-      <div class="feature-icon">⭐</div>
-      <h3>Reviews that build trust</h3>
-      <p>Collect guest reviews. Build your reputation. Higher tiers push reviews to Google.</p>
-    </div>
+    <div class="feature-card"><div class="feature-icon">🏠</div><h3>Your own listing page</h3><p>arrive.co.ke/yourname — share it anywhere</p></div>
+    <div class="feature-card"><div class="feature-icon">📅</div><h3>Smart calendar</h3><p>Block dates, set pricing, see bookings</p></div>
+    <div class="feature-card"><div class="feature-icon">💬</div><h3>Conversational booking</h3><p>Guests book via chat — no app needed</p></div>
+    <div class="feature-card"><div class="feature-icon">💰</div><h3>Keep 100%</h3><p>No commission. No platform fees.</p></div>
+    <div class="feature-card"><div class="feature-icon">📊</div><h3>Host dashboard</h3><p>Manage everything from one place</p></div>
+    <div class="feature-card"><div class="feature-icon">⭐</div><h3>Reviews that stay</h3><p>Your reviews follow you. Forever.</p></div>
   </div>
 </section>
 
-<section class="how-it-works">
-  <div class="section-header rv">
-    <h2>Get started in <em>minutes</em></h2>
-    <p>No tech skills needed. No complicated setup.</p>
-  </div>
-  <div class="steps-grid">
-    <div class="step rv">
-      <div class="step-number">1</div>
-      <h4>Tell us about your space</h4>
-      <p>Location, photos, price. That's it. We'll build your listing page.</p>
-    </div>
-    <div class="step rv">
-      <div class="step-number">2</div>
-      <h4>Share your link</h4>
-      <p>Post it on social, send to friends, add to WhatsApp status.</p>
-    </div>
-    <div class="step rv">
-      <div class="step-number">3</div>
-      <h4>Get bookings</h4>
-      <p>Guests book via chat. You get notified. Payments handled automatically.</p>
-    </div>
-    <div class="step rv">
-      <div class="step-number">4</div>
-      <h4>Host & earn</h4>
-      <p>Welcome your guests, collect reviews, watch your earnings grow.</p>
-    </div>
-  </div>
+<section class="quote">
+  <blockquote>"If even one review comes in, your customers are already seeing a more professional version of your business."</blockquote>
+  <p>— Arrive</p>
 </section>
 
-<section class="pricing" id="pricing">
-  <div class="section-header rv">
-    <h2>Simple, <em>transparent</em> pricing</h2>
-    <p>No surprises. Just tools that work for you.</p>
-  </div>
-  <div class="pricing-grid">
-    <div class="pricing-card rv">
-      <div class="pricing-tier">Free</div>
-      <div class="pricing-price">KES 0<span>/month</span></div>
-      <div class="pricing-desc">Perfect for getting started</div>
-      <ul class="pricing-features">
-        <li>Your own listing page</li>
-        <li>Availability calendar</li>
-        <li>Conversational booking</li>
-        <li>Keep 100% of earnings</li>
-        <li>Basic host dashboard</li>
-      </ul>
-      <a href="https://wa.me/254762826978" class="pricing-btn" target="_blank">Get started →</a>
-    </div>
-    <div class="pricing-card featured rv">
-      <div class="pricing-tier">Pro</div>
-      <div class="pricing-price">KES 999<span>/month</span></div>
-      <div class="pricing-desc">For serious hosts</div>
-      <ul class="pricing-features">
-        <li>Everything in Free</li>
-        <li>Automated guest nudges</li>
-        <li>Advanced analytics</li>
-        <li>Priority support</li>
-        <li>Custom branding</li>
-      </ul>
-      <a href="https://wa.me/254762826978" class="pricing-btn" target="_blank">Upgrade →</a>
-    </div>
-    <div class="pricing-card rv">
-      <div class="pricing-tier">Premium</div>
-      <div class="pricing-price">KES 2,499<span>/month</span></div>
-      <div class="pricing-desc">For professional hosts</div>
-      <ul class="pricing-features">
-        <li>Everything in Pro</li>
-        <li>Google reviews integration</li>
-        <li>Custom domain (arrive.co.ke/yourbrand)</li>
-        <li>API access for your own tools</li>
-        <li>Dedicated account manager</li>
-      </ul>
-      <a href="https://wa.me/254762826978" class="pricing-btn" target="_blank">Contact sales →</a>
-    </div>
-  </div>
-</section>
-
-<section class="faq" id="faq">
-  <div class="section-header rv">
-    <h2>Questions? <em>We've got answers</em></h2>
-    <p>Everything you need to know about hosting with Arrive.</p>
-  </div>
-  <div class="faq-grid">
-    <div class="faq-item rv">
-      <div class="faq-question" onclick="toggleFAQ(this)">
-        <span>How do I get paid?</span>
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">Guests pay via M-Pesa or card. Funds are sent directly to your account. No holding, no delays, no commission taken.</div>
-    </div>
-    <div class="faq-item rv">
-      <div class="faq-question" onclick="toggleFAQ(this)">
-        <span>What if I need to cancel a booking?</span>
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">You can cancel from your dashboard. We recommend setting clear cancellation policies upfront. Guests are notified immediately and refunded per your policy.</div>
-    </div>
-    <div class="faq-item rv">
-      <div class="faq-question" onclick="toggleFAQ(this)">
-        <span>Do I need to be tech-savvy?</span>
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">Not at all. Everything happens in chat and your dashboard. If you can send a WhatsApp message, you can host on Arrive.</div>
-    </div>
-    <div class="faq-item rv">
-      <div class="faq-question" onclick="toggleFAQ(this)">
-        <span>How do guests find my listing?</span>
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">You share your unique link — arrive.co.ke/yourname. Post it anywhere: Instagram, Facebook, WhatsApp status, or word of mouth. Guests book directly.</div>
-    </div>
-    <div class="faq-item rv">
-      <div class="faq-question" onclick="toggleFAQ(this)">
-        <span>What if I want to stop hosting?</span>
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">Cancel anytime from your dashboard. No contracts. No exit fees. Your listing is removed, and you keep all your earnings.</div>
-    </div>
-  </div>
-</section>
-
-<section class="trial-section">
-  <div class="trial-card rv">
+<section class="cta">
+  <div class="cta-card">
     <h2>List your space. <em>Risk-free.</em></h2>
-    <p>Try Arrive for 30 days. List your space, get bookings, keep everything you earn. If it's not working for you, cancel anytime. No questions asked.</p>
-    <a href="https://wa.me/254762826978" class="btn-primary" target="_blank">Start your free trial →</a>
-    <div class="trial-note">No credit card required. 30-day trial. Cancel anytime.</div>
+    <p>Try Arrive for 30 days. Keep everything you earn. If it's not working, cancel anytime.</p>
+    <a href="https://wa.me/254762826978?text=I'm%20ready%20to%20list%20my%20space%20on%20Arrive" class="btn-primary" target="_blank">Start your free trial →</a>
+    <p style="font-size:11px; margin-top:16px;">No credit card required. Cancel anytime.</p>
   </div>
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-col">
-      <h4>Arrive</h4>
-      <a href="#features">How it works</a>
-      <a href="#calculator">Earnings calculator</a>
-      <a href="#pricing">Pricing</a>
-    </div>
-    <div class="footer-col">
-      <h4>For hosts</h4>
-      <a href="https://wa.me/254762826978" target="_blank">List your space</a>
-      <a href="#">Host dashboard</a>
-      <a href="#">Host guide</a>
-    </div>
-    <div class="footer-col">
-      <h4>For guests</h4>
-      <a href="#">Browse listings</a>
-      <a href="#">How booking works</a>
-      <a href="#">Guest support</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="#">About Arrive</a>
-      <a href="https://shopbreezy.co.ke">Breezy Stores</a>
-      <a href="https://wa.me/254762826978">WhatsApp support</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div>© 2026 Arrive. Part of the Breezy ecosystem.</div>
-    <div>No commissions. Ever.</div>
-  </div>
+  <p>Arrive — Part of the Breezy ecosystem. Nairobi, Kenya.</p>
+  <p style="margin-top:8px;">No commissions. Ever.</p>
 </footer>
 
 <script>
-  // Theme toggle
-  const html = document.documentElement;
-  const themeToggle = document.getElementById('themeToggle');
-  let theme = localStorage.getItem('arrive-theme') || 'dark';
+// Calculator logic
+const rateSlider = document.getElementById('nightlyRate');
+const unitsSlider = document.getElementById('unitCount');
+const bookingsSlider = document.getElementById('bookingsPerMonth');
+const rateValue = document.getElementById('rateValue');
+const unitsValue = document.getElementById('unitsValue');
+const bookingsValue = document.getElementById('bookingsValue');
+const monthlyRevenue = document.getElementById('monthlyRevenue');
+const annualRevenue = document.getElementById('annualRevenue');
+const reviewsCount = document.getElementById('reviewsCount');
+const growth14 = document.getElementById('growth14');
+const growth3 = document.getElementById('growth3');
+const growth6 = document.getElementById('growth6');
+
+function updateCalculator() {
+  const rate = parseInt(rateSlider.value);
+  const units = parseInt(unitsSlider.value);
+  const bookingsPerUnit = parseInt(bookingsSlider.value);
   
-  function setTheme(t) {
-    html.dataset.theme = t;
-    themeToggle.textContent = t === 'dark' ? '☀' : '☾';
-    localStorage.setItem('arrive-theme', t);
-    theme = t;
-  }
-  setTheme(theme);
-  themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+  rateValue.textContent = rate.toLocaleString();
+  unitsValue.textContent = units;
+  bookingsValue.textContent = bookingsPerUnit;
   
-  // Calculator
-  const nightlyInput = document.getElementById('nightlyRate');
-  const nightsSlider = document.getElementById('nightsSlider');
-  const nightsValue = document.getElementById('nightsValue');
-  const earningsValue = document.getElementById('earningsValue');
-  const yearlyValue = document.getElementById('yearlyValue');
+  const monthlyTotal = rate * bookingsPerUnit * units;
+  const annualTotal = monthlyTotal * 12;
+  const yearlyReviews = Math.round((bookingsPerUnit * units * 12) * 0.3);
   
-  function updateEarnings() {
-    const rate = parseInt(nightlyInput.value) || 0;
-    const nights = parseInt(nightsSlider.value) || 0;
-    const monthly = rate * nights;
-    const yearly = monthly * 12;
-    
-    earningsValue.textContent = `KES ${monthly.toLocaleString()}`;
-    nightsValue.textContent = `${nights} night${nights !== 1 ? 's' : ''}`;
-    yearlyValue.textContent = `That's KES ${yearly.toLocaleString()} per year`;
-  }
+  monthlyRevenue.textContent = `KES ${monthlyTotal.toLocaleString()}`;
+  annualRevenue.textContent = `KES ${annualTotal.toLocaleString()}`;
+  reviewsCount.textContent = `~${yearlyReviews} reviews/year`;
   
-  nightlyInput.addEventListener('input', updateEarnings);
-  nightsSlider.addEventListener('input', updateEarnings);
-  updateEarnings();
+  // Growth projections (assuming 70% of max bookings)
+  const maxPotential = rate * 30 * units;
+  const realistic70 = Math.round(maxPotential * 0.7);
+  const realistic30 = Math.round(maxPotential * 0.3);
+  const realistic60 = Math.round(maxPotential * 0.6);
   
-  // Reveal animations
-  function reveal() {
-    document.querySelectorAll('.rv').forEach(el => {
-      if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-        el.classList.add('in');
-      }
-    });
-  }
-  window.addEventListener('scroll', reveal);
-  window.addEventListener('load', reveal);
-  
-  // FAQ toggle
-  window.toggleFAQ = function(element) {
-    const item = element.closest('.faq-item');
-    const answer = item.querySelector('.faq-answer');
-    const icon = item.querySelector('.faq-icon');
-    
-    if (answer.classList.contains('show')) {
-      answer.classList.remove('show');
-      item.classList.remove('open');
-      icon.textContent = '+';
-    } else {
-      answer.classList.add('show');
-      item.classList.add('open');
-      icon.textContent = '−';
-    }
-  };
+  growth14.textContent = `KES ${Math.round(realistic30 / 2).toLocaleString()}`;
+  growth3.textContent = `KES ${realistic30.toLocaleString()}`;
+  growth6.textContent = `KES ${realistic60.toLocaleString()}`;
+}
+
+rateSlider.addEventListener('input', updateCalculator);
+unitsSlider.addEventListener('input', updateCalculator);
+bookingsSlider.addEventListener('input', updateCalculator);
+updateCalculator();
+
+// Theme toggle
+const html = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+let theme = localStorage.getItem('arrive-theme') || 'dark';
+function setTheme(t) {
+  html.dataset.theme = t;
+  themeToggle.textContent = t === 'dark' ? '☀' : '☾';
+  localStorage.setItem('arrive-theme', t);
+}
+setTheme(theme);
+themeToggle.onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 </script>
 </body>
 </html>
