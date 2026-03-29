@@ -204,6 +204,15 @@
     padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
   }
   .btn-checkout:hover { background: var(--accent); color: white; }
+  .btn-delete {
+    background: var(--error-light); color: var(--error); border: 1px solid #F0CCCC;
+    padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .btn-delete:hover { background: #F5D5D5; }
+  .btn-delete.armed { background: var(--error); color: white; border-color: var(--error); }
+  .btn-delete.armed:hover { background: #A84848; border-color: #A84848; }
+  .btn-delete:disabled { opacity: 0.5; cursor: not-allowed; }
 
   /* UNITS GRID */
   .units-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
@@ -683,6 +692,7 @@
   let allBookings = [], allUnits = [], allGuests = [];
   let currentFilter = 'all';
   let unitImages = [];
+  let pendingDelete = null;
 
   // AUTH
   async function doLogin() {
@@ -907,6 +917,7 @@
     rows = [...rows].sort((a,b) => new Date(b.checkin_date) - new Date(a.checkin_date));
     tbody.innerHTML = rows.map(b => {
       const unitName = b.unit_name || (allUnits.find(u => u.unit_id===b.unit_id)||{}).name || b.unit_id || '—';
+      const isArmed  = pendingDelete === b._id;
       return `<tr>
         <td><div style="font-weight:500">${esc(b.guest_name)}</div><div class="td-muted">${esc(b.guest_phone||'')}</div></td>
         <td>${esc(unitName)}</td>
@@ -918,6 +929,7 @@
           ${b.status==='confirmed'  ? `<button class="btn-checkin"  onclick="checkin('${b._id}')">Check in</button>` : ''}
           ${b.status==='checked_in' ? `<button class="btn-checkout" onclick="checkout('${b._id}')">Check out</button>` : ''}
           ${['confirmed','checked_in'].includes(b.status) ? `<button class="btn btn-ghost btn-sm" onclick="openExtend('${b._id}','${b.checkout_date}')">Extend</button>` : ''}
+          <button class="btn-delete${isArmed?' armed':''}" id="del-${b._id}" onclick="deleteBooking('${b._id}','${esc(b.order_reference)}',${isArmed})">${isArmed?'Confirm delete':'Delete'}</button>
         </div></td>
       </tr>`;
     }).join('');
@@ -984,6 +996,35 @@
       if (b) { b.checkout_date = checkout; b.balance_due = balance; }
     } catch(e) { toast(e.message,'error'); }
     closeModal('extend-modal'); renderBookings(currentFilter);
+  }
+
+  // DELETE BOOKING
+  async function deleteBooking(id, ref, armed) {
+    if (!armed) {
+      // Disarm any previously armed button
+      if (pendingDelete && pendingDelete !== id) {
+        const prev = document.getElementById('del-' + pendingDelete);
+        if (prev) { prev.textContent = 'Delete'; prev.classList.remove('armed'); }
+      }
+      pendingDelete = id;
+      const btn = document.getElementById('del-' + id);
+      if (btn) { btn.textContent = 'Confirm delete'; btn.classList.add('armed'); }
+      return;
+    }
+    // Armed — fire the delete
+    pendingDelete = null;
+    const btn = document.getElementById('del-' + id);
+    if (btn) { btn.disabled = true; }
+    try {
+      await apiFetch('/arrive/bookings/delete', { method: 'POST', body: JSON.stringify({ client_id: clientId, order_reference: ref }) });
+      allBookings = allBookings.filter(b => b._id !== id);
+      renderBookings(currentFilter);
+      computeStats();
+      toast('Booking deleted ✓', 'success');
+    } catch(e) {
+      toast(e.message, 'error');
+      if (btn) { btn.disabled = false; }
+    }
   }
 
   // GUESTS
