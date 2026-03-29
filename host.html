@@ -1278,6 +1278,7 @@ function openLightbox(images, startIdx = 0) {
   renderLightboxImg();
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
+  history.pushState({ overlay: 'lightbox' }, ''); // ADD THIS
 }
 
 function renderLightboxImg() {
@@ -1320,6 +1321,7 @@ function openBookingModal(booking) {
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+  history.pushState({ overlay: 'modal' }, ''); // ADD THIS
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -1417,6 +1419,14 @@ document.addEventListener('keydown', e => {
   if (document.getElementById('lightbox').classList.contains('open')) {
     if (e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
     if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
+  }
+});
+
+  window.addEventListener('popstate', () => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    closeLightbox();
+  } else if (document.getElementById('modalOverlay').classList.contains('open')) {
+    closeModal();
   }
 });
 
