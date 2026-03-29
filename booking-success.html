@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Confirmed — Arrivé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F9F7F4;
+      --bg-card:      #FFFFFF;
+      --accent:       #C17A5A;
+      --accent-dark:  #A5613F;
+      --accent-light: #F5EDE7;
+      --text:         #1A1410;
+      --text-mid:     #5A4A3A;
+      --text-soft:    #9A8878;
+      --border:       #EAE4DC;
+      --success-ring: rgba(193,122,90,0.18);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout ─── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 48px 20px 64px;
+    }
+
+    /* ─── Logo ─── */
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.22em;
+      color: var(--text);
+      text-decoration: none;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.1s forwards;
+    }
+    .logo span { color: var(--accent); }
+
+    /* ─── Confirmed card ─── */
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(80,40,10,0.07);
+      opacity: 0;
+      animation: fadeUp 0.55s ease 0.2s forwards;
+    }
+
+    /* ─── Card header ─── */
+    .card-header {
+      background: var(--accent-light);
+      padding: 40px 36px 32px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .check-wrap {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      box-shadow: 0 0 0 10px var(--success-ring);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .check-wrap svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--accent);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .check-path {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: drawCheck 0.5s ease 0.6s forwards;
+    }
+
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .card-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+
+    .unit-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--accent-dark);
+      margin-bottom: 0;
+    }
+
+    /* ─── Card body ─── */
+    .card-body {
+      padding: 32px 36px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    .detail-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .detail-value {
+      font-size: 0.95rem;
+      color: var(--text);
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .detail-value.highlight {
+      color: var(--accent-dark);
+      font-weight: 500;
+    }
+
+    .detail-value.balance {
+      color: var(--text-mid);
+    }
+
+    /* ─── Reference block ─── */
+    .ref-block {
+      margin-top: 24px;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ref-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .ref-value {
+      font-family: 'DM Sans', monospace;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      word-break: break-all;
+    }
+
+    /* ─── Nudge text ─── */
+    .nudge {
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ─── Back link ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 32px;
+      font-size: 0.88rem;
+      color: var(--accent-dark);
+      text-decoration: none;
+      font-weight: 500;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.7s forwards;
+      transition: opacity 0.2s;
+    }
+
+    .back-link:hover { opacity: 0.7; }
+
+    .back-link svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ─── Error state ─── */
+    .error-wrap {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.2s forwards;
+    }
+
+    .error-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .error-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--accent);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+    }
+
+    .error-wrap h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .error-wrap p {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    /* ─── Loading ─── */
+    .loading-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      opacity: 0;
+      animation: fadeUp 0.4s ease 0.1s forwards;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 2.5px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+
+    .loading-wrap p {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ─── Hidden ─── */
+    .hidden { display: none !important; }
+
+    /* ─── Mobile ─── */
+    @media (max-width: 520px) {
+      .page { padding: 32px 16px 56px; }
+      .card-header { padding: 32px 24px 28px; }
+      .card-body { padding: 24px 24px; }
+      .card-header h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <a class="logo" href="/">A R R I V <span>É</span></a>
+
+  <!-- Loading -->
+  <div class="loading-wrap" id="loading">
+    <div class="spinner"></div>
+    <p>Loading your booking…</p>
+  </div>
+
+  <!-- Confirmed -->
+  <div class="card hidden" id="confirmed">
+    <div class="card-header">
+      <div class="check-wrap">
+        <svg viewBox="0 0 32 32">
+          <polyline class="check-path" points="6,16 13,23 26,9" />
+        </svg>
+      </div>
+      <h1>You're booked.</h1>
+      <p class="unit-name" id="unit-name"></p>
+    </div>
+
+    <div class="card-body">
+      <div class="detail-row">
+        <span class="detail-label">Check-in</span>
+        <span class="detail-value" id="checkin"></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Check-out</span>
+        <span class="detail-value" id="checkout"></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Duration</span>
+        <span class="detail-value" id="nights"></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Deposit paid</span>
+        <span class="detail-value highlight" id="deposit"></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Balance on arrival</span>
+        <span class="detail-value balance" id="balance"></span>
+      </div>
+
+      <div class="ref-block">
+        <div>
+          <div class="ref-label">Reference</div>
+          <div class="ref-value" id="reference"></div>
+        </div>
+      </div>
+
+      <p class="nudge">A confirmation has been sent to your email. Keep your reference number handy.</p>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-wrap hidden" id="error">
+    <div class="error-icon">
+      <svg viewBox="0 0 26 26">
+        <circle cx="13" cy="13" r="10" />
+        <line x1="13" y1="8" x2="13" y2="14" />
+        <line x1="13" y1="17" x2="13" y2="18" />
+      </svg>
+    </div>
+    <h2>Something went wrong</h2>
+    <p>We couldn't load your booking details. Check your email for confirmation, or contact your host.</p>
+  </div>
+
+  <!-- Back link (rendered after load) -->
+  <a class="back-link hidden" id="back-link" href="#">
+    <svg viewBox="0 0 15 15">
+      <polyline points="9,3 4,7.5 9,12" />
+    </svg>
+    Back to property
+  </a>
+
+</div>
+
+<script>
+  const API = 'https://breezy-api-r7jg.onrender.com';
+
+  // Neutralise the back button immediately — never go back to Paystack
+  history.replaceState(null, '', location.href);
+
+  const $ = id => document.getElementById(id);
+
+  function show(id)  { $(id).classList.remove('hidden'); }
+  function hide(id)  { $(id).classList.add('hidden'); }
+
+  function formatDate(str) {
+    if (!str) return '—';
+    const d = new Date(str);
+    if (isNaN(d)) return str;
+    return d.toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function formatKES(amount) {
+    if (amount === null || amount === undefined) return '—';
+    return 'KES ' + Number(amount).toLocaleString('en-KE');
+  }
+
+  async function load() {
+    const params  = new URLSearchParams(location.search);
+    const reference = params.get('reference');
+
+    if (!reference) {
+      showError();
+      return;
+    }
+
+    try {
+      const res  = await fetch(`${API}/arrive/bookings/single?reference=${encodeURIComponent(reference)}`);
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        showError();
+        return;
+      }
+
+      const b = data.booking;
+
+      $('unit-name').textContent   = b.unit_name  || '';
+      $('checkin').textContent     = formatDate(b.checkin_date);
+      $('checkout').textContent    = formatDate(b.checkout_date);
+      $('nights').textContent      = b.nights ? `${b.nights} night${b.nights !== 1 ? 's' : ''}` : '—';
+      $('deposit').textContent     = formatKES(b.deposit_amount);
+      $('balance').textContent     = formatKES(b.balance_due);
+      $('reference').textContent   = b.reference || reference;
+
+      // Back link — construct from client_id in response
+      const backLink = $('back-link');
+      if (b.client_id) {
+        backLink.href = `host.html?host=${b.client_id}`;
+      } else {
+        backLink.href = '/';
+      }
+
+      hide('loading');
+      show('confirmed');
+      show('back-link');
+
+    } catch (err) {
+      showError();
+    }
+  }
+
+  function showError() {
+    hide('loading');
+    show('error');
+    const backLink = $('back-link');
+    backLink.href = '/';
+    show('back-link');
+  }
+
+  load();
+</script>
+
+</body>
+</html>
