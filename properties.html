@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Properties — Arrivé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F9F7F4;
+      --bg-card:      #FFFFFF;
+      --accent:       #C17A5A;
+      --accent-dark:  #A5613F;
+      --accent-light: #F5EDE7;
+      --text:         #1A1410;
+      --text-mid:     #5A4A3A;
+      --text-soft:    #9A8878;
+      --border:       #EAE4DC;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(249,247,244,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.22em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    .nav-cta {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent-dark);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.7; }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 72px 32px 56px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeUp 0.55s ease 0.1s forwards;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent-dark);
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    /* ─── Main ─── */
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ─── Results bar ─── */
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.3s forwards;
+    }
+
+    .results-count {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      letter-spacing: 0.03em;
+    }
+
+    .results-count strong {
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    /* ─── Grid ─── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; gap: 20px; }
+      nav { padding: 0 20px; }
+      .hero { padding: 48px 20px 40px; }
+      main { padding: 0 16px 64px; }
+    }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(80,40,10,0.1);
+    }
+
+    /* ─── Card image ─── */
+    .card-image {
+      position: relative;
+      width: 100%;
+      padding-top: 62%;
+      background: var(--accent-light);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .card-image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-image img {
+      transform: scale(1.04);
+    }
+
+    .card-image .no-image {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--accent);
+    }
+
+    .card-image .no-image svg {
+      width: 36px;
+      height: 36px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.5;
+    }
+
+    /* ─── Card body ─── */
+    .card-body {
+      padding: 22px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-price {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--accent-dark);
+    }
+
+    .card-price span {
+      font-weight: 300;
+      color: var(--text-soft);
+      font-size: 0.8rem;
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent-dark);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      transition: gap 0.2s;
+    }
+
+    .card:hover .card-cta { gap: 8px; }
+
+    .card-cta svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ─── Skeleton ─── */
+    .skeleton-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .skeleton-img {
+      width: 100%;
+      padding-top: 62%;
+      background: linear-gradient(90deg, var(--border) 25%, var(--accent-light) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+    }
+
+    .skeleton-body { padding: 22px; }
+
+    .skeleton-line {
+      height: 14px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--border) 25%, var(--accent-light) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 10px;
+    }
+
+    .skeleton-line.short { width: 55%; }
+    .skeleton-line.med   { width: 80%; }
+    .skeleton-line.long  { width: 95%; }
+    .skeleton-line.title { height: 20px; margin-bottom: 14px; width: 70%; }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ─── Empty state ─── */
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.2s forwards;
+    }
+
+    .empty-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .empty-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--accent);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .empty h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .empty p {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      line-height: 1.65;
+    }
+
+    /* ─── Error banner ─── */
+    .error-banner {
+      background: #FDF2EE;
+      border: 1px solid #F0C9B8;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      color: var(--accent-dark);
+      margin-bottom: 32px;
+      display: none;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      color: var(--text-soft);
+      text-decoration: none;
+    }
+    .footer-logo span { color: var(--accent); }
+
+    .footer-tagline {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    @media (max-width: 560px) {
+      footer { flex-direction: column; text-align: center; padding: 24px 20px; gap: 8px; }
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="logo" href="/">A R R I V <span>É</span></a>
+  <a class="nav-cta" href="/#host">List your property →</a>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <p class="hero-eyebrow">Browse properties</p>
+  <h1>Find your next <em>stay</em></h1>
+  <p>Independent properties across Kenya. Book directly with your host — no middleman, no hidden fees.</p>
+</div>
+
+<!-- Main -->
+<main>
+  <div class="error-banner" id="error-banner">
+    Unable to load properties right now. Please try again shortly.
+  </div>
+
+  <div class="results-bar" id="results-bar">
+    <p class="results-count" id="results-count"></p>
+  </div>
+
+  <div class="grid" id="grid">
+    <!-- Skeletons shown while loading -->
+    <div class="skeleton-card" style="animation-delay:0.1s">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line long"></div>
+        <div class="skeleton-line med"></div>
+        <div style="margin-top:18px"><div class="skeleton-line short"></div></div>
+      </div>
+    </div>
+    <div class="skeleton-card" style="animation-delay:0.18s">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line long"></div>
+        <div class="skeleton-line med"></div>
+        <div style="margin-top:18px"><div class="skeleton-line short"></div></div>
+      </div>
+    </div>
+    <div class="skeleton-card" style="animation-delay:0.26s">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line long"></div>
+        <div class="skeleton-line med"></div>
+        <div style="margin-top:18px"><div class="skeleton-line short"></div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer>
+  <a class="footer-logo" href="/">A R R I V <span>É</span></a>
+  <p class="footer-tagline">Your property. Your guests. Your reviews.</p>
+</footer>
+
+<script>
+  const API = 'https://breezy-api-r7jg.onrender.com';
+
+  function cloudinaryTransform(url) {
+    if (!url) return null;
+    return url.replace('/upload/', '/upload/w_600,q_auto,f_auto/');
+  }
+
+  function formatPrice(amount) {
+    return 'KES ' + Number(amount).toLocaleString('en-KE');
+  }
+
+  function cardHTML(host, index) {
+    const delay = 0.05 + (index % 9) * 0.07;
+    const imageUrl = host.firstImage ? cloudinaryTransform(host.firstImage) : null;
+
+    const imageHTML = imageUrl
+      ? `<img src="${imageUrl}" alt="${escapeHTML(host.store_name)}" loading="lazy" />`
+      : `<div class="no-image">
+           <svg viewBox="0 0 26 26"><rect x="2" y="5" width="22" height="16" rx="2"/><circle cx="9" cy="12" r="2"/><polyline points="2,18 8,12 13,17 17,14 24,20"/></svg>
+         </div>`;
+
+    const priceHTML = host.startingFrom
+      ? `<p class="card-price">${formatPrice(host.startingFrom)} <span>/ night</span></p>`
+      : `<p class="card-price" style="color:var(--text-soft);font-weight:300;font-size:0.8rem;">Enquire for rates</p>`;
+
+    const desc = host.store_description
+      ? escapeHTML(host.store_description)
+      : 'A curated short-stay property on Arrivé.';
+
+    return `
+      <a class="card" href="host.html?host=${encodeURIComponent(host.client_id)}" style="animation-delay:${delay}s">
+        <div class="card-image">${imageHTML}</div>
+        <div class="card-body">
+          <h2 class="card-name">${escapeHTML(host.store_name || 'Property')}</h2>
+          <p class="card-desc">${desc}</p>
+          <div class="card-footer">
+            ${priceHTML}
+            <span class="card-cta">View property
+              <svg viewBox="0 0 13 13"><polyline points="4,2 9,6.5 4,11"/></svg>
+            </span>
+          </div>
+        </div>
+      </a>`;
+  }
+
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  async function load() {
+    const grid        = document.getElementById('grid');
+    const resultsBar  = document.getElementById('results-bar');
+    const resultsCount = document.getElementById('results-count');
+    const errorBanner = document.getElementById('error-banner');
+
+    try {
+      // Fetch host list
+      const res = await fetch(`${API}/arrive/hosts/list`);
+      const data = await res.json();
+
+      if (!res.ok || !data.success) throw new Error(data.message || 'Failed to load hosts');
+
+      const hosts = data.hosts || [];
+
+      if (hosts.length === 0) {
+        grid.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">
+              <svg viewBox="0 0 26 26"><path d="M3 9l10-6 10 6v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,13 17,13 17,22"/></svg>
+            </div>
+            <h3>No properties listed yet</h3>
+            <p>Check back soon — new properties are added regularly.</p>
+          </div>`;
+        resultsCount.innerHTML = '';
+        return;
+      }
+
+      // Fetch units for all hosts in parallel
+      const unitResults = await Promise.all(
+        hosts.map(host =>
+          fetch(`${API}/arrive/units/list?client_id=${encodeURIComponent(host.client_id)}`)
+            .then(r => r.json())
+            .catch(() => ({ success: false, units: [] }))
+        )
+      );
+
+      // Enrich hosts with unit data
+      const enriched = hosts.map((host, i) => {
+        const units = unitResults[i]?.units || [];
+        const prices = units
+          .map(u => Number(u.price_per_night))
+          .filter(p => !isNaN(p) && p > 0);
+
+        const firstUnit = units[0];
+        const firstImage = (firstUnit?.images?.length > 0) ? firstUnit.images[0] : null;
+        const startingFrom = prices.length > 0 ? Math.min(...prices) : null;
+
+        return { ...host, firstImage, startingFrom };
+      });
+
+      // Render
+      const count = enriched.length;
+      resultsCount.innerHTML = `<strong>${count}</strong> propert${count === 1 ? 'y' : 'ies'} available`;
+
+      grid.innerHTML = enriched.map((host, i) => cardHTML(host, i)).join('');
+
+    } catch (err) {
+      console.error('[properties]', err);
+      grid.innerHTML = '';
+      errorBanner.style.display = 'block';
+      resultsCount.innerHTML = '';
+    }
+  }
+
+  load();
+</script>
+
+</body>
+</html>
