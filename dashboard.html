@@ -1022,7 +1022,7 @@
       computeStats();
       toast('Booking deleted ✓', 'success');
     } catch(e) {
-      toast(e.message, 'error');
+      toast(e.message || 'Delete failed', 'error');
       if (btn) { btn.disabled = false; }
     }
   }
