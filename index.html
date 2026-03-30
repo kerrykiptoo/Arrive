@@ -1213,18 +1213,18 @@ footer {
 
         <div class="slider-wrap">
           <div class="calc-label">
-            Your average nightly rate (KES)
-            <span class="calc-label-val" id="rate-val">5,000</span>
+            Bookings per unit per month
+            <span class="calc-label-val" id="bookings-per-unit-val">8</span>
           </div>
-          <input type="range" id="nightly-rate" min="1000" max="15000" step="500" value="5000">
+          <input type="range" id="bookings-per-unit" min="1" max="30" value="8">
         </div>
 
         <div class="slider-wrap">
           <div class="calc-label">
-            Monthly bookings
-            <span class="calc-label-val" id="bookings-val">8</span>
+            Your average nightly rate (KES)
+            <span class="calc-label-val" id="rate-val">5,000</span>
           </div>
-          <input type="range" id="bookings" min="1" max="50" value="8">
+          <input type="range" id="nightly-rate" min="1000" max="15000" step="500" value="5000">
         </div>
 
         <div class="calc-assumptions">
@@ -1245,7 +1245,7 @@ footer {
         </div>
 
         <div class="output-block">
-          <div class="output-period">Bookings handled</div>
+          <div class="output-period">Total bookings handled</div>
           <div class="output-value" id="out-bookings">0</div>
         </div>
 
@@ -1272,7 +1272,7 @@ footer {
           </div>
         </div>
 
-        <div class="output-block" style="background: rgba(184,115,80,0.08);">
+        <div class="output-block" style="background: rgba(184,115,80,0.08); cursor: pointer;" id="insight-block">
           <div class="output-label" id="out-insight"></div>
           <div class="output-sub" style="margin-top: 0.8rem;">Start your 14-day free trial →</div>
         </div>
@@ -1388,8 +1388,8 @@ footer {
   const WHATSAPP_URL = 'https://wa.me/254762826978?text=Hi%2C%20I%27d%20like%20to%20start%20my%2014-day%20free%20trial%20with%20Arriv%C3%A9';
 
   // All CTAs go to WhatsApp
-  document.querySelectorAll('.nav-cta, .btn-primary, .plan-cta, .pricing-cta, #hero-register, #final-register, .calc-tab + .output-block .output-sub').forEach(el => {
-    if (el && el.tagName !== 'BUTTON') {
+  document.querySelectorAll('.nav-cta, .btn-primary, .plan-cta, .pricing-cta, #hero-register, #final-register').forEach(el => {
+    if (el) {
       el.addEventListener('click', (e) => {
         e.preventDefault();
         window.open(WHATSAPP_URL, '_blank');
@@ -1397,10 +1397,9 @@ footer {
     }
   });
 
-  // Also handle the insight block click
-  const insightBlock = document.querySelector('.output-block[style*="rgba(184,115,80,0.08)"]');
+  // Handle insight block click
+  const insightBlock = document.getElementById('insight-block');
   if (insightBlock) {
-    insightBlock.style.cursor = 'pointer';
     insightBlock.addEventListener('click', () => {
       window.open(WHATSAPP_URL, '_blank');
     });
@@ -1436,19 +1435,36 @@ footer {
 
   function calc() {
     const units = parseInt(document.getElementById('units').value);
+    const bookingsPerUnit = parseInt(document.getElementById('bookings-per-unit').value);
     const nightlyRate = parseInt(document.getElementById('nightly-rate').value);
-    const monthlyBookings = parseInt(document.getElementById('bookings').value);
 
+    // Monthly totals
+    const monthlyBookingsTotal = units * bookingsPerUnit;
+    
     document.getElementById('units-val').textContent = units;
+    document.getElementById('bookings-per-unit-val').textContent = bookingsPerUnit;
     document.getElementById('rate-val').textContent = nightlyRate.toLocaleString('en-KE');
-    document.getElementById('bookings-val').textContent = monthlyBookings;
 
-    const weeks = currentPeriod / 7;
-    const totalBookings = Math.round(monthlyBookings * (currentPeriod / 30));
+    // Scale to selected period
+    const periodMultiplier = currentPeriod / 30;
+    const totalBookings = Math.round(monthlyBookingsTotal * periodMultiplier);
     const revenue = totalBookings * nightlyRate * AVG_NIGHTS;
     const guests = totalBookings;
     const nudges = totalBookings;
     const reviews = Math.round(totalBookings * REVIEW_RATE);
+
+    function animateVal(id, newVal) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.opacity = '0.4';
+      el.style.transform = 'translateY(4px)';
+      setTimeout(() => {
+        el.textContent = newVal;
+        el.style.transition = 'opacity 0.25s, transform 0.25s';
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      }, 120);
+    }
 
     animateVal('out-bookings', totalBookings);
     animateVal('out-guests', guests);
@@ -1458,27 +1474,14 @@ footer {
 
     let insight = '';
     if (currentPeriod === 14) {
-      insight = `In your free trial alone, Arrivé handles ${totalBookings} bookings, adds ${guests} guests to your database, and sends ${nudges} review nudges — automatically. You pay nothing. If even one review comes in, your customers are already seeing a more professional version of your business.`;
+      insight = `In your free trial alone, Arrivé handles ${totalBookings} bookings across ${units} units, adds ${guests} guests to your database, and sends ${nudges} review nudges — automatically. You pay nothing. If even one review comes in, your customers are already seeing a more professional version of your business.`;
     } else if (currentPeriod === 90) {
-      insight = `After 3 months, you have ${guests} guest records, ${reviews} reviews collected from ${nudges} nudges sent, and ${totalBookings} bookings handled. Your guests see your professionalism from the very first message. That's what builds repeat business.`;
+      insight = `After 3 months, you have ${guests} guest records, ${reviews} reviews collected from ${nudges} nudges sent, and ${totalBookings} bookings handled across ${units} units. Your guests see your professionalism from the very first message. That's what builds repeat business.`;
     } else {
-      insight = `At 6 months: ${guests} guests in your database, ${reviews} verified reviews, ${totalBookings} bookings handled automatically. Your business runs itself. Your reputation grows while you focus on hosting.`;
+      insight = `At 6 months: ${guests} guests in your database, ${reviews} verified reviews, ${totalBookings} bookings handled across ${units} units. Your business runs itself. Your reputation grows while you focus on hosting.`;
     }
     
     document.getElementById('out-insight').textContent = insight;
-  }
-
-  function animateVal(id, newVal) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.opacity = '0.4';
-    el.style.transform = 'translateY(4px)';
-    setTimeout(() => {
-      el.textContent = newVal;
-      el.style.transition = 'opacity 0.25s, transform 0.25s';
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    }, 120);
   }
 
   // Tab switching
@@ -1493,8 +1496,8 @@ footer {
 
   // Input listeners
   document.getElementById('units').addEventListener('input', calc);
+  document.getElementById('bookings-per-unit').addEventListener('input', calc);
   document.getElementById('nightly-rate').addEventListener('input', calc);
-  document.getElementById('bookings').addEventListener('input', calc);
   calc();
 </script>
 </body>
