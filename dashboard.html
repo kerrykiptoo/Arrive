@@ -749,9 +749,7 @@
   async function apiFetch(path, opts = {}) {
     const res  = await fetch(`${API}${path}`, { ...opts, headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}`, ...(opts.headers||{}) } });
     const data = await res.json();
-    if (!res.ok || data?.success === false) {
-      throw new Error(data.message || data.error || `API error (${res.status})`);
-    }
+    if (!res.ok || data?.success === false) throw new Error(data.message || data.error || `API error (${res.status})`);
     return data;
   }
 
@@ -931,7 +929,7 @@
           ${b.status==='confirmed'  ? `<button class="btn-checkin"  onclick="checkin('${b._id}')">Check in</button>` : ''}
           ${b.status==='checked_in' ? `<button class="btn-checkout" onclick="checkout('${b._id}')">Check out</button>` : ''}
           ${['confirmed','checked_in'].includes(b.status) ? `<button class="btn btn-ghost btn-sm" onclick="openExtend('${b._id}','${b.checkout_date}')">Extend</button>` : ''}
-          <button class="btn-delete${isArmed?' armed':''}" id="del-${b._id}" onclick="deleteBooking('${b._id}','${esc(b.order_reference)}',${isArmed})">${isArmed?'Confirm delete':'Delete'}</button>
+          <button class="btn-delete${isArmed?' armed':''}" id="del-${b._id}" onclick="deleteBooking('${b._id}','${esc(b.order_reference)}')">${isArmed?'Confirm delete':'Delete'}</button>
         </div></td>
       </tr>`;
     }).join('');
@@ -1001,7 +999,8 @@
   }
 
   // DELETE BOOKING
-  async function deleteBooking(id, ref, armed) {
+  async function deleteBooking(id, ref) {
+    const armed = pendingDelete === id;
     if (!armed) {
       // Disarm any previously armed button
       if (pendingDelete && pendingDelete !== id) {
