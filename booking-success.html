@@ -428,6 +428,38 @@
     return 'KES ' + Number(amount).toLocaleString('en-KE');
   }
 
+  function parseClientFromRef(reference) {
+    const parts = String(reference || '').split('-');
+    if (parts.length < 3 || parts[0] !== 'ARV') return null;
+    parts.shift(); // remove ARV
+    parts.pop();   // remove timestamp
+    return parts.join('-');
+  }
+
+  function renderBooking(b, clientIdFallback, referenceFallback) {
+    const clientId = b.client_id || clientIdFallback || '';
+    const reference = b.reference || b.order_reference || referenceFallback || '';
+
+    $('unit-name').textContent   = b.unit_name || '';
+    $('checkin').textContent     = formatDate(b.checkin_date || b.checkin);
+    $('checkout').textContent    = formatDate(b.checkout_date || b.checkout);
+    $('nights').textContent      = b.nights ? `${b.nights} night${b.nights !== 1 ? 's' : ''}` : '—';
+    $('deposit').textContent     = formatKES(b.deposit_amount ?? b.deposit);
+    $('balance').textContent     = formatKES(b.balance_due ?? b.balance);
+    $('reference').textContent   = reference;
+
+    const backLink = $('back-link');
+    if (clientId) {
+      backLink.href = `https://www.arrive.co.ke/host.html?host=${encodeURIComponent(clientId)}`;
+    } else {
+      backLink.href = 'https://www.arrive.co.ke/';
+    }
+
+    hide('loading');
+    show('confirmed');
+    show('back-link');
+  }
+
   async function load() {
     const params  = new URLSearchParams(location.search);
     const reference = params.get('reference') || params.get('trxref');
@@ -437,40 +469,49 @@
       return;
     }
 
-    try {
-      const res  = await fetch(`${API}/arrive/bookings/single?reference=${encodeURIComponent(reference)}`);
-      const data = await res.json();
+    const clientId = parseClientFromRef(reference);
+    const attempts = 6;
+    const delayMs = 1000;
 
-      if (!res.ok || !data.success) {
-        showError();
-        return;
+    for (let i = 0; i < attempts; i++) {
+      // Try the single endpoint first
+      try {
+        const res  = await fetch(`${API}/arrive/bookings/single?reference=${encodeURIComponent(reference)}`);
+        const data = await res.json();
+        if (res.ok && data?.success && data?.booking) {
+          renderBooking(data.booking, clientId, reference);
+          return;
+        }
+      } catch (e) {
+        // Ignore; we'll fall back to list endpoint below.
       }
 
-      const b = data.booking;
-
-      $('unit-name').textContent   = b.unit_name  || '';
-      $('checkin').textContent     = formatDate(b.checkin_date);
-      $('checkout').textContent    = formatDate(b.checkout_date);
-      $('nights').textContent      = b.nights ? `${b.nights} night${b.nights !== 1 ? 's' : ''}` : '—';
-      $('deposit').textContent     = formatKES(b.deposit_amount);
-      $('balance').textContent     = formatKES(b.balance_due);
-      $('reference').textContent   = b.reference || reference;
-
-      // Back link — construct from client_id in response
-      const backLink = $('back-link');
-      if (b.client_id) {
-        backLink.href = `https://www.arrive.co.ke/host.html?host=${encodeURIComponent(b.client_id)}`;
-      } else {
-        backLink.href = 'https://www.arrive.co.ke/';
+      // Fallback: pull the full booking list for the client and match by reference
+      if (clientId) {
+        try {
+          const res2 = await fetch(`${API}/arrive/bookings/list?client_id=${encodeURIComponent(clientId)}`);
+          const data2 = await res2.json();
+          if (res2.ok && data2?.success) {
+            const bookings = data2.bookings || [];
+            const b = bookings.find(x =>
+              String(x.reference) === String(reference) ||
+              String(x.order_reference) === String(reference)
+            );
+            if (b) {
+              b.client_id = b.client_id || clientId;
+              renderBooking(b, clientId, reference);
+              return;
+            }
+          }
+        } catch (e) {
+          // Ignore and retry after delay
+        }
       }
 
-      hide('loading');
-      show('confirmed');
-      show('back-link');
-
-    } catch (err) {
-      showError();
+      await new Promise(r => setTimeout(r, delayMs));
     }
+
+    showError();
   }
 
   function showError() {
