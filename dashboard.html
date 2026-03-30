@@ -749,7 +749,9 @@
   async function apiFetch(path, opts = {}) {
     const res  = await fetch(`${API}${path}`, { ...opts, headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}`, ...(opts.headers||{}) } });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || `API error (${res.status})`);
+    if (!res.ok || data?.success === false) {
+      throw new Error(data.message || data.error || `API error (${res.status})`);
+    }
     return data;
   }
 
@@ -1014,19 +1016,38 @@
     // Armed — fire the delete
     pendingDelete = null;
     const btn = document.getElementById('del-' + id);
-    if (btn) { btn.disabled = true; }
+    if (btn) { btn.disabled = true; btn.textContent = 'Deleting...'; }
     try {
-     await apiFetch('/arrive/bookings/delete', {
-        method: 'POST',
-        body: JSON.stringify({ client_id: clientId, order_reference: ref })
-      });
+      const attempts = [
+        { client_id: clientId, booking_id: id },
+        { client_id: clientId, order_reference: ref },
+        { client_id: clientId, order_reference: ref, booking_id: id }
+      ];
+      let deleted = false;
+      let lastErr = 'Delete failed';
+      for (const payload of attempts) {
+        try {
+          const data = await apiFetch('/arrive/bookings/delete', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+          if (data?.success !== false) {
+            deleted = true;
+            break;
+          }
+          lastErr = data?.message || data?.error || lastErr;
+        } catch (e) {
+          lastErr = e.message || lastErr;
+        }
+      }
+      if (!deleted) throw new Error(lastErr);
       allBookings = allBookings.filter(b => String(b._id) !== String(id));
       renderBookings(currentFilter);
       computeStats();
       toast('Booking deleted ✓', 'success');
     } catch(e) {
       toast(e.message || 'Delete failed', 'error');
-      if (btn) { btn.disabled = false; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Delete'; }
     }
   }
 
