@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arrivé — Your guests. Your data. Your reviews. Your business.</title>
+<title>Arrivé — Infrastructure you own. Growth you control.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -128,7 +128,7 @@ nav ul a:hover { color: var(--ink); }
 
 .hero-headline {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-size: clamp(2.8rem, 5.5vw, 4.8rem);
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -161,7 +161,7 @@ nav ul a:hover { color: var(--ink); }
   font-size: 1.05rem;
   font-weight: 300;
   color: var(--grey-500);
-  max-width: 440px;
+  max-width: 540px;
   margin-bottom: 2.5rem;
   line-height: 1.65;
   opacity: 0;
@@ -431,6 +431,46 @@ nav ul a:hover { color: var(--ink); }
   line-height: 1.7;
 }
 
+/* ── SETUP TIME SECTION ── */
+.setup-section {
+  padding: 5rem 5rem;
+  background: var(--white);
+  border-top: 1px solid var(--grey-100);
+  border-bottom: 1px solid var(--grey-100);
+}
+.setup-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.setup-badge {
+  display: inline-block;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.setup-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.setup-title em { color: var(--accent); font-style: italic; }
+.setup-desc {
+  font-size: 1rem;
+  color: var(--grey-500);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
 /* ── CALCULATOR ANCHOR ── */
 .calc-anchor-section {
   padding: 5rem 5rem;
@@ -612,6 +652,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size: 0.78rem;
   color: var(--grey-300);
   margin-bottom: 0.5rem;
+  line-height: 1.4;
 }
 
 .output-value {
@@ -643,6 +684,35 @@ input[type="range"]::-webkit-slider-thumb:hover {
   background: rgba(255,255,255,0.06);
 }
 .output-row .output-block { border-radius: 0; }
+
+/* Tabs for calculator */
+.calc-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  background: rgba(255,255,255,0.04);
+  padding: 6px;
+  border-radius: 40px;
+  width: fit-content;
+}
+.calc-tab {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  color: var(--grey-500);
+  cursor: pointer;
+  border-radius: 40px;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+.calc-tab.active {
+  background: var(--accent);
+  color: var(--white);
+}
 
 /* Review line */
 .review-line-section {
@@ -939,7 +1009,7 @@ footer {
 
   .hero { padding: 7rem 1.5rem 5rem; }
   .compare-section, .steps-section, .features-section,
-  .calc-anchor-section, .pricing-section, .final-cta { padding: 5rem 1.5rem; }
+  .setup-section, .calc-anchor-section, .pricing-section, .final-cta { padding: 5rem 1.5rem; }
   .calc-section, .review-line-section { padding: 5rem 1.5rem; }
   footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1.5rem; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
@@ -956,6 +1026,7 @@ footer {
   .pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
   .calc-anchor-section { flex-direction: column; gap: 2rem; text-align: center; }
   .pricing-extra { flex-direction: column; gap: 0.8rem; }
+  .calc-tabs { margin-bottom: 1.5rem; }
 }
 </style>
 </head>
@@ -976,12 +1047,14 @@ footer {
 <section class="hero">
   <p class="hero-eyebrow">For short-stay hosts in Kenya</p>
   <h1 class="hero-headline">
-    Your guests. Your data.<br>Your reviews. <span class="word">Your business.</span>
+    Infrastructure <span class="word">you own.</span><br>Growth you control.
   </h1>
-  <p class="hero-sub">The complete hosting system. Built for you. Owned by you.</p>
+  <p class="hero-sub">
+    Professional booking pages, automated guest communication, a guest database that builds itself. The tools big hotels use — made for hosts who want to grow.
+  </p>
   <div class="hero-cta-wrap">
-    <a href="#calculator" class="btn-primary">
-      Run the numbers
+    <a href="#" class="btn-primary" id="hero-register">
+      Start your 14-day trial
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <div class="hero-anchors">
@@ -1008,7 +1081,7 @@ footer {
           <div class="compare-header-dot"></div>
           <span class="compare-header-label">Most hosts today</span>
         </div>
-        <div class="compare-cell"><span class="cell-icon">·</span>Booking confirmed over a voice note</div>
+        <div class="compare-cell"><span class="cell-icon">·</span>Booking confirmed over WhatsApp</div>
         <div class="compare-cell"><span class="cell-icon">·</span>Payment chased on WhatsApp for days</div>
         <div class="compare-cell"><span class="cell-icon">·</span>Guest checks out, no follow-up</div>
         <div class="compare-cell"><span class="cell-icon">·</span>10 bookings, no guest records</div>
@@ -1066,7 +1139,7 @@ footer {
 <section class="features-section" id="features">
   <div class="features-inner">
     <p class="section-tag reveal">What you're getting</p>
-    <h2 class="section-title reveal">Infrastructure that used to cost <em>hundreds of thousands</em> to build</h2>
+    <h2 class="section-title reveal">Everything you need to run <em>a professional short-stay business</em></h2>
 
     <div class="features-grid">
       <div class="feature-card reveal">
@@ -1103,6 +1176,15 @@ footer {
   </div>
 </section>
 
+<!-- SETUP TIME SECTION -->
+<section class="setup-section">
+  <div class="setup-inner reveal">
+    <div class="setup-badge">Live in under an hour</div>
+    <h2 class="setup-title">Your property page is <em>ready before you finish your coffee</em></h2>
+    <p class="setup-desc">No developers. No back-and-forth. Add your units, set your rates, and your booking link is live. If you have less than 50 units, it's less than an hour's work. After that, the system runs itself.</p>
+  </div>
+</section>
+
 <!-- CALCULATOR ANCHOR -->
 <div class="calc-anchor-section">
   <h3 class="calc-anchor-text reveal">Curious what your property could look like in <em>6 months?</em></h3>
@@ -1115,8 +1197,8 @@ footer {
 <!-- CALCULATOR -->
 <section class="calc-section" id="calculator">
   <div class="calc-inner">
-    <p class="section-tag">The numbers</p>
-    <h2 class="section-title">See what your property <em>could be doing</em></h2>
+    <p class="section-tag">See the numbers</p>
+    <h2 class="section-title">What Arrivé does <em>for your business</em></h2>
 
     <div class="calc-body">
       <!-- Inputs -->
@@ -1126,74 +1208,73 @@ footer {
             Number of units
             <span class="calc-label-val" id="units-val">3</span>
           </div>
-          <input type="range" id="units" min="1" max="15" value="3">
+          <input type="range" id="units" min="1" max="20" value="3">
         </div>
 
         <div class="slider-wrap">
           <div class="calc-label">
-            Bookings through Arrivé per month
+            Your average nightly rate (KES)
+            <span class="calc-label-val" id="rate-val">5,000</span>
+          </div>
+          <input type="range" id="nightly-rate" min="1000" max="15000" step="500" value="5000">
+        </div>
+
+        <div class="slider-wrap">
+          <div class="calc-label">
+            Monthly bookings
             <span class="calc-label-val" id="bookings-val">8</span>
           </div>
-          <input type="range" id="bookings" min="1" max="30" value="8">
+          <input type="range" id="bookings" min="1" max="50" value="8">
         </div>
 
         <div class="calc-assumptions">
           <div class="calc-assumptions-label">Assumptions used</div>
           <ul>
-            <li>Average nightly rate: KES 5,000</li>
             <li>Average stay: 2 nights</li>
-            <li>Reviews from 35% of guests</li>
-            <li>Airbnb commission rate: 15%</li>
+            <li>Reviews from 30% of guests</li>
           </ul>
         </div>
       </div>
 
       <!-- Outputs -->
       <div class="calc-outputs">
+        <div class="calc-tabs">
+          <button class="calc-tab active" data-period="14">14 days</button>
+          <button class="calc-tab" data-period="90">3 months</button>
+          <button class="calc-tab" data-period="180">6 months</button>
+        </div>
+
         <div class="output-block">
-          <div class="output-period">Monthly</div>
-          <div class="output-label">Revenue processed through Arrivé</div>
-          <div class="output-value" id="out-revenue">KES 80,000</div>
+          <div class="output-period">Bookings handled</div>
+          <div class="output-value" id="out-bookings">0</div>
         </div>
 
         <div class="output-row">
           <div class="output-block">
-            <div class="output-period">At 3 months</div>
-            <div class="output-label">Guest records built</div>
-            <div class="output-value" id="out-guests-3">24</div>
+            <div class="output-period">Guest records built</div>
+            <div class="output-value" id="out-guests">0</div>
           </div>
           <div class="output-block">
-            <div class="output-period">At 6 months</div>
-            <div class="output-label">Guest records built</div>
-            <div class="output-value" id="out-guests-6">48</div>
+            <div class="output-period">Review nudges sent</div>
+            <div class="output-value" id="out-nudges">0</div>
           </div>
-        </div>
-
-        <div class="output-block">
-          <div class="output-period">At 6 months</div>
-          <div class="output-label">Reviews you could have</div>
-          <div class="output-value accent" id="out-reviews">16</div>
-          <div class="output-sub">at 35% of guests</div>
         </div>
 
         <div class="output-row">
           <div class="output-block">
-            <div class="output-period">Monthly saving</div>
-            <div class="output-label">vs Airbnb commission</div>
-            <div class="output-value accent" id="out-commission-mo">KES 12,000</div>
+            <div class="output-period">Reviews likely collected</div>
+            <div class="output-value accent" id="out-reviews">0</div>
+            <div class="output-sub">based on 30% of guests</div>
           </div>
           <div class="output-block">
-            <div class="output-period">Over 6 months</div>
-            <div class="output-label">Commission saved</div>
-            <div class="output-value accent" id="out-commission-6">KES 72,000</div>
+            <div class="output-period">Revenue processed</div>
+            <div class="output-value accent" id="out-revenue">KES 0</div>
           </div>
         </div>
 
         <div class="output-block" style="background: rgba(184,115,80,0.08);">
-          <div class="output-period">Your cost</div>
-          <div class="output-label">Arrivé plan</div>
-          <div class="output-value" id="out-plan-cost">KES 4,000 / mo</div>
-          <div class="output-sub" id="out-plan-name">Starter — up to 5 units</div>
+          <div class="output-label" id="out-insight"></div>
+          <div class="output-sub" style="margin-top: 0.8rem;">Start your 14-day free trial →</div>
         </div>
       </div>
     </div>
@@ -1231,7 +1312,7 @@ footer {
           <li>Host dashboard</li>
         </ul>
         <p class="plan-upgrade-note">Add 5 extra units and you're at KES 8,000 — Growth gives you 10 units plus more for KES 10,000.</p>
-        <a href="#" class="plan-cta">Get started</a>
+        <a href="#" class="plan-cta pricing-cta">Get started</a>
       </div>
 
       <div class="plan featured reveal reveal-delay-1">
@@ -1249,7 +1330,7 @@ footer {
           <li>Priority support</li>
         </ul>
         <p class="plan-upgrade-note">Running 10+ units seriously? Pro adds TikTok and multi-channel closing for a small step up.</p>
-        <a href="#" class="plan-cta">Get started</a>
+        <a href="#" class="plan-cta pricing-cta">Get started</a>
       </div>
 
       <div class="plan reveal reveal-delay-2">
@@ -1265,13 +1346,13 @@ footer {
           <li>Dedicated account support</li>
         </ul>
         <p class="plan-upgrade-note">One post, one viral moment — and your booking link is already in every comment reply.</p>
-        <a href="#" class="plan-cta">Get started</a>
+        <a href="#" class="plan-cta pricing-cta">Get started</a>
       </div>
     </div>
 
     <div class="pricing-extra reveal">
       <p class="pricing-extra-text">
-        <strong>14-day free trial.</strong> No card needed to start. If you're on the fence, run your numbers on the calculator above — the commission saving alone usually covers the plan cost within a few bookings.
+        <strong>14-day free trial.</strong> No card needed to start. If you're on the fence, run your numbers on the calculator above — and see what your business looks like with a real system behind it.
       </p>
       <span class="pricing-trial">Cancel anytime · No lock-in</span>
     </div>
@@ -1280,10 +1361,10 @@ footer {
 
 <!-- FINAL CTA -->
 <section class="final-cta">
-  <h2 class="final-headline reveal">Ready to own <em>your business?</em></h2>
-  <p class="final-sub reveal">List your property today. Your booking link can be live before tomorrow.</p>
-  <a href="#" class="btn-primary reveal">
-    List your property
+  <h2 class="final-headline reveal">Ready to own <em>your infrastructure?</em></h2>
+  <p class="final-sub reveal">Your property page can be live in under an hour. Your 14-day trial starts now.</p>
+  <a href="#" class="btn-primary reveal" id="final-register">
+    Start your 14-day trial
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
   <p class="final-note reveal">Free 14-day trial · No card required · Cancel anytime</p>
@@ -1293,8 +1374,8 @@ footer {
 <footer>
   <div class="footer-logo">Arriv<span>é</span></div>
   <ul class="footer-links">
-    <li><a href="#">How it works</a></li>
-    <li><a href="#">Pricing</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#">Properties</a></li>
     <li><a href="#">Privacy</a></li>
     <li><a href="#">Contact</a></li>
@@ -1303,6 +1384,28 @@ footer {
 </footer>
 
 <script>
+  // WhatsApp registration URL
+  const WHATSAPP_URL = 'https://wa.me/254762826978?text=Hi%2C%20I%27d%20like%20to%20start%20my%2014-day%20free%20trial%20with%20Arriv%C3%A9';
+
+  // All CTAs go to WhatsApp
+  document.querySelectorAll('.nav-cta, .btn-primary, .plan-cta, .pricing-cta, #hero-register, #final-register, .calc-tab + .output-block .output-sub').forEach(el => {
+    if (el && el.tagName !== 'BUTTON') {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(WHATSAPP_URL, '_blank');
+      });
+    }
+  });
+
+  // Also handle the insight block click
+  const insightBlock = document.querySelector('.output-block[style*="rgba(184,115,80,0.08)"]');
+  if (insightBlock) {
+    insightBlock.style.cursor = 'pointer';
+    insightBlock.addEventListener('click', () => {
+      window.open(WHATSAPP_URL, '_blank');
+    });
+  }
+
   // Nav scroll
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
@@ -1319,55 +1422,55 @@ footer {
   reveals.forEach(el => observer.observe(el));
 
   // Calculator
-  const AVG_RATE = 5000;
   const AVG_NIGHTS = 2;
-  const REVIEW_RATE = 0.35;
-  const COMMISSION = 0.15;
-
-  const plans = [
-    { name: 'Starter', maxUnits: 5, price: 4000, label: 'Starter — up to 5 units' },
-    { name: 'Growth', maxUnits: 10, price: 10000, label: 'Growth — up to 10 units' },
-    { name: 'Pro', maxUnits: 999, price: 15000, label: 'Pro — 15+ units' },
-  ];
-
-  function getPlan(units) {
-    if (units <= 5) return plans[0];
-    if (units <= 10) return plans[1];
-    return plans[2];
-  }
+  const REVIEW_RATE = 0.30;
+  let currentPeriod = 14; // days
 
   function fmt(n) {
-    return 'KES ' + Math.round(n).toLocaleString('en-KE');
+    return Math.round(n).toLocaleString('en-KE');
+  }
+
+  function fmtKes(n) {
+    return 'KES ' + fmt(n);
   }
 
   function calc() {
     const units = parseInt(document.getElementById('units').value);
-    const bookings = parseInt(document.getElementById('bookings').value);
+    const nightlyRate = parseInt(document.getElementById('nightly-rate').value);
+    const monthlyBookings = parseInt(document.getElementById('bookings').value);
 
     document.getElementById('units-val').textContent = units;
-    document.getElementById('bookings-val').textContent = bookings;
+    document.getElementById('rate-val').textContent = nightlyRate.toLocaleString('en-KE');
+    document.getElementById('bookings-val').textContent = monthlyBookings;
 
-    const revenueMonthly = bookings * AVG_RATE * AVG_NIGHTS;
-    const guests3 = bookings * 3;
-    const guests6 = bookings * 6;
-    const reviews6 = Math.round(guests6 * REVIEW_RATE);
-    const commissionMo = revenueMonthly * COMMISSION;
-    const commission6 = commissionMo * 6;
-    const plan = getPlan(units);
+    const weeks = currentPeriod / 7;
+    const totalBookings = Math.round(monthlyBookings * (currentPeriod / 30));
+    const revenue = totalBookings * nightlyRate * AVG_NIGHTS;
+    const guests = totalBookings;
+    const nudges = totalBookings;
+    const reviews = Math.round(totalBookings * REVIEW_RATE);
 
-    // animate values
-    animateVal('out-revenue', fmt(revenueMonthly));
-    animateVal('out-guests-3', guests3);
-    animateVal('out-guests-6', guests6);
-    animateVal('out-reviews', reviews6);
-    animateVal('out-commission-mo', fmt(commissionMo));
-    animateVal('out-commission-6', fmt(commission6));
-    animateVal('out-plan-cost', fmt(plan.price) + ' / mo');
-    document.getElementById('out-plan-name').textContent = plan.label;
+    animateVal('out-bookings', totalBookings);
+    animateVal('out-guests', guests);
+    animateVal('out-nudges', nudges);
+    animateVal('out-reviews', reviews);
+    animateVal('out-revenue', fmtKes(revenue));
+
+    let insight = '';
+    if (currentPeriod === 14) {
+      insight = `In your free trial alone, Arrivé handles ${totalBookings} bookings, adds ${guests} guests to your database, and sends ${nudges} review nudges — automatically. You pay nothing. If even one review comes in, your customers are already seeing a more professional version of your business.`;
+    } else if (currentPeriod === 90) {
+      insight = `After 3 months, you have ${guests} guest records, ${reviews} reviews collected from ${nudges} nudges sent, and ${totalBookings} bookings handled. Your guests see your professionalism from the very first message. That's what builds repeat business.`;
+    } else {
+      insight = `At 6 months: ${guests} guests in your database, ${reviews} verified reviews, ${totalBookings} bookings handled automatically. Your business runs itself. Your reputation grows while you focus on hosting.`;
+    }
+    
+    document.getElementById('out-insight').textContent = insight;
   }
 
   function animateVal(id, newVal) {
     const el = document.getElementById(id);
+    if (!el) return;
     el.style.opacity = '0.4';
     el.style.transform = 'translateY(4px)';
     setTimeout(() => {
@@ -1378,7 +1481,19 @@ footer {
     }, 120);
   }
 
+  // Tab switching
+  document.querySelectorAll('.calc-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentPeriod = parseInt(tab.dataset.period);
+      calc();
+    });
+  });
+
+  // Input listeners
   document.getElementById('units').addEventListener('input', calc);
+  document.getElementById('nightly-rate').addEventListener('input', calc);
   document.getElementById('bookings').addEventListener('input', calc);
   calc();
 </script>
