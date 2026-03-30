@@ -1015,6 +1015,7 @@
     pendingDelete = null;
     const btn = document.getElementById('del-' + id);
     if (btn) { btn.disabled = true; }
+    alert('Deleting ref: ' + ref + ' | client: ' + clientId); // ADD THIS
     try {
       await apiFetch('/arrive/bookings/delete', { method: 'POST', body: JSON.stringify({ client_id: clientId, order_reference: ref }) });
       allBookings = allBookings.filter(b => b._id !== id);
