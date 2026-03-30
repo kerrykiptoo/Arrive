@@ -329,7 +329,7 @@
 
 <div class="page">
 
-  <a class="logo" href="/">A R R I V <span>É</span></a>
+  <a class="logo" href="https://www.arrive.co.ke/">A R R I V <span>É</span></a>
 
   <!-- Loading -->
   <div class="loading-wrap" id="loading">
@@ -430,7 +430,7 @@
 
   async function load() {
     const params  = new URLSearchParams(location.search);
-    const reference = params.get('reference');
+    const reference = params.get('reference') || params.get('trxref');
 
     if (!reference) {
       showError();
@@ -459,9 +459,9 @@
       // Back link — construct from client_id in response
       const backLink = $('back-link');
       if (b.client_id) {
-        backLink.href = `host.html?host=${b.client_id}`;
+        backLink.href = `https://www.arrive.co.ke/host.html?host=${encodeURIComponent(b.client_id)}`;
       } else {
-        backLink.href = '/';
+        backLink.href = 'https://www.arrive.co.ke/';
       }
 
       hide('loading');
