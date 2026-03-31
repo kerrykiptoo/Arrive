@@ -1531,24 +1531,30 @@ document.getElementById('btnPay').addEventListener('click', async () => {
   }
 });
 
-  function encodePayload(data) {
+function encodePayload(data) {
   return btoa(JSON.stringify(data));
 }
-// ─────────────────────────────────────────────
-// QUICK BOOK (uChat)
-// ─────────────────────────────────────────────
+
 function openQuickBook({ unit, checkin, checkout, nights, total }) {
-  const payload = encodePayload({
+  const payloadData = {
     client_id: clientId,
     unit_id: unit.unit_id || unit._id,
     unit_name: unit.name,
     checkin_date: checkin,
     checkout_date: checkout,
-    nights,
+    nights: nights,
     price_per_night: unit.price_per_night,
     total_amount: total,
-  });
-  const url = UCHAT_BASE + payload;
+  };
+  
+  const encodedPayload = encodePayload(payloadData);
+  
+  // CORRECT: Add ref_payload parameter
+  const url = `${UCHAT_BASE}&ref_payload=${encodedPayload}`;
+  
+  // Or if your base URL already has parameters:
+  // const url = `https://www.uchat.com.au/p/web/ARRIVE_WIDGET_ID/full?ref=ARRIVE_FLOW_REF--&ref_payload=${encodedPayload}`;
+  
   window.open(url, '_blank');
 }
 
