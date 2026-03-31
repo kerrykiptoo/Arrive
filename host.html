@@ -1002,7 +1002,7 @@
 // ─────────────────────────────────────────────
 const API = 'https://breezy-api-r7jg.onrender.com';
 // uChat Arrivé widget base URL — replace PLACEHOLDER once known
-const UCHAT_BASE = 'https://www.uchat.com.au/p/web/ARRIVE_WIDGET_ID/full?ref=ARRIVE_FLOW_REF--';
+const UCHAT_BASE = 'https://www.uchat.com.au/p/web/3mqg0rm2p5hxf5jh/full?ref=wf239377w145581--';
 const DEPOSIT_PERCENT = 0.3; // 30% deposit
 
 // ─────────────────────────────────────────────
@@ -1531,6 +1531,9 @@ document.getElementById('btnPay').addEventListener('click', async () => {
   }
 });
 
+  function encodePayload(data) {
+  return btoa(JSON.stringify(data));
+}
 // ─────────────────────────────────────────────
 // QUICK BOOK (uChat)
 // ─────────────────────────────────────────────
