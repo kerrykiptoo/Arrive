@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave a Review — Arrivé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F9F7F4;
+      --surface:      #FFFFFF;
+      --accent:       #C17A5A;
+      --accent-dark:  #A5613F;
+      --accent-light: #F5EDE7;
+      --success:      #5C8A6C;
+      --error:        #C15A5A;
+      --text:         #1C1917;
+      --text-muted:   #78716C;
+      --border:       #E8E2DC;
+      --star-empty:   #D6CFC8;
+      --star-fill:    #C17A5A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .wordmark {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.25em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .wordmark span {
+      color: var(--accent);
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 20px 80px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    /* ── Skeleton loader ── */
+    .skeleton-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, #EDE8E3 25%, #F5F1ED 50%, #EDE8E3 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 6px;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── Context card ── */
+    .context-card {
+      background: var(--accent-light);
+      border: 1px solid #E8D5CA;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .context-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .context-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .context-unit {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .context-meta {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .context-meta span {
+      color: var(--accent-dark);
+      font-weight: 500;
+    }
+
+    /* ── Form ── */
+    .review-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+    }
+
+    .review-form.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    /* ── Stars ── */
+    .stars-wrap {
+      display: flex;
+      gap: 8px;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: transform 0.15s ease;
+      outline: none;
+    }
+
+    .star-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .star-btn:active {
+      transform: scale(0.88);
+    }
+
+    .star-icon {
+      width: 40px;
+      height: 40px;
+      display: block;
+      transition: fill 0.15s ease, transform 0.15s ease;
+    }
+
+    .star-icon path {
+      fill: var(--star-empty);
+      transition: fill 0.15s ease;
+    }
+
+    .star-btn.filled .star-icon path,
+    .star-btn.hover .star-icon path {
+      fill: var(--star-fill);
+    }
+
+    .star-btn.pop {
+      animation: starPop 0.25s ease;
+    }
+
+    @keyframes starPop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .rating-label {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--accent-dark);
+      font-weight: 500;
+      min-height: 1.2em;
+      transition: opacity 0.2s ease;
+    }
+
+    /* ── Textarea ── */
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      line-height: 1.6;
+    }
+
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(193, 122, 90, 0.12);
+    }
+
+    /* ── Submit ── */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 4px 16px rgba(165, 97, 63, 0.25);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Inline error message ── */
+    .inline-error {
+      font-size: 0.85rem;
+      color: var(--error);
+      margin-top: -16px;
+      display: none;
+    }
+
+    .inline-error.visible {
+      display: block;
+    }
+
+    /* ── Success state ── */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .success-state.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .success-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .success-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    /* ── Fatal error state (bad link) ── */
+    .fatal-error {
+      display: none;
+      text-align: center;
+      padding: 64px 24px;
+    }
+
+    .fatal-error-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .fatal-error h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .fatal-error p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+
+    /* ── Mobile tweaks ── */
+    @media (max-width: 480px) {
+      nav { padding: 18px 20px; }
+      main { padding: 32px 16px 64px; }
+      .star-icon { width: 36px; height: 36px; }
+      .success-heading { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="wordmark" href="/">A R R I V<span>É</span></a>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- Loading skeleton -->
+      <div id="skeleton" class="skeleton-wrap">
+        <div class="skeleton" style="height:88px; border-radius:12px;"></div>
+        <div class="skeleton" style="height:20px; width:140px;"></div>
+        <div class="skeleton" style="height:56px; width:220px;"></div>
+        <div class="skeleton" style="height:140px;"></div>
+        <div class="skeleton" style="height:52px;"></div>
+      </div>
+
+      <!-- Fatal error (bad link) -->
+      <div id="fatal-error" class="fatal-error">
+        <div class="fatal-error-icon">✦</div>
+        <h2>This link doesn't look right</h2>
+        <p>Check your email for the correct review link, or contact your host directly.</p>
+      </div>
+
+      <!-- Main content (hidden until loaded) -->
+      <div id="main-content" style="display:none;">
+
+        <!-- Context card -->
+        <div id="context-card" class="context-card">
+          <div class="context-label">Your stay</div>
+          <div id="ctx-unit" class="context-unit"></div>
+          <div class="context-meta">Guest: <span id="ctx-guest"></span></div>
+          <div class="context-meta" id="ctx-host-wrap" style="display:none;">Hosted by <span id="ctx-host"></span></div>
+        </div>
+
+        <!-- Review form -->
+        <form id="review-form" class="review-form" onsubmit="return false;">
+
+          <!-- Stars -->
+          <div>
+            <div class="field-label">Your rating</div>
+            <div class="stars-wrap" id="stars-wrap" role="group" aria-label="Star rating">
+              <!-- stars injected by JS -->
+            </div>
+            <div class="rating-label" id="rating-label"></div>
+          </div>
+
+          <div class="section-divider"></div>
+
+          <!-- Comment -->
+          <div>
+            <div class="field-label">Your review</div>
+            <textarea
+              id="comment"
+              placeholder="Tell us about your stay — what stood out, what you loved, anything the next guest should know."
+              maxlength="1000"
+            ></textarea>
+          </div>
+
+          <!-- Already reviewed error -->
+          <div id="already-reviewed-error" class="inline-error">
+            You've already left a review for this stay.
+          </div>
+
+          <!-- Generic submit error -->
+          <div id="submit-error" class="inline-error">
+            Something went wrong. Please try again.
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn" onclick="submitReview()">
+            Share my review
+          </button>
+
+        </form>
+
+        <!-- Success state -->
+        <div id="success-state" class="success-state">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C17A5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h2 class="success-heading">Thank you, <span id="success-name"></span>.</h2>
+          <p class="success-sub">Your review has been shared. It helps future guests and supports your host — we appreciate you taking the time.</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API = 'https://breezy-api-r7jg.onrender.com';
+
+    const RATING_LABELS = {
+      1: 'Poor',
+      2: 'Below average',
+      3: 'Good',
+      4: 'Very good',
+      5: 'Exceptional',
+    };
+
+    let selectedRating = 0;
+    let reference = '';
+    let guestName = '';
+
+    // ── Block back nav to email link ──
+    history.replaceState(null, '', window.location.href);
+
+    // ── Read reference from URL ──
+    const params = new URLSearchParams(window.location.search);
+    reference = params.get('ref') || '';
+
+    // ── Build stars ──
+    function buildStars() {
+      const wrap = document.getElementById('stars-wrap');
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'star-btn';
+        btn.dataset.value = i;
+        btn.setAttribute('aria-label', `${i} star${i > 1 ? 's' : ''}`);
+        btn.innerHTML = `
+          <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>`;
+
+        btn.addEventListener('mouseenter', () => hoverStars(i));
+        btn.addEventListener('mouseleave', () => renderStars(selectedRating));
+        btn.addEventListener('click', () => selectStar(i));
+        wrap.appendChild(btn);
+      }
+    }
+
+    function hoverStars(upTo) {
+      document.querySelectorAll('.star-btn').forEach((btn, idx) => {
+        btn.classList.toggle('hover', idx < upTo);
+        btn.classList.remove('filled');
+      });
+    }
+
+    function renderStars(rating) {
+      document.querySelectorAll('.star-btn').forEach((btn, idx) => {
+        btn.classList.remove('hover');
+        btn.classList.toggle('filled', idx < rating);
+      });
+      document.getElementById('rating-label').textContent = rating ? RATING_LABELS[rating] : '';
+    }
+
+    function selectStar(value) {
+      selectedRating = value;
+      renderStars(value);
+      // pop animation on selected star
+      const btns = document.querySelectorAll('.star-btn');
+      const target = btns[value - 1];
+      target.classList.remove('pop');
+      void target.offsetWidth; // reflow
+      target.classList.add('pop');
+    }
+
+    // ── Init ──
+    async function init() {
+      buildStars();
+
+      if (!reference || !reference.startsWith('ARV-')) {
+        showFatalError();
+        return;
+      }
+
+      try {
+        const bookingRes = await fetch(`${API}/arrive/bookings/single?reference=${encodeURIComponent(reference)}`);
+        const booking = await bookingRes.json();
+
+        if (!bookingRes.ok || !booking || !booking.unit_name) {
+          showFatalError();
+          return;
+        }
+
+        guestName = booking.guest_name || 'Guest';
+
+        // Populate context card
+        document.getElementById('ctx-unit').textContent = booking.unit_name;
+        document.getElementById('ctx-guest').textContent = guestName;
+
+        // Try fetching host name
+        if (booking.client_id) {
+          try {
+            const hostRes = await fetch(`${API}/stores/profile/${booking.client_id}`);
+            const hostData = await hostRes.json();
+            const hostName = hostData?.store_name || hostData?.name || null;
+            if (hostName) {
+              document.getElementById('ctx-host').textContent = hostName;
+              document.getElementById('ctx-host-wrap').style.display = '';
+            }
+          } catch (_) { /* silent — host name is optional */ }
+        }
+
+        // Show content
+        document.getElementById('skeleton').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+
+        // Trigger entrance animations
+        requestAnimationFrame(() => {
+          document.getElementById('context-card').classList.add('visible');
+          setTimeout(() => document.getElementById('review-form').classList.add('visible'), 80);
+        });
+
+      } catch (err) {
+        showFatalError();
+      }
+    }
+
+    function showFatalError() {
+      document.getElementById('skeleton').style.display = 'none';
+      document.getElementById('fatal-error').style.display = 'block';
+    }
+
+    // ── Submit ──
+    async function submitReview() {
+      // Clear previous errors
+      document.getElementById('already-reviewed-error').classList.remove('visible');
+      document.getElementById('submit-error').classList.remove('visible');
+
+      const comment = document.getElementById('comment').value.trim();
+
+      if (!selectedRating) {
+        document.getElementById('rating-label').textContent = 'Please select a rating';
+        document.getElementById('rating-label').style.color = 'var(--error)';
+        return;
+      }
+
+      if (!comment) {
+        document.getElementById('comment').focus();
+        document.getElementById('comment').style.borderColor = 'var(--error)';
+        setTimeout(() => document.getElementById('comment').style.borderColor = '', 2000);
+        return;
+      }
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+
+      try {
+        const res = await fetch(`${API}/arrive/reviews/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reference, rating: selectedRating, comment }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          if (data.message && data.message.toLowerCase().includes('already')) {
+            document.getElementById('already-reviewed-error').classList.add('visible');
+          } else {
+            document.getElementById('submit-error').classList.add('visible');
+          }
+          btn.disabled = false;
+          btn.textContent = 'Share my review';
+          return;
+        }
+
+        // Success
+        document.getElementById('review-form').style.display = 'none';
+        document.getElementById('context-card').style.display = 'none';
+        document.getElementById('success-name').textContent = guestName.split(' ')[0];
+
+        const successEl = document.getElementById('success-state');
+        successEl.style.display = 'block';
+        requestAnimationFrame(() => {
+          setTimeout(() => successEl.classList.add('visible'), 20);
+        });
+
+      } catch (err) {
+        document.getElementById('submit-error').classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Share my review';
+      }
+    }
+
+    // ── Reset comment border on focus ──
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('comment').addEventListener('focus', function () {
+        this.style.borderColor = '';
+      });
+    });
+
+    init();
+  </script>
+</body>
+</html>
