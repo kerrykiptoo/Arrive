@@ -1053,7 +1053,7 @@
   // GUESTS
   async function loadGuests() {
     try {
-      const data = await apiFetch(`/arrive/guests?client_id=${clientId}`);
+     const data = await apiFetch(`/arrive/guests/list?client_id=${clientId}`);
       allGuests = data.guests || data.data || [];
     } catch(e) { console.error('loadGuests:', e.message); allGuests = []; }
     renderGuests();
